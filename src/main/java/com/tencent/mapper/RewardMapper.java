@@ -1,7 +1,7 @@
 package com.tencent.mapper;
 
-import com.tencent.model.Reward;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tencent.model.Reward;
 
 /**
 * @author lanyiping

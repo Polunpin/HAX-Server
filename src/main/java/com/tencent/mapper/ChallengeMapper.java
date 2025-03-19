@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
 * @author lanyiping
-* @Description 针对表【challenge(挑战表)】的数据库操作Mapper
+* @description 针对表【challenge(挑战表)】的数据库操作Mapper
 * @createDate 2025-03-19 22:02:52
 * @Entity com.tencent.model.Challenge
 */

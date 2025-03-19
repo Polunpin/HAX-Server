@@ -1,7 +1,7 @@
 package com.tencent.service;
 
-import com.tencent.model.Reward;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.tencent.model.Reward;
 
 /**
 * @author lanyiping

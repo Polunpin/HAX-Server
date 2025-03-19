@@ -68,7 +68,7 @@ public class CounterController {
       counterService.upsertCount(counter);
       return ApiResponse.ok(count);
     } else if (request.getAction().equals("clear")) {
-      if (!curCounter.isPresent()) {
+      if (curCounter.isEmpty()) {
         return ApiResponse.ok(0);
       }
       counterService.clearCount(1);
