@@ -18,7 +18,6 @@ import java.util.Optional;
  * counter控制器
  */
 @RestController
-
 public class CounterController {
 
   final CounterService counterService;
