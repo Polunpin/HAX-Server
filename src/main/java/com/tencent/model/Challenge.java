@@ -1,6 +1,7 @@
 package com.tencent.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
@@ -18,6 +19,11 @@ public class Challenge {
      */
     @TableId(type = IdType.AUTO)
     private Long id;
+
+    /**
+     * 用户ID
+     */
+    private Long userId;
 
     /**
      * 挑战标题

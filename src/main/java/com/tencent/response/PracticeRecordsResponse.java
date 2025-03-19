@@ -15,7 +15,6 @@ public class PracticeRecordsResponse {
     /**
      * 主键ID
      */
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**

@@ -12,7 +12,6 @@ public class IndexResponse {
     /**
      * 用户ID
      */
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
