@@ -2,6 +2,9 @@ package com.tencent.service;
 
 import com.tencent.model.PracticeRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.tencent.response.PracticeRecordsResponse;
+
+import java.util.List;
 
 /**
 * @author lanyiping
@@ -10,4 +13,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface PracticeRecordService extends IService<PracticeRecord> {
 
+    String durationSum(Long id);
+
+    Long savePracticeRecord(PracticeRecord practiceRecord);
+
+    PracticeRecord getPracticeRecord(Long id);
+
+    List<PracticeRecordsResponse> getPracticeRecordList(String userId);
 }

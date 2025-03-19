@@ -5,52 +5,40 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.sql.Time;
 import java.util.Date;
-import java.util.Timer;
 
 /**
- * 练习表
- * @TableName practice
+ * 用户表
+ * @TableName users
  */
-@TableName(value ="practice")
+@TableName(value ="users")
 @Data
-public class Practice {
+public class Users {
     /**
-     * 练习ID
+     * 用户ID
      */
     @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 练习标题
+     * 付费阶段：A-白户，B-知识，C-月付，D-买断
      */
-    private String title;
+    private Integer payStage;
 
     /**
-     * 练习目标
+     * 用户状态：1-正常，0-禁用
      */
-    private Object target;
+    private Integer status;
 
     /**
-     * 注意事项
+     * 熟练度
      */
-    private String notes;
+    private Integer proficiency;
 
     /**
-     * 练习类型：1-基础, 2-进阶, 3-突破
+     * 金币(练习/挑战所得)
      */
-    private Integer type;
-
-    /**
-     * 已练习时长
-     */
-    private String duration;
-
-    /**
-     * 奖励金币
-     */
-    private Integer rewardGold;
+    private Integer gold;
 
     /**
      * 创建时间

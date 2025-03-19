@@ -2,9 +2,13 @@ package com.tencent.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.model.KnowledgeLibrary;
+import com.tencent.response.LearningProgressResponse;
 import com.tencent.service.KnowledgeLibraryService;
 import com.tencent.mapper.KnowledgeLibraryMapper;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author lanyiping
@@ -15,6 +19,21 @@ import org.springframework.stereotype.Service;
 public class KnowledgeLibraryServiceImpl extends ServiceImpl<KnowledgeLibraryMapper, KnowledgeLibrary>
     implements KnowledgeLibraryService{
 
+    @Resource
+    public KnowledgeLibraryMapper knowledgeMapper;
+
+
+    @Override
+    public List<LearningProgressResponse> listByLevel1Dir(String level1Dir) {
+        //TODO userId
+        //知识点列表
+        return knowledgeMapper.listByLevel1Dir(level1Dir);
+    }
+
+    @Override
+    public List<KnowledgeLibrary> listInfoByLevel2Dir(String secondLevel) {
+        return knowledgeMapper.listInfoByLevel2Dir(secondLevel);
+    }
 }
 
 

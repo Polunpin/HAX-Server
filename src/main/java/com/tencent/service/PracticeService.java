@@ -2,6 +2,7 @@ package com.tencent.service;
 
 import com.tencent.model.Practice;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.tencent.model.PracticeRecord;
 
 /**
 * @author lanyiping
@@ -9,5 +10,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2025-03-19 22:06:35
 */
 public interface PracticeService extends IService<Practice> {
+
+    Object getPracticeList();
+
+    Object getPracticeDetail(Long id);
 
 }
