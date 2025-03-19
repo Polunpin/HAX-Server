@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tencent.mapper.KnowledgeLibraryMapper">
+
+    <resultMap id="BaseResultMap" type="com.tencent.model.KnowledgeLibrary">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="level1Dir" column="level1_dir" jdbcType="VARCHAR"/>
+            <result property="level2Dir" column="level2_dir" jdbcType="VARCHAR"/>
+            <result property="level3Dir" column="level3_dir" jdbcType="VARCHAR"/>
+            <result property="level4Dir" column="level4_dir" jdbcType="VARCHAR"/>
+            <result property="difficulty" column="difficulty" jdbcType="TINYINT"/>
+            <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="sortOrder" column="sort_order" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,level1_dir,level2_dir,
+        level3_dir,level4_dir,difficulty,
+        image_url,content,sort_order,
+        status,created_at,updated_at
+    </sql>
+</mapper>
