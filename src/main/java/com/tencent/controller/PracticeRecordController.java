@@ -3,7 +3,6 @@ package com.tencent.controller;
 import com.tencent.config.ApiResponse;
 import com.tencent.model.PracticeRecord;
 import com.tencent.service.PracticeRecordService;
-import com.tencent.service.PracticeService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 

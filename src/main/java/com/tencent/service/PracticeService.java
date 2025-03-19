@@ -1,8 +1,7 @@
 package com.tencent.service;
 
-import com.tencent.model.Practice;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.tencent.model.PracticeRecord;
+import com.tencent.model.Practice;
 
 /**
 * @author lanyiping

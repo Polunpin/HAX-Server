@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.sql.Time;
 import java.util.Date;
-import java.util.Timer;
 
 /**
  * 练习表

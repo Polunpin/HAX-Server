@@ -1,11 +1,10 @@
 package com.tencent.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.tencent.mapper.PracticeMapper;
 import com.tencent.model.Practice;
-import com.tencent.model.PracticeRecord;
 import com.tencent.service.PracticeRecordService;
 import com.tencent.service.PracticeService;
-import com.tencent.mapper.PracticeMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
