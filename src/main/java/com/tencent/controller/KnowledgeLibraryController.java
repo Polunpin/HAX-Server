@@ -37,5 +37,4 @@ public class KnowledgeLibraryController {
         return ApiResponse.ok(knowledgeLibrary.listInfoByLevel2Dir(secondLevel));
     }
 
-//    TODO 接口3：问助教（wecom）｜前端的活
 }
