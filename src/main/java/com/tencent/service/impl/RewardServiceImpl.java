@@ -1,12 +1,10 @@
 package com.tencent.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.tencent.mapper.RewardMapper;
 import com.tencent.model.Reward;
 import com.tencent.service.RewardService;
-import com.tencent.mapper.RewardMapper;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
 * @author lanyiping

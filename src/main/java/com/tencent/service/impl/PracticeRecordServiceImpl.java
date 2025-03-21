@@ -3,16 +3,12 @@ package com.tencent.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.tencent.mapper.PracticeRecordMapper;
 import com.tencent.model.PracticeRecord;
 import com.tencent.service.PracticeRecordService;
-import com.tencent.mapper.PracticeRecordMapper;
-import com.tencent.service.PracticeService;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static org.springframework.beans.BeanUtils.copyProperties;
 
 /**
 * @author lanyiping
