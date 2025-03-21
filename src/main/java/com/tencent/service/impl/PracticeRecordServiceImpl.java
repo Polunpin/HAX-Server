@@ -1,11 +1,9 @@
 package com.tencent.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.mapper.PracticeRecordMapper;
 import com.tencent.model.PracticeRecord;
-import com.tencent.model.Users;
 import com.tencent.service.PracticeRecordService;
 import org.springframework.stereotype.Service;
 

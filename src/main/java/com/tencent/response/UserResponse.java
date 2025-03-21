@@ -3,8 +3,6 @@ package com.tencent.response;
 import com.tencent.model.LearningProgress;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 用户-首页信息
  */

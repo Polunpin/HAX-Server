@@ -1,12 +1,13 @@
 package com.tencent.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.tencent.model.*;
+import com.tencent.mapper.ChallengeMapper;
+import com.tencent.model.Challenge;
+import com.tencent.model.PracticeRecord;
+import com.tencent.model.Users;
 import com.tencent.response.ChallengeResponse;
 import com.tencent.service.ChallengeService;
-import com.tencent.mapper.ChallengeMapper;
 import com.tencent.service.PracticeRecordService;
 import com.tencent.service.UsersService;
 import jakarta.annotation.Resource;
