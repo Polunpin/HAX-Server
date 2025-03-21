@@ -64,7 +64,7 @@ CREATE TABLE `challenge`
     `title`           VARCHAR(36)     NOT NULL COMMENT '挑战标题',
     `description`     VARCHAR(128) COMMENT '挑战描述',
     `condition_type`  TINYINT         NOT NULL DEFAULT 1 COMMENT '挑战条件类型：1-次数, 2-里程, 3-综合',
-    `status`          TINYINT         NOT NULL DEFAULT 0 COMMENT '挑战状态：0-待发布,1-进行中,2-已完成,3-取消',
+    `status`          TINYINT         NOT NULL DEFAULT 0 COMMENT '状态：0-预备, 1-上架, 2-完成, 3-失效',
     `condition_value` INT             NOT NULL DEFAULT 0 COMMENT '条件值(次数/里程等)',
     `reward_gold`     INT             NOT NULL DEFAULT 0 COMMENT '奖励金币',
     `sort_order`      INT             NOT NULL DEFAULT 0 COMMENT '排序字段',

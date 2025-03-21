@@ -4,10 +4,7 @@ import com.tencent.config.ApiResponse;
 import com.tencent.request.RedemptionRequest;
 import com.tencent.service.RedemptionService;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 兑换记录
@@ -26,7 +23,7 @@ public class RedemptionController {
      * @param redemptionRequest 奖励兑换保存
      * @return Boolean
      */
-    @GetMapping("/exchange")
+    @PostMapping("/exchange")
     public ApiResponse exchange(@RequestBody RedemptionRequest redemptionRequest) {
         return ApiResponse.ok(redemptionService.exchange(redemptionRequest));
     }

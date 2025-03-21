@@ -41,7 +41,7 @@ public class Challenge {
     private Integer conditionType;
 
     /**
-     * 挑战状态：0-待发布,1-进行中,2-已完成,3-取消
+     * 状态：0-预备, 1-上架, 2-完成, 3-失效
      */
     private Integer status;
 

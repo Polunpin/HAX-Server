@@ -23,13 +23,13 @@ public class PracticeRecordController {
      * @param practiceRecord 练习表现、练习心得、练习照片
      * @return Boolean
      */
-    @GetMapping("/savePracticeRecord")
+    @PostMapping("/savePracticeRecord")
     public ApiResponse savePracticeRecord(@RequestBody PracticeRecord practiceRecord) {
         return ApiResponse.ok(practiceRecordService.savePracticeRecord(practiceRecord));
     }
 
     /**
-     * 功能：查询练习记录
+     * 功能：查询练习记录详情
      * 界面：练习报告、练习记录列表详情页
      *
      * @param id 练习记录ID
@@ -43,7 +43,7 @@ public class PracticeRecordController {
     /**
      * 功能：查询练习记录列表
      * 界面：练习记录列表
-     * 功能完整度：2/2
+     * 功能完整度：1/2
      *
      * @param userId 用户ID
      * @return 练习详情
