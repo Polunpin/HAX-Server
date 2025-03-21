@@ -18,6 +18,18 @@ public class ComprehensiveController {
     @Resource
     public ComprehensiveService comprehensiveService;
 
+
+    /**
+     * 功能：继续学习
+     * 界面：首页-继续学习
+     *
+     * @return 学习详情
+     */
+    @GetMapping("/continueLearning")
+    public ApiResponse continueLearning(String userId) {
+        return ApiResponse.ok(comprehensiveService.continueLearning(userId));
+    }
+
     /**
      * 功能：练习列表查询
      * 界面：练习列表

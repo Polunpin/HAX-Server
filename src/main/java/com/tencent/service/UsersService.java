@@ -1,7 +1,7 @@
 package com.tencent.service;
 
-import com.tencent.model.Users;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.tencent.model.Users;
 
 /**
 * @author lanyiping
@@ -10,4 +10,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface UsersService extends IService<Users> {
 
+    Users getUserInfo(String unionId);
 }

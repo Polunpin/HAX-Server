@@ -1,12 +1,10 @@
 package com.tencent.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.tencent.model.Practice;
-import com.tencent.model.PracticeRecord;
-import com.tencent.model.Redemption;
-import com.tencent.model.Reward;
+import com.tencent.model.*;
 import com.tencent.response.PracticeRecordsResponse;
 import com.tencent.response.RewardResponse;
+import com.tencent.response.UserResponse;
 import com.tencent.service.*;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -26,6 +24,10 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 public class ComprehensiveServiceImpl implements ComprehensiveService {
 
     @Resource
+    public UsersService usersService;
+    @Resource
+    public LearningProgressService learningProgressService;
+    @Resource
     public PracticeService practiceService;
     @Resource
     public PracticeRecordService practiceRecordService;
@@ -34,6 +36,20 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     @Resource
     public RedemptionService redemptionService;
 
+
+    @Override
+    public UserResponse continueLearning(String userId) {
+        UserResponse userResponse = new UserResponse();
+        Users users = usersService.getById(userId);
+
+        QueryWrapper<LearningProgress> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("updated_at") // 按 updated_at 降序排序
+                .last("LIMIT 1"); // 取第一条记录
+        LearningProgress latestLearningProgress = learningProgressService.getOne(queryWrapper);
+        copyProperties(users, userResponse);
+        userResponse.setContinueLearning(latestLearningProgress);
+        return userResponse;
+    }
 
     @Override
     public List<Practice> getPracticeList() {

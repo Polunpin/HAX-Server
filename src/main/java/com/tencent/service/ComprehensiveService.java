@@ -3,6 +3,7 @@ package com.tencent.service;
 import com.tencent.model.Practice;
 import com.tencent.response.PracticeRecordsResponse;
 import com.tencent.response.RewardResponse;
+import com.tencent.response.UserResponse;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ import java.util.List;
  * @description 综合：混合其他类的接口
  */
 public interface ComprehensiveService {
+
+    UserResponse continueLearning(String userId);
 
     List<Practice> getPracticeList();
 

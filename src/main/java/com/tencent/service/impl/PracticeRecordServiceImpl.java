@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.mapper.PracticeRecordMapper;
 import com.tencent.model.PracticeRecord;
+import com.tencent.model.Users;
 import com.tencent.service.PracticeRecordService;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
 
     @Override
     public String durationSum(Long id) {
-        QueryWrapper<PracticeRecord> queryWrapper = Wrappers.query();
+        QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
         //TODO 获取用户id
         queryWrapper.select("SUM(duration) as duration").eq("user_id","");
         return this.getOne(queryWrapper).getDuration().toString();
@@ -42,7 +43,7 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
 
     @Override
     public List<PracticeRecord> getPracticeRecordList(String userId) {
-        QueryWrapper<PracticeRecord> queryWrapper = Wrappers.query();
+        QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("userId",userId);
         return this.list(queryWrapper);
     }

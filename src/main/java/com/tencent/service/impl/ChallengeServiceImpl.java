@@ -39,13 +39,13 @@ public class ChallengeServiceImpl extends ServiceImpl<ChallengeMapper, Challenge
         challengeResponse.setGold(user.getGold());
 
         //根据用户id查询练习记录总里程
-        QueryWrapper<PracticeRecord> queryWrapper = Wrappers.query();
+        QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
         queryWrapper.select("SUM(distance) as distance");
         BigDecimal distance = practiceRecordService.getOne(queryWrapper).getDistance();
         challengeResponse.setDistance(distance);
 
         //查询挑战列表
-        QueryWrapper<Challenge> challengeQuery = Wrappers.query();
+        QueryWrapper<Challenge> challengeQuery = new QueryWrapper<>();
         challengeQuery.eq("user_id",userId);
         List<Challenge> list = this.list(challengeQuery);
         challengeResponse.setChallenges(list);
