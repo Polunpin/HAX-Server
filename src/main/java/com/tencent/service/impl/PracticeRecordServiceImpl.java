@@ -4,14 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.model.PracticeRecord;
-import com.tencent.response.PracticeRecordsResponse;
 import com.tencent.service.PracticeRecordService;
 import com.tencent.mapper.PracticeRecordMapper;
 import com.tencent.service.PracticeService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
@@ -25,14 +23,12 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper, PracticeRecord>
     implements PracticeRecordService{
 
-    @Resource
-    public PracticeService practiceService;
-
 
     @Override
     public String durationSum(Long id) {
         QueryWrapper<PracticeRecord> queryWrapper = Wrappers.query();
-        queryWrapper.select("SUM(duration) as duration");
+        //TODO 获取用户id
+        queryWrapper.select("SUM(duration) as duration").eq("user_id","");
         return this.getOne(queryWrapper).getDuration().toString();
     }
 
@@ -49,16 +45,10 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
     }
 
     @Override
-    public List<PracticeRecordsResponse> getPracticeRecordList(String userId) {
-        List<PracticeRecordsResponse> practiceRecords = new ArrayList<>();
+    public List<PracticeRecord> getPracticeRecordList(String userId) {
         QueryWrapper<PracticeRecord> queryWrapper = Wrappers.query();
         queryWrapper.eq("userId",userId);
-        List<PracticeRecord> list = this.list(queryWrapper);
-        copyProperties(list, practiceRecords);
-        for (PracticeRecordsResponse practiceRecord : practiceRecords) {
-            practiceRecord.setTitle(practiceService.getById(practiceRecord.getPracticeId()).getTitle());
-        }
-        return practiceRecords;
+        return this.list(queryWrapper);
     }
 }
 

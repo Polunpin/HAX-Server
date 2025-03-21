@@ -1,19 +1,19 @@
 package com.tencent.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.util.Date;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
- * 兑换记录表
- * @TableName redemption_record
+ * 兑换表
+ * @TableName redemption
  */
-@TableName(value ="redemption_record")
+@TableName(value ="redemption")
 @Data
-public class RedemptionRecord {
+public class Redemption {
     /**
      * 主键ID
      */
@@ -21,9 +21,9 @@ public class RedemptionRecord {
     private Long id;
 
     /**
-     * 学生表ID，关联users表
+     * 用户表ID，关联users表
      */
-    private Long studentId;
+    private Long userId;
 
     /**
      * 奖励表ID，关联reward表
@@ -31,17 +31,7 @@ public class RedemptionRecord {
     private Long rewardId;
 
     /**
-     * 金币消耗
+     * 兑换时间
      */
-    private Integer goldCost;
-
-    /**
-     * 创建时间(兑换时间)
-     */
-    private Date createdAt;
-
-    /**
-     * 更新时间
-     */
-    private Date updatedAt;
+    private Date exchangeTime;
 }

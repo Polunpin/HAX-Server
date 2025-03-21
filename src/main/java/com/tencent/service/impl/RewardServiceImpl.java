@@ -6,6 +6,8 @@ import com.tencent.service.RewardService;
 import com.tencent.mapper.RewardMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
 * @author lanyiping
 * @description 针对表【reward(奖励表)】的数据库操作Service实现
@@ -15,6 +17,10 @@ import org.springframework.stereotype.Service;
 public class RewardServiceImpl extends ServiceImpl<RewardMapper, Reward>
     implements RewardService{
 
+    @Override
+    public Reward getRewardDetail(Long id) {
+        return this.getById(id);
+    }
 }
 
 

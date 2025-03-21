@@ -1,4 +1,4 @@
-package com.tencent.controller;
+package com.tencent.controller.basis;
 
 import com.tencent.config.ApiResponse;
 import com.tencent.service.PracticeService;
@@ -22,6 +22,7 @@ public class PracticeController {
     /**
      * 功能：练习列表查询
      * 界面：练习列表
+     * 功能完整度：1/2
      *
      * @return 所有练习的列表
      */

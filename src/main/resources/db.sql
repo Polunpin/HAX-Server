@@ -144,20 +144,24 @@ CREATE TABLE `practice_record`
   DEFAULT CHARSET = utf8mb4 COMMENT ='练习记录表';
 
 #兑换记录表
-CREATE TABLE `redemption_record`
+create table redemption
 (
-    `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    `student_id` BIGINT UNSIGNED NOT NULL COMMENT '学生表ID，关联users表',
-    `reward_id`  BIGINT UNSIGNED NOT NULL COMMENT '奖励表ID，关联reward表',
-    `gold_cost`  INT             NOT NULL DEFAULT 0 COMMENT '金币消耗',
-    `created_at` DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间(兑换时间)',
-    `updated_at` DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY (`id`),
-    KEY `idx_student_id` (`student_id`),
-    KEY `idx_reward_id` (`reward_id`),
-    CONSTRAINT `fk_redemption_student` FOREIGN KEY (`student_id`) REFERENCES `users` (`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `fk_redemption_reward` FOREIGN KEY (`reward_id`) REFERENCES `reward` (`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4 COMMENT ='兑换记录表';
+    id            bigint unsigned auto_increment comment '主键ID'
+        primary key,
+    user_id       bigint unsigned                    not null comment '用户表ID，关联users表',
+    reward_id     bigint unsigned                    not null comment '奖励表ID，关联reward表',
+    exchange_time datetime default CURRENT_TIMESTAMP not null comment '兑换时间',
+    constraint fk_redemption_reward
+        foreign key (reward_id) references reward (id)
+            on update cascade on delete cascade,
+    constraint fk_redemption_users
+        foreign key (user_id) references users (id)
+            on update cascade on delete cascade
+)
+    comment '兑换表' charset = utf8mb4;
+
+create index idx_reward_id
+    on redemption (reward_id);
+
+create index idx_user_id
+    on redemption (user_id);

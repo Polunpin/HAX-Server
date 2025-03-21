@@ -33,7 +33,7 @@
                  LEFT JOIN learning_progress sks
                            ON k.id = sks.knowledge_id
         where k.level1_dir = #{firstLevel}
-          and sks.user_id = #{studentId}
+          and sks.user_id = #{userId}
         GROUP BY k.level1_dir, k.level2_dir
         ORDER BY k.level1_dir, k.level2_dir;
     </select>

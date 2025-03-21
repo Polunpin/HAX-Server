@@ -1,4 +1,4 @@
-package com.tencent.controller;
+package com.tencent.controller.basis;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tencent.config.ApiResponse;

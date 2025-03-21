@@ -1,4 +1,4 @@
-package com.tencent.controller;
+package com.tencent.controller.basis;
 
 import com.tencent.config.ApiResponse;
 import com.tencent.model.PracticeRecord;
@@ -43,6 +43,7 @@ public class PracticeRecordController {
     /**
      * 功能：查询练习记录列表
      * 界面：练习记录列表
+     * 功能完整度：2/2
      *
      * @param userId 用户ID
      * @return 练习详情

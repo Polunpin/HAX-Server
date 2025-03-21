@@ -1,4 +1,4 @@
-package com.tencent.controller;
+package com.tencent.controller.basis;
 
 import com.tencent.config.ApiResponse;
 import com.tencent.service.KnowledgeLibraryService;

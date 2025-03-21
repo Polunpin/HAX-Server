@@ -3,6 +3,8 @@ package com.tencent.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tencent.model.Practice;
 
+import java.util.List;
+
 /**
 * @author lanyiping
 * @description 针对表【practice(练习表)】的数据库操作Service
@@ -10,8 +12,8 @@ import com.tencent.model.Practice;
 */
 public interface PracticeService extends IService<Practice> {
 
-    Object getPracticeList();
+    List<Practice> getPracticeList();
 
-    Object getPracticeDetail(Long id);
+    Practice getPracticeDetail(Long id);
 
 }

@@ -3,6 +3,8 @@ package com.tencent.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tencent.model.Reward;
 
+import java.util.List;
+
 /**
 * @author lanyiping
 * @description 针对表【reward(奖励表)】的数据库操作Service
@@ -10,4 +12,5 @@ import com.tencent.model.Reward;
 */
 public interface RewardService extends IService<Reward> {
 
+    Reward getRewardDetail(Long id);
 }
