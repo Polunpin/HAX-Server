@@ -1,6 +1,7 @@
 package com.tencent.controller.basis;
 
 import com.tencent.config.ApiResponse;
+import com.tencent.request.KnowledgeLibraryRequest;
 import com.tencent.service.KnowledgeLibraryService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,9 @@ public class KnowledgeLibraryController {
      * 界面：学习列表
      * @return List<LearningProgressResponse>
      */
-    @GetMapping("/listByLevel1Dir")
-    public ApiResponse listByLevel1Dir(@RequestBody String level1Dir) {
-        return ApiResponse.ok(knowledgeLibrary.listByLevel1Dir(level1Dir));
+    @PostMapping("/listByLevel1Dir")
+    public ApiResponse listByLevel1Dir(@RequestBody KnowledgeLibraryRequest knowledge) {
+        return ApiResponse.ok(knowledgeLibrary.listByLevel1Dir(knowledge));
     }
 
     /**

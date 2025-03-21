@@ -32,7 +32,7 @@
         FROM knowledge_library k
                  LEFT JOIN learning_progress sks
                            ON k.id = sks.knowledge_id
-        where k.level1_dir = #{firstLevel}
+        where k.level1_dir = #{level1Dir}
           and sks.user_id = #{userId}
         GROUP BY k.level1_dir, k.level2_dir
         ORDER BY k.level1_dir, k.level2_dir;
