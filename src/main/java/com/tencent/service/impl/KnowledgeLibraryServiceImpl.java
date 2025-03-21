@@ -31,8 +31,8 @@ public class KnowledgeLibraryServiceImpl extends ServiceImpl<KnowledgeLibraryMap
     }
 
     @Override
-    public List<KnowledgeLibrary> listInfoByLevel2Dir(String secondLevel) {
-        return knowledgeMapper.listInfoByLevel2Dir(secondLevel);
+    public List<KnowledgeLibrary> listInfoByLevel2Dir(KnowledgeLibraryRequest knowledge) {
+        return knowledgeMapper.listInfoByLevel2Dir(knowledge);
     }
 }
 

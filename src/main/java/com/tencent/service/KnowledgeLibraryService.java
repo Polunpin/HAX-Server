@@ -16,6 +16,6 @@ public interface KnowledgeLibraryService extends IService<KnowledgeLibrary> {
 
     List<LearningProgressResponse> listByLevel1Dir(KnowledgeLibraryRequest knowledge);
 
-    List<KnowledgeLibrary> listInfoByLevel2Dir(String secondLevel);
+    List<KnowledgeLibrary> listInfoByLevel2Dir(KnowledgeLibraryRequest knowledge);
 
 }

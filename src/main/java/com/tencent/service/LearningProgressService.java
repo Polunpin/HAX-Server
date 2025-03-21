@@ -1,7 +1,7 @@
 package com.tencent.service;
 
-import com.tencent.model.LearningProgress;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.tencent.model.LearningProgress;
 
 /**
 * @author lanyiping
@@ -10,5 +10,4 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface LearningProgressService extends IService<LearningProgress> {
 
-    Boolean update(LearningProgress learningProgress);
 }

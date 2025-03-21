@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 /**
  * 学习进度
  */
@@ -24,11 +26,16 @@ public class LearningProgressController {
     /**
      * 功能：修改状态
      * 界面：知识点详情
+     *
      * @return Boolean
      */
-    @PostMapping("/update")
+    @PostMapping("/saveOrUpdate")
     public ApiResponse saveOrUpdate(@RequestBody LearningProgress learningProgress) {
-        return ApiResponse.ok(learningProgressService.update(learningProgress));
+        //第一次学会时，补充第一次学会时间
+        if (learningProgress.getLearningStatus() == 2 && learningProgress.getFirstMasteredAt() == null){
+            learningProgress.setFirstMasteredAt(new Date());
+        }
+        return ApiResponse.ok(learningProgressService.saveOrUpdate(learningProgress));
     }
 
 //    TODO 接口3：问助教（wecom）｜前端的活

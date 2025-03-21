@@ -42,6 +42,7 @@
         FROM knowledge_library k
                  LEFT JOIN learning_progress sks
                            ON k.id = sks.knowledge_id
-        where k.level2_dir = #{secondLevel}
+        where k.level2_dir = #{level2Dir}
+          and sks.user_id = #{userId}
     </select>
 </mapper>

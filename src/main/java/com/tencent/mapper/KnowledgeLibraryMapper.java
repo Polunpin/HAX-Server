@@ -17,7 +17,7 @@ public interface KnowledgeLibraryMapper extends BaseMapper<KnowledgeLibrary> {
 
     List<LearningProgressResponse> listByLevel1Dir(KnowledgeLibraryRequest level1Dir);
 
-    List<KnowledgeLibrary> listInfoByLevel2Dir(String secondLevel);
+    List<KnowledgeLibrary> listInfoByLevel2Dir(KnowledgeLibraryRequest knowledge);
 }
 
 

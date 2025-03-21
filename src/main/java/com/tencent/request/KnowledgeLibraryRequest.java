@@ -14,6 +14,11 @@ public class KnowledgeLibraryRequest {
     private String level1Dir;
 
     /**
+     * 二级分类
+     */
+    private String level2Dir;
+
+    /**
      * 用户ID
      */
     private String userId;
