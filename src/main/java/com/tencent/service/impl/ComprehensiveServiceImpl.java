@@ -2,13 +2,13 @@ package com.tencent.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tencent.model.*;
-import com.tencent.response.PracticeRecordsResponse;
-import com.tencent.response.RewardResponse;
-import com.tencent.response.UserResponse;
+import com.tencent.response.*;
 import com.tencent.service.*;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +32,8 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     @Resource
     public PracticeRecordService practiceRecordService;
     @Resource
+    public ChallengeService challengeService;
+    @Resource
     public RewardService rewardService;
     @Resource
     public RedemptionService redemptionService;
@@ -52,20 +54,36 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     }
 
     @Override
-    public List<Practice> getPracticeList() {
-        List<Practice> practiceList = practiceService.getPracticeList();
-        practiceList.forEach(item -> {
+    public List<PracticeResponse> getPracticeList(String userId) {
+        //获取练习列表
+        List<PracticeResponse> practiceRecords = practiceService.list()
+                .stream()
+                .map(record -> {
+                    PracticeResponse response = new PracticeResponse();
+                    copyProperties(record, response);
+                    return response;
+                })
+                .toList();
+        //获取练习记录，并匹配练习列表，计算练习时长
+        practiceRecords.forEach(item -> {
             //获取当前练习总耗时
-            item.setDuration(practiceRecordService.durationSum(item.getId()));
+            item.setDuration(practiceRecordService.durationSum(userId, item.getId()));
         });
-        return practiceList;
+        return practiceRecords;
     }
 
     @Override
     public List<PracticeRecordsResponse> getPracticeRecordList(String userId) {
-        List<PracticeRecordsResponse> practiceRecords = new ArrayList<>();
-        List<PracticeRecord> practiceRecordList = practiceRecordService.getPracticeRecordList(userId);
-        copyProperties(practiceRecordList, practiceRecords);
+        //列表查询并复制给出参对象
+        List<PracticeRecordsResponse> practiceRecords = practiceRecordService
+                .getPracticeRecordList(userId)
+                .stream()
+                .map(record -> {
+                    PracticeRecordsResponse response = new PracticeRecordsResponse();
+                    copyProperties(record, response);
+                    return response;
+                })
+                .toList();
         for (PracticeRecordsResponse practiceRecord : practiceRecords) {
             practiceRecord.setTitle(practiceService.getById(practiceRecord.getPracticeId()).getTitle());
         }
@@ -101,14 +119,69 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
 
     @Override
     public List<RewardResponse> getRewardExchangeList(String userId) {
-        List<RewardResponse> list = new ArrayList<>();
-
         QueryWrapper<Reward> queryWrapper = new QueryWrapper<>();
         // 关联查询：通过 redemption 表的 userId 和 Reward 表的 rewardId 进行关联
         queryWrapper.inSql("id", "SELECT reward_id FROM redemption WHERE user_id = '" + userId + "'");
-        List<Reward> rewards = rewardService.list(queryWrapper);
-        copyProperties(rewards, list);
-        return list;
+        //列表查询并复制给出参对象
+        return rewardService.list(queryWrapper)
+                .stream()
+                .map(record -> {
+                    RewardResponse response = new RewardResponse();
+                    copyProperties(record, response);
+                    return response;
+                })
+                .toList();
+    }
+
+    @Override
+    public ChallengeResponse getChallengeList(String userId) {
+        var challengeResponse = new ChallengeResponse();
+
+        //根据用户id查询当前金币
+        Users user = usersService.getById(userId);
+        challengeResponse.setGold(user.getGold());
+
+        //查询挑战列表
+        QueryWrapper<Challenge> challengeQuery = new QueryWrapper<>();
+        List<ChallengesResponse> list = challengeService.list(challengeQuery)
+                .stream()
+                .map(challenge -> {
+                    ChallengesResponse response = new ChallengesResponse();
+                    copyProperties(challenge, response);
+                    response.setProgress(calculatePercentageOrOne(challenge.getConditionValue(), user.getMileage()));
+                    return response;
+                })
+                .toList();
+        challengeResponse.setChallenges(list);
+        return challengeResponse;
+    }
+
+    /**
+     *
+     * @param targetMileage 挑战任务里程数
+     * @param totalMileage 当前驾驶里程总数
+     * @return 进度
+     */
+    public static String calculatePercentageOrOne(Integer targetMileage, Integer totalMileage) {
+        BigDecimal bigDecimal_a = BigDecimal.valueOf(targetMileage);
+        BigDecimal bigDecimal_b = BigDecimal.valueOf(totalMileage);
+        // 如果 B 为 0，直接返回 "0%"（避免除以 0 的问题）
+        if (bigDecimal_b.compareTo(BigDecimal.ZERO) == 0) {
+            return "0%";
+        }
+
+        //当前驾驶里程总数| 计算 A/B,且四舍五入
+        BigDecimal ratio = bigDecimal_a.divide(bigDecimal_b, 4, RoundingMode.HALF_UP); // 保留 4 位小数进行计算
+
+        // 判断逻辑
+        if (ratio.compareTo(BigDecimal.ONE) < 0) {
+            // A/B 小于 1，返回百分比
+            BigDecimal percentage = ratio.multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP); // 转换为百分比，保留 2 位小数
+            return percentage + "%";
+        } else {
+            // A/B 大于等于 1，返回 "1"
+            return "1";
+        }
     }
 
 }

@@ -23,6 +23,7 @@ public class ComprehensiveController {
      * 功能：继续学习
      * 界面：首页-继续学习
      *
+     * @param userId 用户ID
      * @return 学习详情
      */
     @GetMapping("/continueLearning")
@@ -35,11 +36,12 @@ public class ComprehensiveController {
      * 界面：练习列表
      * 功能完整度：2/2
      *
+     * @param userId 用户ID
      * @return 所有练习的列表
      */
     @GetMapping("/getPracticeList")
-    public ApiResponse getPracticeList() {
-        return ApiResponse.ok(comprehensiveService.getPracticeList());
+    public ApiResponse getPracticeList(String userId) {
+        return ApiResponse.ok(comprehensiveService.getPracticeList(userId));
     }
 
     /**
@@ -53,6 +55,18 @@ public class ComprehensiveController {
     @GetMapping("/getPracticeRecordList")
     public ApiResponse getPracticeRecordList(String userId) {
         return ApiResponse.ok(comprehensiveService.getPracticeRecordList(userId));
+    }
+
+    /**
+     * 功能：列表查询
+     * 界面：挑战列表
+     *
+     * @param userId 用户ID
+     * @return 挑战列表
+     */
+    @GetMapping("/getChallengeList")
+    public ApiResponse getChallengeList(String userId) {
+        return ApiResponse.ok(comprehensiveService.getChallengeList(userId));
     }
 
     /**

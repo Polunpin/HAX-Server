@@ -1,8 +1,7 @@
 package com.tencent.service;
 
-import com.tencent.model.Challenge;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.tencent.response.ChallengeResponse;
+import com.tencent.model.Challenge;
 
 /**
 * @author lanyiping
@@ -11,5 +10,4 @@ import com.tencent.response.ChallengeResponse;
 */
 public interface ChallengeService extends IService<Challenge> {
 
-    ChallengeResponse getChallengeList(String userId);
 }

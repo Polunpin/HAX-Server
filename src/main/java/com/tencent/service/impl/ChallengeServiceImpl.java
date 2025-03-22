@@ -1,20 +1,10 @@
 package com.tencent.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.mapper.ChallengeMapper;
 import com.tencent.model.Challenge;
-import com.tencent.model.PracticeRecord;
-import com.tencent.model.Users;
-import com.tencent.response.ChallengeResponse;
 import com.tencent.service.ChallengeService;
-import com.tencent.service.PracticeRecordService;
-import com.tencent.service.UsersService;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 /**
 * @author lanyiping
@@ -25,33 +15,6 @@ import java.util.List;
 public class ChallengeServiceImpl extends ServiceImpl<ChallengeMapper, Challenge>
     implements ChallengeService{
 
-    @Resource
-    public UsersService usersService;
-    @Resource
-    public PracticeRecordService practiceRecordService;
-
-
-    @Override
-    public ChallengeResponse getChallengeList(String userId) {
-        var challengeResponse = new ChallengeResponse();
-
-        //根据用户id查询当前金币
-        Users user = usersService.getById(userId);
-        challengeResponse.setGold(user.getGold());
-
-        //根据用户id查询练习记录总里程
-        QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("SUM(distance) as distance");
-        BigDecimal distance = practiceRecordService.getOne(queryWrapper).getDistance();
-        challengeResponse.setDistance(distance);
-
-        //查询挑战列表
-        QueryWrapper<Challenge> challengeQuery = new QueryWrapper<>();
-        challengeQuery.eq("user_id",userId);
-        List<Challenge> list = this.list(challengeQuery);
-        challengeResponse.setChallenges(list);
-        return challengeResponse;
-    }
 }
 
 

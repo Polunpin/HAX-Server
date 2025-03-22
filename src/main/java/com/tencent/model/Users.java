@@ -41,6 +41,11 @@ public class Users {
     private Integer gold;
 
     /**
+     * 驾驶里程
+     */
+    private Integer mileage;
+
+    /**
      * 创建时间
      */
     private Date createdAt;

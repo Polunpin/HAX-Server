@@ -49,7 +49,6 @@ CREATE TABLE `practice`
     `target`      json COMMENT '练习目标',
     `notes`       varchar(200) COMMENT '注意事项',
     `type`        TINYINT         NOT NULL DEFAULT 1 COMMENT '练习类型：1-基础, 2-进阶, 3-突破',
-    `duration`    INT UNSIGNED    NOT NULL DEFAULT 0 COMMENT '已练习时长(单位:分钟)',
     `reward_gold` INT             NOT NULL DEFAULT 0 COMMENT '奖励金币',
     `created_at`  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at`  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -165,3 +164,22 @@ create index idx_reward_id
 
 create index idx_user_id
     on redemption (user_id);
+
+-- 挑战记录表定义
+CREATE TABLE challenge_record
+(
+    id           BIGINT UNSIGNED AUTO_INCREMENT COMMENT '挑战记录ID'
+        PRIMARY KEY,
+    challenge_id BIGINT UNSIGNED                    NOT NULL COMMENT '挑战ID,关联challenge_record表',
+    user_id      BIGINT UNSIGNED                    NOT NULL COMMENT '用户ID,关联users表',
+    progress     INT      DEFAULT 0                 NOT NULL COMMENT '挑战进度(完成次数/里程等)',
+    status       TINYINT  DEFAULT 0                 NOT NULL COMMENT '挑战状态：0-进行中, 1-完成, 2-失败',
+    created_at   DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    updated_at   DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    INDEX idx_challenge_user (challenge_id, user_id),
+    CONSTRAINT fk_challenge_record_challenge FOREIGN KEY (`challenge_id`) REFERENCES `challenge` (`id`)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_challenge_record_users FOREIGN KEY (user_id) REFERENCES users (id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+)
+    COMMENT '挑战记录表' CHARSET = utf8mb4;

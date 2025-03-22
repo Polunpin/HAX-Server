@@ -43,7 +43,7 @@ public class PracticeRecordsResponse {
     /**
      * 耗时(单位:分钟)
      */
-    private Date duration;
+    private String duration;
 
     /**
      * 路程(单位:公里)
@@ -73,7 +73,7 @@ public class PracticeRecordsResponse {
     /**
      * 练习表现
      */
-    private Object performance;
+    private String performance;
 
     /**
      * 练习心得(200字内)
@@ -88,7 +88,7 @@ public class PracticeRecordsResponse {
     /**
      * 轨迹点(可存JSON)
      */
-    private Object trajectory;
+    private String trajectory;
 
     /**
      * 创建时间

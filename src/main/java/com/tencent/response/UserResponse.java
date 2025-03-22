@@ -34,6 +34,11 @@ public class UserResponse {
     private Integer gold;
 
     /**
+     * 驾驶里程
+     */
+    private Integer mileage;
+
+    /**
      * 当前学习进度
      */
     private LearningProgress continueLearning;
