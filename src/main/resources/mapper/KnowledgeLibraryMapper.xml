@@ -27,15 +27,14 @@
     </sql>
     <select id="listByLevel1Dir" resultType="com.tencent.response.LearningProgressResponse">
         SELECT k.level2_dir,
-               COUNT(k.id)                                                 AS knowledgeSum,
+               COUNT(k.id)                                                     AS knowledgeSum,
                COUNT(DISTINCT CASE WHEN sks.learning_status = 2 THEN k.id END) AS learnCount
         FROM knowledge_library k
-                 LEFT JOIN learning_progress sks
+                 LEFT JOIN (select * from learning_progress where user_id = #{userId}) sks
                            ON k.id = sks.knowledge_id
         where k.level1_dir = #{level1Dir}
-          and sks.user_id = #{userId}
-        GROUP BY k.level1_dir, k.level2_dir
-        ORDER BY k.level1_dir, k.level2_dir;
+        GROUP BY k.level2_dir, k.sort_order
+        ORDER BY k.sort_order;
     </select>
     <select id="listInfoByLevel2Dir" resultType="com.tencent.model.KnowledgeLibrary">
         SELECT k.*, sks.learning_status
