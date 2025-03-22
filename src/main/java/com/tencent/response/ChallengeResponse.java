@@ -1,6 +1,5 @@
 package com.tencent.response;
 
-import com.tencent.model.Challenge;
 import lombok.Data;
 
 import java.util.List;
