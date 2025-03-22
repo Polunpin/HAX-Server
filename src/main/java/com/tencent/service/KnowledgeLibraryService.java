@@ -2,6 +2,7 @@ package com.tencent.service;
 
 import com.tencent.model.KnowledgeLibrary;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.tencent.request.KnowledgeLibraryRequest;
 import com.tencent.response.LearningProgressResponse;
 
 import java.util.List;
@@ -13,8 +14,8 @@ import java.util.List;
 */
 public interface KnowledgeLibraryService extends IService<KnowledgeLibrary> {
 
-    List<LearningProgressResponse> listByLevel1Dir(String knowledge);
+    List<LearningProgressResponse> listByLevel1Dir(KnowledgeLibraryRequest knowledge);
 
-    List<KnowledgeLibrary> listInfoByLevel2Dir(String secondLevel);
+    List<KnowledgeLibrary> listInfoByLevel2Dir(KnowledgeLibraryRequest knowledge);
 
 }

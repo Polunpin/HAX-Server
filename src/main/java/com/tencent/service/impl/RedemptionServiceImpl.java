@@ -23,7 +23,7 @@ public class RedemptionServiceImpl extends ServiceImpl<RedemptionMapper, Redempt
     @Override
     public List<Redemption> getRewardExchangeList(String userId) {
         QueryWrapper<Redemption> query = new QueryWrapper<>();
-        query.eq("userId",userId);
+        query.eq("user_id",userId);
         return this.list(query);
     }
 

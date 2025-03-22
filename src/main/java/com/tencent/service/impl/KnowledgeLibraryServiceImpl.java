@@ -2,6 +2,7 @@ package com.tencent.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.model.KnowledgeLibrary;
+import com.tencent.request.KnowledgeLibraryRequest;
 import com.tencent.response.LearningProgressResponse;
 import com.tencent.service.KnowledgeLibraryService;
 import com.tencent.mapper.KnowledgeLibraryMapper;
@@ -24,15 +25,14 @@ public class KnowledgeLibraryServiceImpl extends ServiceImpl<KnowledgeLibraryMap
 
 
     @Override
-    public List<LearningProgressResponse> listByLevel1Dir(String level1Dir) {
-        //TODO userId
+    public List<LearningProgressResponse> listByLevel1Dir(KnowledgeLibraryRequest knowledge) {
         //知识点列表
-        return knowledgeMapper.listByLevel1Dir(level1Dir);
+        return knowledgeMapper.listByLevel1Dir(knowledge);
     }
 
     @Override
-    public List<KnowledgeLibrary> listInfoByLevel2Dir(String secondLevel) {
-        return knowledgeMapper.listInfoByLevel2Dir(secondLevel);
+    public List<KnowledgeLibrary> listInfoByLevel2Dir(KnowledgeLibraryRequest knowledge) {
+        return knowledgeMapper.listInfoByLevel2Dir(knowledge);
     }
 }
 

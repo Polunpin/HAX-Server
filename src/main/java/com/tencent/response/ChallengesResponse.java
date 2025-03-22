@@ -1,23 +1,16 @@
-package com.tencent.model;
+package com.tencent.response;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
- * 挑战表
- * @TableName challenge
+ * 挑战列表
  */
-@TableName(value ="challenge")
 @Data
-public class Challenge {
+public class ChallengesResponse {
+
     /**
      * 挑战ID
      */
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -29,6 +22,11 @@ public class Challenge {
      * 挑战描述
      */
     private String description;
+
+    /**
+     * 当前进度
+     */
+    private String progress;
 
     /**
      * 挑战条件类型：1-次数, 2-里程, 3-综合
@@ -55,13 +53,4 @@ public class Challenge {
      */
     private Integer sortOrder;
 
-    /**
-     * 创建时间
-     */
-    private Date createdAt;
-
-    /**
-     * 修改时间
-     */
-    private Date updatedAt;
 }

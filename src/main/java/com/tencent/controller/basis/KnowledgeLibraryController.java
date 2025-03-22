@@ -1,10 +1,14 @@
 package com.tencent.controller.basis;
 
 import com.tencent.config.ApiResponse;
+import com.tencent.request.KnowledgeLibraryRequest;
 import com.tencent.service.KnowledgeLibraryService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 知识库
@@ -22,9 +26,9 @@ public class KnowledgeLibraryController {
      * 界面：学习列表
      * @return List<LearningProgressResponse>
      */
-    @GetMapping("/listByLevel1Dir")
-    public ApiResponse listByLevel1Dir(@RequestBody String level1Dir) {
-        return ApiResponse.ok(knowledgeLibrary.listByLevel1Dir(level1Dir));
+    @PostMapping("/listByLevel1Dir")
+    public ApiResponse listByLevel1Dir(@RequestBody KnowledgeLibraryRequest knowledge) {
+        return ApiResponse.ok(knowledgeLibrary.listByLevel1Dir(knowledge));
     }
 
     /**
@@ -32,9 +36,9 @@ public class KnowledgeLibraryController {
      * 界面：知识详情页
      * @return List<KnowledgeLibrary>
      */
-    @GetMapping("/listInfoByLevel2Dir")
-    public ApiResponse listInfoByLevel2Dir(String secondLevel) {
-        return ApiResponse.ok(knowledgeLibrary.listInfoByLevel2Dir(secondLevel));
+    @PostMapping("/listInfoByLevel2Dir")
+    public ApiResponse listInfoByLevel2Dir(@RequestBody KnowledgeLibraryRequest knowledge) {
+        return ApiResponse.ok(knowledgeLibrary.listInfoByLevel2Dir(knowledge));
     }
 
 }

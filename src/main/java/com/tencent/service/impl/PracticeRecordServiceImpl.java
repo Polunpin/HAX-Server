@@ -20,11 +20,12 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
 
 
     @Override
-    public String durationSum(Long id) {
+    public String durationSum(String userId,Long practiceId) {
         QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
-        //TODO 获取用户id
-        queryWrapper.select("SUM(duration) as duration").eq("user_id","");
-        return this.getOne(queryWrapper).getDuration().toString();
+        queryWrapper.select("SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as duration")
+                .eq("user_id",userId)
+                .eq("practice_id",practiceId);
+        return this.getOne(queryWrapper).getDuration();
     }
 
     @Override
@@ -42,7 +43,7 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
     @Override
     public List<PracticeRecord> getPracticeRecordList(String userId) {
         QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("userId",userId);
+        queryWrapper.eq("user_id",userId);
         return this.list(queryWrapper);
     }
 }

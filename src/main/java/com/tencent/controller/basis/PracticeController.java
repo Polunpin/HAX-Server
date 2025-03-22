@@ -38,6 +38,7 @@ public class PracticeController {
      * @param id 练习ID
      * @return 练习详情信息
      */
+    @Deprecated
     @GetMapping("/{id}")
     public ApiResponse getPracticeDetail(@PathVariable Long id) {
         // 根据ID查询练习详情，如 练习目标、注意事项、类型、已练习时长 等

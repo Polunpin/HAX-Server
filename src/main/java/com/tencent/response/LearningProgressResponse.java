@@ -12,7 +12,7 @@ public class LearningProgressResponse {
     /**
      * 二级目录
      */
-    private String secondLevel;
+    private String level2Dir;
 
     /**
      * 知识点总数（二级目录下）

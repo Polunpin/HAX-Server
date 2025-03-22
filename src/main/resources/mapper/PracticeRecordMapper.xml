@@ -16,10 +16,10 @@
             <result property="maxSpeed" column="max_speed" jdbcType="DECIMAL"/>
             <result property="suddenBrakeCount" column="sudden_brake_count" jdbcType="TINYINT"/>
             <result property="proficiency" column="proficiency" jdbcType="TINYINT"/>
-            <result property="performance" column="performance" jdbcType="OTHER"/>
+            <result property="performance" column="performance" jdbcType="VARCHAR"/>
             <result property="insights" column="insights" jdbcType="VARCHAR"/>
             <result property="photos" column="photos" jdbcType="VARCHAR"/>
-            <result property="trajectory" column="trajectory" jdbcType="OTHER"/>
+            <result property="trajectory" column="trajectory" jdbcType="VARCHAR"/>
             <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
             <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>

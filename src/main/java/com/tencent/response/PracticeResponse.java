@@ -1,23 +1,17 @@
-package com.tencent.model;
+package com.tencent.response;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
 
 /**
- * 练习表
- * @TableName practice
+ * 练习
  */
-@TableName(value ="practice")
 @Data
-public class Practice {
+public class PracticeResponse {
     /**
      * 练习ID
      */
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -39,6 +33,11 @@ public class Practice {
      * 练习类型：1-基础, 2-进阶, 3-突破
      */
     private Integer type;
+
+    /**
+     * 已练习时长
+     */
+    private String duration;
 
     /**
      * 奖励金币

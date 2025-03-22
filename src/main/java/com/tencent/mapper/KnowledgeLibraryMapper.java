@@ -2,6 +2,7 @@ package com.tencent.mapper;
 
 import com.tencent.model.KnowledgeLibrary;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tencent.request.KnowledgeLibraryRequest;
 import com.tencent.response.LearningProgressResponse;
 
 import java.util.List;
@@ -14,9 +15,9 @@ import java.util.List;
 */
 public interface KnowledgeLibraryMapper extends BaseMapper<KnowledgeLibrary> {
 
-    List<LearningProgressResponse> listByLevel1Dir(String level1Dir);
+    List<LearningProgressResponse> listByLevel1Dir(KnowledgeLibraryRequest level1Dir);
 
-    List<KnowledgeLibrary> listInfoByLevel2Dir(String secondLevel);
+    List<KnowledgeLibrary> listInfoByLevel2Dir(KnowledgeLibraryRequest knowledge);
 }
 
 
