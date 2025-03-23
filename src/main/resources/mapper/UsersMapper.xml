@@ -6,6 +6,7 @@
 
     <resultMap id="BaseResultMap" type="com.tencent.model.Users">
             <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="unionId" column="union_id" jdbcType="VARCHAR"/>
             <result property="payStage" column="pay_stage" jdbcType="TINYINT"/>
             <result property="status" column="status" jdbcType="TINYINT"/>
             <result property="proficiency" column="proficiency" jdbcType="INTEGER"/>
@@ -16,7 +17,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,pay_stage,status,
+        id,union_id,pay_stage,status,
         proficiency,gold,mileage,created_at,
         updated_at
     </sql>

@@ -21,6 +21,11 @@ public class Users {
     private Long id;
 
     /**
+     * 微信唯一标识
+     */
+    private String unionId;
+
+    /**
      * 付费阶段：A-白户，B-知识，C-月付，D-买断
      */
     private Integer payStage;

@@ -27,7 +27,13 @@ public class UsersController {
      */
     @GetMapping("/info")
     public ApiResponse info(HttpServletRequest request) {
-        return ApiResponse.ok(usersService.getUserInfo(request));
+        // 获取指定header参数的unionId
+        String unionId = request.getHeader("X-WX-UNIONID");
+        if (unionId == null){
+            return ApiResponse.error("unionId为空");
+        }
+        System.out.println("-------unionId"+unionId);
+        return ApiResponse.ok(usersService.getUserInfo(unionId));
     }
 
 }

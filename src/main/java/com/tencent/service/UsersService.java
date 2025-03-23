@@ -2,7 +2,6 @@ package com.tencent.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tencent.model.Users;
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
 * @author lanyiping
@@ -11,5 +10,5 @@ import jakarta.servlet.http.HttpServletRequest;
 */
 public interface UsersService extends IService<Users> {
 
-    Users getUserInfo(HttpServletRequest request);
+    Users getUserInfo(String unionId);
 }
