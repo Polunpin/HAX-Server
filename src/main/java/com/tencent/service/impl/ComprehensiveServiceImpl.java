@@ -5,7 +5,6 @@ import com.tencent.model.Challenge;
 import com.tencent.model.Users;
 import com.tencent.response.ChallengeResponse;
 import com.tencent.response.ChallengesResponse;
-import com.tencent.response.PracticeRecordsResponse;
 import com.tencent.response.PracticeResponse;
 import com.tencent.service.*;
 import jakarta.annotation.Resource;
@@ -43,7 +42,7 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         BigDecimal bigDecimal_b = BigDecimal.valueOf(totalMileage);
         // 如果 B 为 0，直接返回 "0%"（避免除以 0 的问题）
         if (bigDecimal_b.compareTo(BigDecimal.ZERO) == 0) {
-            return "0%";
+            return "0";
         }
 
         //当前驾驶里程总数| 计算 A/B,且四舍五入
@@ -53,7 +52,7 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         if (ratio.compareTo(BigDecimal.ONE) < 0) {
             // A/B 小于 1，返回百分比
             BigDecimal percentage = ratio.multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP); // 转换为百分比，保留 2 位小数
-            return percentage + "%";
+            return percentage.toString();
         } else {
             // A/B 大于等于 1，返回 "1"
             return "1";
@@ -76,24 +75,6 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
             //获取当前练习总耗时
             item.setDuration(practiceRecord.durationSum(userId, item.getId()));
         });
-        return practiceRecords;
-    }
-
-    @Override
-    public List<PracticeRecordsResponse> getPracticeRecordList(String userId) {
-        //列表查询并复制给出参对象
-        List<PracticeRecordsResponse> practiceRecords = practiceRecord
-                .getPracticeRecordList(userId)
-                .stream()
-                .map(record -> {
-                    PracticeRecordsResponse response = new PracticeRecordsResponse();
-                    copyProperties(record, response);
-                    return response;
-                })
-                .toList();
-        for (PracticeRecordsResponse practiceRecord : practiceRecords) {
-            practiceRecord.setTitle(practice.getById(practiceRecord.getPracticeId()).getTitle());
-        }
         return practiceRecords;
     }
 

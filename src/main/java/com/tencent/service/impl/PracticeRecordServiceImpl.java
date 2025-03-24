@@ -4,10 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.mapper.PracticeRecordMapper;
 import com.tencent.model.PracticeRecord;
+import com.tencent.response.PracticeRecordResponse;
+import com.tencent.response.PracticeRecordsResponse;
 import com.tencent.service.PracticeRecordService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author lanyiping
@@ -18,6 +24,9 @@ import java.util.List;
 public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper, PracticeRecord>
         implements PracticeRecordService {
 
+
+    @Resource
+    public PracticeRecordMapper practiceRecordMapper;
 
     @Override
     public String durationSum(String userId, Long practiceId) {
@@ -34,17 +43,31 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
         return practiceRecord.getId(); // 返回自动生成的 ID
     }
 
-
     @Override
     public PracticeRecord getPracticeRecord(String id) {
         return this.getById(id);
     }
 
     @Override
-    public List<PracticeRecord> getPracticeRecordList(String userId) {
-        QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", userId);
-        return this.list(queryWrapper);
+    public List<PracticeRecordsResponse> getPracticeRecordList(String userId) {
+        //根据userId获取全部练习记录
+        List<PracticeRecordResponse> practiceRecordList = practiceRecordMapper.getPracticeRecordList(userId);
+
+        return practiceRecordList.stream()
+                .collect(Collectors.groupingBy(PracticeRecordResponse::getTitle))
+                .entrySet()
+                .stream()
+                .map(entry -> {
+                    PracticeRecordsResponse response = new PracticeRecordsResponse();
+                    response.setType(entry.getKey());
+                    response.setTotalDistance(entry.getValue().stream()
+                            .map(PracticeRecordResponse::getDistance)
+                            .filter(Objects::nonNull)
+                            .mapToDouble(BigDecimal::doubleValue)
+                            .sum());
+                    response.setPracticeRecordResponses(entry.getValue());
+                    return response;
+                }).toList();
     }
 }
 
