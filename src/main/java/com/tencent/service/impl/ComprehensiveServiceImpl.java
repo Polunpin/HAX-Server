@@ -1,11 +1,11 @@
 package com.tencent.service.impl;
 
+import com.tencent.model.Reward;
 import com.tencent.model.Users;
+import com.tencent.request.RedemptionRequest;
 import com.tencent.response.ChallengeResponse;
 import com.tencent.response.ChallengesResponse;
-import com.tencent.service.ChallengeService;
-import com.tencent.service.ComprehensiveService;
-import com.tencent.service.UsersService;
+import com.tencent.service.*;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +24,10 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     public UsersService users;
     @Resource
     public ChallengeService challenge;
+    @Resource
+    public RewardService reward;
+    @Resource
+    public RedemptionService redemption;
 
     /**
      * @param targetMileage  挑战目标
@@ -64,6 +68,17 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         //查询挑战列表
         challengeResponse.setChallenges(challengeList);
         return challengeResponse;
+    }
+
+    @Override
+    public Boolean exchange(RedemptionRequest redemptionRequest) {
+        //兑换前，检查users表金币是否足够兑换奖品
+        Users userInfo = users.getById(redemptionRequest.getUserId());
+        Reward rewardById = reward.getById(redemptionRequest.getRewardId());
+        if (userInfo.getGold() < rewardById.getExchangeCondition()) {
+            return false;
+        }
+        return redemption.exchange(redemptionRequest);
     }
 
 }

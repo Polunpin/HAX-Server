@@ -20,8 +20,7 @@ public class PracticeResponse {
     /**
      * 练习目标
      */
-    //TODO 字段类型校准 JSON
-    private Object target;
+    private String target;
 
     /**
      * 注意事项

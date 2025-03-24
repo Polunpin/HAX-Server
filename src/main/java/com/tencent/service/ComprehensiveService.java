@@ -1,5 +1,6 @@
 package com.tencent.service;
 
+import com.tencent.request.RedemptionRequest;
 import com.tencent.response.ChallengeResponse;
 
 /**
@@ -10,4 +11,5 @@ public interface ComprehensiveService {
 
     ChallengeResponse getChallengeList(String userId);
 
+    Boolean exchange(RedemptionRequest redemptionRequest);
 }
