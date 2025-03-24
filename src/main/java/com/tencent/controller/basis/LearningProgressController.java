@@ -5,10 +5,7 @@ import com.tencent.model.LearningProgress;
 import com.tencent.service.LearningProgressService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -24,6 +21,18 @@ public class LearningProgressController {
     public LearningProgressService learningProgressService;
 
     /**
+     * 功能：学习进度
+     * 界面：首页-学习进度
+     *
+     * @param userId 用户ID
+     * @return 学习详情
+     */
+    @GetMapping("/getLearningProgress")
+    public ApiResponse getLearningProgress(String userId) {
+        return ApiResponse.ok(learningProgressService.getLearningProgress(userId));
+    }
+
+    /**
      * 功能：修改状态
      * 界面：知识点详情
      *
@@ -32,7 +41,7 @@ public class LearningProgressController {
     @PostMapping("/saveOrUpdate")
     public ApiResponse saveOrUpdate(@RequestBody LearningProgress learningProgress) {
         //第一次学会时，补充第一次学会时间
-        if (learningProgress.getLearningStatus() == 2 && learningProgress.getFirstMasteredAt() == null){
+        if (learningProgress.getLearningStatus() == 2 && learningProgress.getFirstMasteredAt() == null) {
             learningProgress.setFirstMasteredAt(new Date());
         }
         return ApiResponse.ok(learningProgressService.saveOrUpdate(learningProgress));

@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 /**
- * 学习进度
+ * 学习列表及进度
  */
 @Data
 public class LearningProgressResponse {

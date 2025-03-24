@@ -24,6 +24,7 @@ public class KnowledgeLibraryController {
     /**
      * 功能：根据一级分类查询知识点列表
      * 界面：学习列表
+     *
      * @return List<LearningProgressResponse>
      */
     @PostMapping("/listByLevel1Dir")
@@ -34,6 +35,7 @@ public class KnowledgeLibraryController {
     /**
      * 功能：根据二级目录查询三级级目录列表（包含四级所有目录）
      * 界面：知识详情页
+     *
      * @return List<KnowledgeLibrary>
      */
     @PostMapping("/listInfoByLevel2Dir")
