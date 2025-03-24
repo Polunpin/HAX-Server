@@ -9,11 +9,13 @@ import java.util.Date;
 
 /**
  * 知识库表
+ *
  * @TableName knowledge_library
  */
-@TableName(value ="knowledge_library")
 @Data
+@TableName(value = "knowledge_library")
 public class KnowledgeLibrary {
+
     /**
      * 知识ID
      */

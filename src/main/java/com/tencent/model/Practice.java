@@ -9,11 +9,13 @@ import java.util.Date;
 
 /**
  * 练习表
+ *
  * @TableName practice
  */
-@TableName(value ="practice")
 @Data
+@TableName(value = "practice")
 public class Practice {
+
     /**
      * 练习ID
      */

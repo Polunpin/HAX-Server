@@ -5,16 +5,16 @@
 <mapper namespace="com.tencent.mapper.ChallengeMapper">
 
     <resultMap id="BaseResultMap" type="com.tencent.model.Challenge">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="title" column="title" jdbcType="VARCHAR"/>
-            <result property="description" column="description" jdbcType="VARCHAR"/>
-            <result property="conditionType" column="condition_type" jdbcType="TINYINT"/>
-            <result property="status" column="status" jdbcType="TINYINT"/>
-            <result property="conditionValue" column="condition_value" jdbcType="INTEGER"/>
-            <result property="rewardGold" column="reward_gold" jdbcType="INTEGER"/>
-            <result property="sortOrder" column="sort_order" jdbcType="INTEGER"/>
-            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
-            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="conditionType" column="condition_type" jdbcType="TINYINT"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="conditionValue" column="condition_value" jdbcType="INTEGER"/>
+        <result property="rewardGold" column="reward_gold" jdbcType="INTEGER"/>
+        <result property="sortOrder" column="sort_order" jdbcType="INTEGER"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -23,4 +23,18 @@
         condition_value,reward_gold,sort_order,
         created_at,updated_at
     </sql>
+
+    <select id="getChallengeList" resultType="com.tencent.response.ChallengesResponse">
+        SELECT c.id,
+               c.title,
+               c.condition_type,
+               c.condition_value,
+               c.reward_gold,
+               -- 0:进行中 1:已领取
+               IF(cr.challenge_id IS NOT NULL, 1, c.sort_order) AS sort_order
+        FROM challenge c
+                 LEFT JOIN
+             challenge_record cr ON c.id = cr.challenge_id AND cr.user_id = #{userId}
+        ORDER BY sort_order;
+    </select>
 </mapper>

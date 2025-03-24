@@ -5,15 +5,15 @@
 <mapper namespace="com.tencent.mapper.UsersMapper">
 
     <resultMap id="BaseResultMap" type="com.tencent.model.Users">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="unionId" column="union_id" jdbcType="VARCHAR"/>
-            <result property="payStage" column="pay_stage" jdbcType="TINYINT"/>
-            <result property="status" column="status" jdbcType="TINYINT"/>
-            <result property="proficiency" column="proficiency" jdbcType="INTEGER"/>
-            <result property="gold" column="gold" jdbcType="INTEGER"/>
-            <result property="mileage" column="mileage" jdbcType="INTEGER"/>
-            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
-            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="unionId" column="union_id" jdbcType="VARCHAR"/>
+        <result property="payStage" column="pay_stage" jdbcType="TINYINT"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="proficiency" column="proficiency" jdbcType="INTEGER"/>
+        <result property="gold" column="gold" jdbcType="INTEGER"/>
+        <result property="mileage" column="mileage" jdbcType="DECIMAL"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">

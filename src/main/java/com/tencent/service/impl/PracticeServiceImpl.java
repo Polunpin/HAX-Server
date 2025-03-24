@@ -24,8 +24,7 @@ public class PracticeServiceImpl extends ServiceImpl<PracticeMapper, Practice>
 
     @Override
     public List<PracticeResponse> getPracticeList(String userId) {
-        List<PracticeResponse> practiceList = practiceMapper.getPracticeList(userId);
-        return practiceList;
+        return practiceMapper.getPracticeList(userId);
     }
 
 

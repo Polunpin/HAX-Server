@@ -5,18 +5,18 @@
 <mapper namespace="com.tencent.mapper.KnowledgeLibraryMapper">
 
     <resultMap id="BaseResultMap" type="com.tencent.model.KnowledgeLibrary">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="level1Dir" column="level1_dir" jdbcType="VARCHAR"/>
-            <result property="level2Dir" column="level2_dir" jdbcType="VARCHAR"/>
-            <result property="level3Dir" column="level3_dir" jdbcType="VARCHAR"/>
-            <result property="level4Dir" column="level4_dir" jdbcType="VARCHAR"/>
-            <result property="difficulty" column="difficulty" jdbcType="TINYINT"/>
-            <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
-            <result property="content" column="content" jdbcType="VARCHAR"/>
-            <result property="sortOrder" column="sort_order" jdbcType="INTEGER"/>
-            <result property="status" column="status" jdbcType="TINYINT"/>
-            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
-            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="level1Dir" column="level1_dir" jdbcType="VARCHAR"/>
+        <result property="level2Dir" column="level2_dir" jdbcType="VARCHAR"/>
+        <result property="level3Dir" column="level3_dir" jdbcType="VARCHAR"/>
+        <result property="level4Dir" column="level4_dir" jdbcType="VARCHAR"/>
+        <result property="difficulty" column="difficulty" jdbcType="TINYINT"/>
+        <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="sortOrder" column="sort_order" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -30,9 +30,9 @@
                COUNT(k.id)                                                     AS knowledgeSum,
                COUNT(DISTINCT CASE WHEN sks.learning_status = 2 THEN k.id END) AS learnCount
         FROM knowledge_library k
-                 LEFT JOIN (select * from learning_progress where user_id = #{userId}) sks
-                           ON k.id = sks.knowledge_id
-        where k.level1_dir = #{level1Dir}
+                 LEFT JOIN
+             learning_progress sks ON k.id = sks.knowledge_id AND sks.user_id = #{userId}
+        WHERE k.level1_dir = #{level1Dir}
         GROUP BY k.level2_dir, k.sort_order
         ORDER BY k.sort_order;
     </select>

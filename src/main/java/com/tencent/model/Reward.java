@@ -9,11 +9,13 @@ import java.util.Date;
 
 /**
  * 奖励表
+ *
  * @TableName reward
  */
-@TableName(value ="reward")
 @Data
+@TableName(value = "reward")
 public class Reward {
+
     /**
      * 奖励ID
      */

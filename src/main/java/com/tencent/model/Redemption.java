@@ -9,11 +9,13 @@ import java.util.Date;
 
 /**
  * 兑换表
+ *
  * @TableName redemption
  */
-@TableName(value ="redemption")
 @Data
+@TableName(value = "redemption")
 public class Redemption {
+
     /**
      * 主键ID
      */

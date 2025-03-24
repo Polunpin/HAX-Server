@@ -1,19 +1,17 @@
 package com.tencent.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.tencent.model.Challenge;
 import com.tencent.model.Users;
 import com.tencent.response.ChallengeResponse;
 import com.tencent.response.ChallengesResponse;
-import com.tencent.service.*;
+import com.tencent.service.ChallengeService;
+import com.tencent.service.ComprehensiveService;
+import com.tencent.service.UsersService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-
-import static org.springframework.beans.BeanUtils.copyProperties;
 
 /**
  * @author lanyiping
@@ -25,36 +23,31 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     @Resource
     public UsersService users;
     @Resource
-    public PracticeService practice;
-    @Resource
-    public PracticeRecordService practiceRecord;
-    @Resource
     public ChallengeService challenge;
 
     /**
-     * @param targetMileage 挑战任务里程数
-     * @param totalMileage  当前驾驶里程总数
+     * @param targetMileage  挑战目标
+     * @param currentMileage 当前驾驶里程
      * @return 进度
      */
-    public static String calculatePercentageOrOne(Integer targetMileage, Integer totalMileage) {
-        BigDecimal bigDecimal_a = BigDecimal.valueOf(targetMileage);
-        BigDecimal bigDecimal_b = BigDecimal.valueOf(totalMileage);
-        // 如果 B 为 0，直接返回 "0%"（避免除以 0 的问题）
-        if (bigDecimal_b.compareTo(BigDecimal.ZERO) == 0) {
+    public static String progress(Integer targetMileage, BigDecimal currentMileage) {
+        //当前驾驶里程为0
+        if (currentMileage.compareTo(BigDecimal.ZERO) == 0) {
             return "0";
         }
 
-        //当前驾驶里程总数| 计算 A/B,且四舍五入
-        BigDecimal ratio = bigDecimal_a.divide(bigDecimal_b, 4, RoundingMode.HALF_UP); // 保留 4 位小数进行计算
-
-        // 判断逻辑
+        BigDecimal targetMileageBig = BigDecimal.valueOf(targetMileage);
+        //进度｜计算 currentMileage/targetMileage(当前驾驶里程/挑战目标),且四舍五入
+        BigDecimal ratio = currentMileage.divide(targetMileageBig, 4, RoundingMode.HALF_UP);
+        //ratio比“1”小
         if (ratio.compareTo(BigDecimal.ONE) < 0) {
-            // A/B 小于 1，返回百分比
-            BigDecimal percentage = ratio.multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP); // 转换为百分比，保留 2 位小数
-            return percentage.toString();
+            //当progress不等于100时，进度条为黑色
+            return ratio.multiply(BigDecimal.valueOf(100))
+                    .setScale(0, RoundingMode.HALF_UP)
+                    .toPlainString();
         } else {
-            // A/B 大于等于 1，返回 "1"
-            return "1";
+            //当progress为100时，进度条为绿色
+            return "100";
         }
     }
 
@@ -65,19 +58,11 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         //根据用户id查询当前金币
         Users user = users.getById(userId);
         challengeResponse.setGold(user.getGold());
-
+        List<ChallengesResponse> challengeList = challenge.getChallengeList(userId);
+        challengeList.forEach(challenges ->
+                challenges.setProgress(progress(challenges.getConditionValue(), user.getMileage())));
         //查询挑战列表
-        QueryWrapper<Challenge> challengeQuery = new QueryWrapper<>();
-        List<ChallengesResponse> list = challenge.list(challengeQuery)
-                .stream()
-                .map(challenge -> {
-                    ChallengesResponse response = new ChallengesResponse();
-                    copyProperties(challenge, response);
-                    response.setProgress(calculatePercentageOrOne(challenge.getConditionValue(), user.getMileage()));
-                    return response;
-                })
-                .toList();
-        challengeResponse.setChallenges(list);
+        challengeResponse.setChallenges(challengeList);
         return challengeResponse;
     }
 

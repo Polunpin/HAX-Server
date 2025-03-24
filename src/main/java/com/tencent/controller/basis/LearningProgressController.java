@@ -4,7 +4,6 @@ import com.tencent.config.ApiResponse;
 import com.tencent.model.LearningProgress;
 import com.tencent.service.LearningProgressService;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -12,7 +11,6 @@ import java.util.Date;
 /**
  * 学习进度
  */
-@Slf4j
 @RestController()
 @RequestMapping("/learningProgress")
 public class LearningProgressController {
@@ -47,5 +45,4 @@ public class LearningProgressController {
         return ApiResponse.ok(learningProgressService.saveOrUpdate(learningProgress));
     }
 
-//    TODO 接口3：问助教（wecom）｜前端的活
 }
