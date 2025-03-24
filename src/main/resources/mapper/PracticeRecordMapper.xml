@@ -36,7 +36,7 @@
     <select id="getPracticeRecordList" resultType="com.tencent.response.PracticeRecordResponse">
         select pr.id,
                CONCAT(DATE_FORMAT(pr.start_time, '%Y-%m-%d %H:%i'), '-',
-                      DATE_FORMAT(pr.end_time, '%H:%i')) as datetime,
+                      DATE_FORMAT(pr.end_time, '%H:%i')) as consumptionTime,
                pr.duration,
                pr.distance,
                pr.trajectory,

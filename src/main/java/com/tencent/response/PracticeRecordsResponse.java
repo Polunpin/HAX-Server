@@ -23,6 +23,6 @@ public class PracticeRecordsResponse {
     /**
      * 具体每条练习记录
      */
-    private List<PracticeRecordResponse> practiceRecordResponses;
+    private List<PracticeRecordResponse> practiceRecord;
 
 }

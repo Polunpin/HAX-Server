@@ -5,7 +5,6 @@ import com.tencent.model.Challenge;
 import com.tencent.model.Users;
 import com.tencent.response.ChallengeResponse;
 import com.tencent.response.ChallengesResponse;
-import com.tencent.response.PracticeResponse;
 import com.tencent.service.*;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -57,25 +56,6 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
             // A/B 大于等于 1，返回 "1"
             return "1";
         }
-    }
-
-    @Override
-    public List<PracticeResponse> getPracticeList(String userId) {
-        //获取练习列表
-        List<PracticeResponse> practiceRecords = practice.list()
-                .stream()
-                .map(record -> {
-                    PracticeResponse response = new PracticeResponse();
-                    copyProperties(record, response);
-                    return response;
-                })
-                .toList();
-        //获取练习记录，并匹配练习列表，计算练习时长
-        practiceRecords.forEach(item -> {
-            //获取当前练习总耗时
-            item.setDuration(practiceRecord.durationSum(userId, item.getId()));
-        });
-        return practiceRecords;
     }
 
     @Override
