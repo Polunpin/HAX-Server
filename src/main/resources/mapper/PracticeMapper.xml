@@ -7,7 +7,7 @@
     <resultMap id="BaseResultMap" type="com.tencent.model.Practice">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="title" column="title" jdbcType="VARCHAR"/>
-        <result property="target" column="target" jdbcType="OTHER"/>
+        <result property="target" column="target" jdbcType="VARCHAR"/>
         <result property="notes" column="notes" jdbcType="VARCHAR"/>
         <result property="type" column="type" jdbcType="TINYINT"/>
         <result property="rewardGold" column="reward_gold" jdbcType="INTEGER"/>

@@ -30,7 +30,7 @@ public class Practice {
     /**
      * 练习目标
      */
-    private Object target;
+    private String target;
 
     /**
      * 注意事项
