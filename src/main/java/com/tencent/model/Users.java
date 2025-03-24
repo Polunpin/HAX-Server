@@ -5,15 +5,18 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * 用户表
+ *
  * @TableName users
  */
-@TableName(value ="users")
 @Data
+@TableName(value = "users")
 public class Users {
+
     /**
      * 用户ID
      */
@@ -48,7 +51,7 @@ public class Users {
     /**
      * 驾驶里程
      */
-    private Integer mileage;
+    private BigDecimal mileage;
 
     /**
      * 创建时间

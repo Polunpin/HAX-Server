@@ -19,19 +19,6 @@ public class ComprehensiveController {
     public ComprehensiveService comprehensiveService;
 
     /**
-     * 功能：练习列表查询
-     * 界面：练习列表
-     * 功能完整度：2/2
-     *
-     * @param userId 用户ID
-     * @return 所有练习的列表
-     */
-    @GetMapping("/getPracticeList")
-    public ApiResponse getPracticeList(String userId) {
-        return ApiResponse.ok(comprehensiveService.getPracticeList(userId));
-    }
-
-    /**
      * 功能：列表查询
      * 界面：挑战列表
      *

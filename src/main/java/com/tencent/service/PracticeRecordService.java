@@ -13,8 +13,6 @@ import java.util.List;
  */
 public interface PracticeRecordService extends IService<PracticeRecord> {
 
-    String durationSum(String id, Long practiceId);
-
     Long savePracticeRecord(PracticeRecord practiceRecord);
 
     PracticeRecord getPracticeRecord(String id);

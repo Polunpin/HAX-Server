@@ -9,11 +9,13 @@ import java.util.Date;
 
 /**
  * 用户学习进度表
+ *
  * @TableName learning_progress
  */
-@TableName(value ="learning_progress")
 @Data
+@TableName(value = "learning_progress")
 public class LearningProgress {
+
     /**
      * 主键ID
      */

@@ -19,11 +19,6 @@ public class ChallengesResponse {
     private String title;
 
     /**
-     * 挑战描述
-     */
-    private String description;
-
-    /**
      * 当前进度
      */
     private String progress;
@@ -32,11 +27,6 @@ public class ChallengesResponse {
      * 挑战条件类型：1-次数, 2-里程, 3-综合
      */
     private Integer conditionType;
-
-    /**
-     * 状态：0-预备, 1-上架, 2-完成, 3-失效
-     */
-    private Integer status;
 
     /**
      * 条件值(次数/里程等)
@@ -49,7 +39,7 @@ public class ChallengesResponse {
     private Integer rewardGold;
 
     /**
-     * 排序字段
+     * 排序字段：0:进行中 1:已领取
      */
     private Integer sortOrder;
 

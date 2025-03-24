@@ -29,10 +29,9 @@ public class UsersController {
     public ApiResponse info(HttpServletRequest request) {
         // 获取指定header参数的unionId
         String unionId = request.getHeader("X-WX-UNIONID");
-        if (unionId == null){
+        if (unionId == null) {
             return ApiResponse.error("unionId为空");
         }
-        System.out.println("-------unionId"+unionId);
         return ApiResponse.ok(usersService.getUserInfo(unionId));
     }
 

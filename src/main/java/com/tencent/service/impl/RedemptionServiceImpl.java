@@ -9,7 +9,6 @@ import com.tencent.service.RedemptionService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,7 +33,6 @@ public class RedemptionServiceImpl extends ServiceImpl<RedemptionMapper, Redempt
         var redemption = new Redemption();
         redemption.setUserId(redemptionRequest.getUserId());
         redemption.setRewardId(redemptionRequest.getRewardId());
-        redemption.setExchangeTime(new Date());
         return this.save(redemption);
     }
 

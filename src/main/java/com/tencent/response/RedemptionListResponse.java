@@ -2,8 +2,6 @@ package com.tencent.response;
 
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 奖励兑换列表
  */
@@ -43,6 +41,6 @@ public class RedemptionListResponse {
     /**
      * 兑换时间
      */
-    private Date exchangeTime;
+    private String exchangeTime;
 
 }

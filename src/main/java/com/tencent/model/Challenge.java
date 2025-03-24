@@ -9,11 +9,13 @@ import java.util.Date;
 
 /**
  * 挑战表
+ *
  * @TableName challenge
  */
-@TableName(value ="challenge")
 @Data
+@TableName(value = "challenge")
 public class Challenge {
+
     /**
      * 挑战ID
      */

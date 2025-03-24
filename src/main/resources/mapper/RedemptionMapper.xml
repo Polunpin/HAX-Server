@@ -8,7 +8,7 @@
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="userId" column="user_id" jdbcType="BIGINT"/>
         <result property="rewardId" column="reward_id" jdbcType="BIGINT"/>
-        <result property="exchangeTime" column="exchange_time" jdbcType="TIMESTAMP"/>
+        <result property="exchangeTime" column="exchange_time" jdbcType="DATE"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -17,7 +17,7 @@
     </sql>
     <select id="getRewardExchangeList" resultType="com.tencent.response.RedemptionListResponse">
         select re.id,
-               DATE_FORMAT(re.exchange_time, '%Y-%m-%d %H:%i:%s'),
+               re.exchange_time exchangeTime,
                r.title,
                r.image,
                r.exchange_condition,
@@ -25,6 +25,6 @@
                r.sort_order
         from redemption re
                  left join reward r on r.id = re.reward_id
-        where user_id = 1;
+        where re.user_id = 1;
     </select>
 </mapper>

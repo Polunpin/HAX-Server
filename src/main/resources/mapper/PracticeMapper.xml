@@ -5,17 +5,31 @@
 <mapper namespace="com.tencent.mapper.PracticeMapper">
 
     <resultMap id="BaseResultMap" type="com.tencent.model.Practice">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="title" column="title" jdbcType="VARCHAR"/>
-            <result property="target" column="target" jdbcType="OTHER"/>
-            <result property="notes" column="notes" jdbcType="VARCHAR"/>
-            <result property="type" column="type" jdbcType="TINYINT"/>
-            <result property="rewardGold" column="reward_gold" jdbcType="INTEGER"/>
-            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
-            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="target" column="target" jdbcType="OTHER"/>
+        <result property="notes" column="notes" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="TINYINT"/>
+        <result property="rewardGold" column="reward_gold" jdbcType="INTEGER"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,title,target,notes,type,reward_gold,created_at,updated_at
     </sql>
+    <select id="getPracticeList" resultType="com.tencent.response.PracticeResponse">
+        SELECT p.id,
+               p.title,
+               p.target,
+               p.notes,
+               p.type,
+               p.reward_gold,
+               SEC_TO_TIME(SUM(TIME_TO_SEC(pr.duration))) AS duration
+        FROM practice p
+                 LEFT JOIN
+             practice_record pr ON p.id = pr.practice_id
+        where pr.user_id = #{userId}
+        GROUP BY p.id;
+    </select>
 </mapper>

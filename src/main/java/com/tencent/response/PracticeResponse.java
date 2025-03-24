@@ -2,8 +2,6 @@ package com.tencent.response;
 
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 练习
  */
@@ -22,6 +20,7 @@ public class PracticeResponse {
     /**
      * 练习目标
      */
+    //TODO 字段类型校准 JSON
     private Object target;
 
     /**
@@ -44,13 +43,4 @@ public class PracticeResponse {
      */
     private Integer rewardGold;
 
-    /**
-     * 创建时间
-     */
-    private Date createdAt;
-
-    /**
-     * 修改时间
-     */
-    private Date updatedAt;
 }

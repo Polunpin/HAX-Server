@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 练习
  */
 @RestController
-@RequestMapping("/practices")
+@RequestMapping("/practice")
 public class PracticeController {
 
     @Resource
@@ -22,13 +22,14 @@ public class PracticeController {
     /**
      * 功能：练习列表查询
      * 界面：练习列表
-     * 功能完整度：1/2
+     * 功能完整度：2/2
      *
+     * @param userId 用户ID
      * @return 所有练习的列表
      */
     @GetMapping("/getPracticeList")
-    public ApiResponse getPracticeList() {
-        return ApiResponse.ok(practiceService.getPracticeList());
+    public ApiResponse getPracticeList(String userId) {
+        return ApiResponse.ok(practiceService.getPracticeList(userId));
     }
 
     /**
