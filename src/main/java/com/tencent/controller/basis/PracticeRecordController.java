@@ -36,7 +36,7 @@ public class PracticeRecordController {
      * @return 练习详情
      */
     @GetMapping("getPracticeRecord")
-    public ApiResponse getPracticeRecord(Long id) {
+    public ApiResponse getPracticeRecord(String id) {
         return ApiResponse.ok(practiceRecordService.getPracticeRecord(id));
     }
 

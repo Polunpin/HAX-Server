@@ -4,7 +4,6 @@ import com.tencent.config.ApiResponse;
 import com.tencent.service.RewardService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,9 +24,20 @@ public class RewardController {
      * @param id 奖励详情ID
      * @return 奖励详情页
      */
-    @GetMapping("/{id}")
-    public ApiResponse getRewardDetail(@PathVariable Long id) {
+    @GetMapping("/getRewardDetail")
+    public ApiResponse getRewardDetail(String id) {
         return ApiResponse.ok(rewardService.getRewardDetail(id));
+    }
+
+    /**
+     * 功能：查询未被兑换的奖励列表
+     * 界面：奖励列表
+     *
+     * @return 奖励列表
+     */
+    @GetMapping("/getRewardList")
+    public ApiResponse getRewardList(String userId) {
+        return ApiResponse.ok(rewardService.getRewardList(userId));
     }
 
 }

@@ -5,14 +5,26 @@
 <mapper namespace="com.tencent.mapper.RedemptionMapper">
 
     <resultMap id="BaseResultMap" type="com.tencent.model.Redemption">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="rewardId" column="reward_id" jdbcType="BIGINT"/>
-            <result property="exchangeTime" column="exchange_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="rewardId" column="reward_id" jdbcType="BIGINT"/>
+        <result property="exchangeTime" column="exchange_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,user_id,reward_id,
         exchange_time
     </sql>
+    <select id="getRewardExchangeList" resultType="com.tencent.response.RedemptionListResponse">
+        select re.id,
+               re.exchange_time,
+               r.title,
+               r.image,
+               r.exchange_condition,
+               r.reward_type,
+               r.sort_order
+        from redemption re
+                 left join reward r on r.id = re.reward_id
+        where user_id = 1;
+    </select>
 </mapper>

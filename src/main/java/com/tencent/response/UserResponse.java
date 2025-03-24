@@ -1,6 +1,5 @@
 package com.tencent.response;
 
-import com.tencent.model.LearningProgress;
 import lombok.Data;
 
 /**
@@ -14,7 +13,7 @@ public class UserResponse {
     private Long id;
 
     /**
-     * 付费阶段：A-白户，B-知识，C-月付，D-买断
+     * 付费阶段：0-白户，1-知识，2-月付，3-买断
      */
     private Integer payStage;
 
@@ -41,5 +40,5 @@ public class UserResponse {
     /**
      * 当前学习进度
      */
-    private LearningProgress continueLearning;
+    private ContinueLearningResponse continueLearning;
 }

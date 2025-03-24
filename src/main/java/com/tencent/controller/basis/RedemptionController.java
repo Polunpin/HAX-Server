@@ -29,9 +29,8 @@ public class RedemptionController {
     }
 
     /**
-     * 功能：奖励兑换记录
-     * 界面：奖励兑换
-     * 功能完整度：1/2
+     * 功能：查询已被兑换的奖励列表
+     * 界面：兑换记录
      *
      * @param userId 用户ID
      * @return 兑换列表

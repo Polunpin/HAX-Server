@@ -10,21 +10,21 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
-* @author lanyiping
-* @description 针对表【practice_record(练习记录表)】的数据库操作Service实现
-* @createDate 2025-03-19 22:06:35
-*/
+ * @author lanyiping
+ * @description 针对表【practice_record(练习记录表)】的数据库操作Service实现
+ * @createDate 2025-03-19 22:06:35
+ */
 @Service
 public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper, PracticeRecord>
-    implements PracticeRecordService{
+        implements PracticeRecordService {
 
 
     @Override
-    public String durationSum(String userId,Long practiceId) {
+    public String durationSum(String userId, Long practiceId) {
         QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
         queryWrapper.select("SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as duration")
-                .eq("user_id",userId)
-                .eq("practice_id",practiceId);
+                .eq("user_id", userId)
+                .eq("practice_id", practiceId);
         return this.getOne(queryWrapper).getDuration();
     }
 
@@ -36,14 +36,14 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
 
 
     @Override
-    public PracticeRecord getPracticeRecord(Long id) {
+    public PracticeRecord getPracticeRecord(String id) {
         return this.getById(id);
     }
 
     @Override
     public List<PracticeRecord> getPracticeRecordList(String userId) {
         QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",userId);
+        queryWrapper.eq("user_id", userId);
         return this.list(queryWrapper);
     }
 }
