@@ -2,6 +2,7 @@ package com.tencent.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tencent.model.LearningProgress;
+import com.tencent.response.ContinueLearningResponse;
 
 /**
 * @author lanyiping
@@ -10,4 +11,5 @@ import com.tencent.model.LearningProgress;
 */
 public interface LearningProgressService extends IService<LearningProgress> {
 
+    ContinueLearningResponse getLearningProgress(String userId);
 }

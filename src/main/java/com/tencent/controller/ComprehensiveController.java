@@ -2,9 +2,11 @@ package com.tencent.controller;
 
 
 import com.tencent.config.ApiResponse;
+import com.tencent.request.KnowledgeLibraryRequest;
 import com.tencent.service.ComprehensiveService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,17 +20,29 @@ public class ComprehensiveController {
     @Resource
     public ComprehensiveService comprehensiveService;
 
+    /**
+     * 功能：学习进度
+     * 界面：首页-学习进度
+     *
+     * @param userId 用户ID
+     * @return 学习详情
+     */
+    @GetMapping("/getLearningProgress")
+    public ApiResponse getLearningProgress(String userId) {
+        return ApiResponse.ok(comprehensiveService.getLearningProgress(userId));
+    }
+
 
     /**
      * 功能：继续学习
      * 界面：首页-继续学习
      *
-     * @param userId 用户ID
-     * @return 学习详情
+     * @param knowledgeLibraryRequest 学习进度信息
+     * @return 学习详情(3 、 4级学习数据)
      */
     @GetMapping("/continueLearning")
-    public ApiResponse continueLearning(String userId) {
-        return ApiResponse.ok(comprehensiveService.continueLearning(userId));
+    public ApiResponse continueLearning(@RequestBody KnowledgeLibraryRequest knowledgeLibraryRequest) {
+        return ApiResponse.ok(comprehensiveService.continueLearning(knowledgeLibraryRequest));
     }
 
     /**
@@ -69,27 +83,4 @@ public class ComprehensiveController {
         return ApiResponse.ok(comprehensiveService.getChallengeList(userId));
     }
 
-    /**
-     * 功能：奖励列表查询
-     * 界面：奖励列表
-     *
-     * @return 奖励列表
-     */
-    @GetMapping("/getRewardList")
-    public ApiResponse getRewardList(String userId) {
-        return ApiResponse.ok(comprehensiveService.getRewardList(userId));
-    }
-
-    /**
-     * 功能：奖励兑换记录
-     * 界面：奖励兑换
-     * 功能完整度：2/2
-     *
-     * @param userId 用户ID
-     * @return 兑换列表
-     */
-    @GetMapping("/getRewardExchangeList")
-    public ApiResponse getRewardExchangeList(String userId) {
-        return ApiResponse.ok(comprehensiveService.getRewardExchangeList(userId));
-    }
 }

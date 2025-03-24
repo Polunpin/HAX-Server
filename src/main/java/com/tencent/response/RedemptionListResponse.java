@@ -2,13 +2,16 @@ package com.tencent.response;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
- * 奖励列表
+ * 奖励兑换列表
  */
 @Data
-public class RewardResponse {
+public class RedemptionListResponse {
+
     /**
-     * 奖励ID
+     * 兑换ID
      */
     private Long id;
 
@@ -36,4 +39,10 @@ public class RewardResponse {
      * 排序字段
      */
     private Integer sortOrder;
+
+    /**
+     * 兑换时间
+     */
+    private Date exchangeTime;
+
 }

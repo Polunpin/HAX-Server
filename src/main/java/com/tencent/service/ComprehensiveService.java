@@ -1,6 +1,11 @@
 package com.tencent.service;
 
-import com.tencent.response.*;
+import com.tencent.model.KnowledgeLibrary;
+import com.tencent.request.KnowledgeLibraryRequest;
+import com.tencent.response.ChallengeResponse;
+import com.tencent.response.PracticeRecordsResponse;
+import com.tencent.response.PracticeResponse;
+import com.tencent.response.UserResponse;
 
 import java.util.List;
 
@@ -10,17 +15,14 @@ import java.util.List;
  */
 public interface ComprehensiveService {
 
-    UserResponse continueLearning(String userId);
+    UserResponse getLearningProgress(String userId);
+
+    List<KnowledgeLibrary> continueLearning(KnowledgeLibraryRequest knowledgeLibraryRequest);
 
     List<PracticeResponse> getPracticeList(String userId);
 
     List<PracticeRecordsResponse> getPracticeRecordList(String userId);
 
-    //奖励列表全部内容
-    List<RewardResponse> getRewardList(String userId);
-
-    //奖励列表中已兑换的内容
-    List<RewardResponse> getRewardExchangeList(String userId);
-
     ChallengeResponse getChallengeList(String userId);
+
 }

@@ -24,6 +24,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users>
         if(user != null){
             return user;
         } else {
+            //如不存在，则保存
             Users users = new Users();
             users.setUnionId(unionId);
             this.save(users);

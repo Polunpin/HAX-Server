@@ -2,6 +2,7 @@ package com.tencent.mapper;
 
 import com.tencent.model.LearningProgress;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tencent.response.ContinueLearningResponse;
 
 /**
 * @author lanyiping
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface LearningProgressMapper extends BaseMapper<LearningProgress> {
 
+    ContinueLearningResponse getLearningProgress(String userId);
 }
 
 

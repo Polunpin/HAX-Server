@@ -12,7 +12,7 @@
 CREATE TABLE `users`
 (
     `id`          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-    `pay_stage`   TINYINT         NOT NULL DEFAULT 0 COMMENT '付费阶段：A-白户，B-知识，C-月付，D-买断',
+    `pay_stage`   TINYINT         NOT NULL DEFAULT 0 COMMENT '付费阶段：0-白户，1-知识，2-月付，3-买断',
     `status`      TINYINT         NOT NULL DEFAULT 1 COMMENT '用户状态：1-正常，0-禁用',
     `proficiency` INT             NOT NULL DEFAULT 10 COMMENT '熟练度',
     `gold`        INT             NOT NULL DEFAULT 0 COMMENT '金币(练习/挑战所得)',

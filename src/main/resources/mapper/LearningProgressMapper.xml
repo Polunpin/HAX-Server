@@ -5,19 +5,34 @@
 <mapper namespace="com.tencent.mapper.LearningProgressMapper">
 
     <resultMap id="BaseResultMap" type="com.tencent.model.LearningProgress">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="knowledgeId" column="knowledge_id" jdbcType="BIGINT"/>
-            <result property="learningStatus" column="learning_status" jdbcType="TINYINT"/>
-            <result property="studyCount" column="study_count" jdbcType="INTEGER"/>
-            <result property="firstMasteredAt" column="first_mastered_at" jdbcType="TIMESTAMP"/>
-            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
-            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="knowledgeId" column="knowledge_id" jdbcType="BIGINT"/>
+        <result property="learningStatus" column="learning_status" jdbcType="TINYINT"/>
+        <result property="studyCount" column="study_count" jdbcType="INTEGER"/>
+        <result property="firstMasteredAt" column="first_mastered_at" jdbcType="TIMESTAMP"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,knowledge_id,
-        learning_status,study_count,first_mastered_at,
-        created_at,updated_at
+        id,
+    user_id,
+    knowledge_id,
+    learning_status,
+    study_count,
+    first_mastered_at,
+    created_at,
+    updated_at
     </sql>
+
+    <select id="getLearningProgress" resultType="com.tencent.response.ContinueLearningResponse">
+        SELECT kl.id as knowledgeId, kl.level4_dir as title
+        FROM knowledge_library kl
+                 JOIN (SELECT l.knowledge_id
+                       FROM learning_progress l
+                       WHERE l.user_id = #{userId}
+                       ORDER BY l.updated_at DESC
+                       LIMIT 1) subquery ON kl.id = subquery.knowledge_id;
+    </select>
 </mapper>
