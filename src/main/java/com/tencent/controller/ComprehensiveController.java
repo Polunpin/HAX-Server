@@ -2,11 +2,10 @@ package com.tencent.controller;
 
 
 import com.tencent.config.ApiResponse;
+import com.tencent.request.RedemptionRequest;
 import com.tencent.service.ComprehensiveService;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 综合类：混合其他类的接口
@@ -28,6 +27,18 @@ public class ComprehensiveController {
     @GetMapping("/getChallengeList")
     public ApiResponse getChallengeList(String userId) {
         return ApiResponse.ok(comprehensiveService.getChallengeList(userId));
+    }
+
+    /**
+     * 功能：奖励兑换
+     * 界面：奖励详情的保存
+     *
+     * @param redemptionRequest 奖励兑换保存
+     * @return Boolean
+     */
+    @PostMapping("/exchange")
+    public ApiResponse exchange(@RequestBody RedemptionRequest redemptionRequest) {
+        return ApiResponse.ok(comprehensiveService.exchange(redemptionRequest));
     }
 
 }
