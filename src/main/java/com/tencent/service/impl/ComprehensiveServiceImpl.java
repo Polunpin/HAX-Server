@@ -2,10 +2,11 @@ package com.tencent.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tencent.model.Challenge;
-import com.tencent.model.KnowledgeLibrary;
 import com.tencent.model.Users;
-import com.tencent.request.KnowledgeLibraryRequest;
-import com.tencent.response.*;
+import com.tencent.response.ChallengeResponse;
+import com.tencent.response.ChallengesResponse;
+import com.tencent.response.PracticeRecordsResponse;
+import com.tencent.response.PracticeResponse;
 import com.tencent.service.*;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -25,10 +26,6 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
 
     @Resource
     public UsersService users;
-    @Resource
-    public KnowledgeLibraryService knowledgeLibrary;
-    @Resource
-    public LearningProgressService learningProgress;
     @Resource
     public PracticeService practice;
     @Resource
@@ -61,22 +58,6 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
             // A/B 大于等于 1，返回 "1"
             return "1";
         }
-    }
-
-    @Override
-    public UserResponse getLearningProgress(String userId) {
-        //用户详情
-        UserResponse userResponse = new UserResponse();
-        Users users = this.users.getById(userId);
-        copyProperties(users, userResponse);
-        //学习进度
-        userResponse.setContinueLearning(learningProgress.getLearningProgress(userId));
-        return userResponse;
-    }
-
-    @Override
-    public List<KnowledgeLibrary> continueLearning(KnowledgeLibraryRequest knowledgeLibraryRequest) {
-        return knowledgeLibrary.listInfoByLevel2Dir(knowledgeLibraryRequest);
     }
 
     @Override

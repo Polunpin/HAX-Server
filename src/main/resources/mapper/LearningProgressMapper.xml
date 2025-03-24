@@ -16,18 +16,11 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,
-    user_id,
-    knowledge_id,
-    learning_status,
-    study_count,
-    first_mastered_at,
-    created_at,
-    updated_at
+        id,user_id,knowledge_id,learning_status,study_count,first_mastered_at,created_at,updated_at
     </sql>
 
     <select id="getLearningProgress" resultType="com.tencent.response.ContinueLearningResponse">
-        SELECT kl.id as knowledgeId, kl.level4_dir as title
+        SELECT kl.id as knowledgeId, kl.level2_dir as level2Dir, kl.level4_dir as title
         FROM knowledge_library kl
                  JOIN (SELECT l.knowledge_id
                        FROM learning_progress l

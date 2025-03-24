@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 /**
- * 继续学习
+ * 当前学习进度
  */
 @Data
 public class ContinueLearningResponse {
@@ -13,6 +13,11 @@ public class ContinueLearningResponse {
      * 知识ID，关联knowledge_library表
      */
     private Long knowledgeId;
+
+    /**
+     * 二级标题
+     */
+    private String level2Dir;
 
     /**
      * 标题
