@@ -31,7 +31,7 @@
                r.exchange_condition,
                r.reward_type,
                r.sort_order
-        FROM springboot_demo.reward r
+        FROM reward r
                  LEFT JOIN redemption re ON r.id = re.reward_id AND re.user_id = #{userId}
         WHERE re.reward_id IS NULL;
     </select>

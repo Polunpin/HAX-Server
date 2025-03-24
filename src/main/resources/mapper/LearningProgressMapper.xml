@@ -20,7 +20,7 @@
     </sql>
 
     <select id="getLearningProgress" resultType="com.tencent.response.ContinueLearningResponse">
-        SELECT kl.id as knowledgeId, kl.level2_dir as level2Dir, kl.level4_dir as title
+        SELECT kl.id as knowledgeId, kl.level2_dir as level2Dir, kl.level3_dir as level3Dir, kl.level4_dir as level4Dir
         FROM knowledge_library kl
                  JOIN (SELECT l.knowledge_id
                        FROM learning_progress l

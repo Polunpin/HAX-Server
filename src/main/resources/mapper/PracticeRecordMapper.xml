@@ -5,23 +5,23 @@
 <mapper namespace="com.tencent.mapper.PracticeRecordMapper">
 
     <resultMap id="BaseResultMap" type="com.tencent.model.PracticeRecord">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="practiceId" column="practice_id" jdbcType="BIGINT"/>
-            <result property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
-            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
-            <result property="duration" column="duration" jdbcType="TIME"/>
-            <result property="distance" column="distance" jdbcType="DECIMAL"/>
-            <result property="avgSpeed" column="avg_speed" jdbcType="DECIMAL"/>
-            <result property="maxSpeed" column="max_speed" jdbcType="DECIMAL"/>
-            <result property="suddenBrakeCount" column="sudden_brake_count" jdbcType="TINYINT"/>
-            <result property="proficiency" column="proficiency" jdbcType="TINYINT"/>
-            <result property="performance" column="performance" jdbcType="VARCHAR"/>
-            <result property="insights" column="insights" jdbcType="VARCHAR"/>
-            <result property="photos" column="photos" jdbcType="VARCHAR"/>
-            <result property="trajectory" column="trajectory" jdbcType="VARCHAR"/>
-            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
-            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="practiceId" column="practice_id" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="duration" column="duration" jdbcType="TIME"/>
+        <result property="distance" column="distance" jdbcType="DECIMAL"/>
+        <result property="avgSpeed" column="avg_speed" jdbcType="DECIMAL"/>
+        <result property="maxSpeed" column="max_speed" jdbcType="DECIMAL"/>
+        <result property="suddenBrakeCount" column="sudden_brake_count" jdbcType="TINYINT"/>
+        <result property="proficiency" column="proficiency" jdbcType="TINYINT"/>
+        <result property="performance" column="performance" jdbcType="VARCHAR"/>
+        <result property="insights" column="insights" jdbcType="VARCHAR"/>
+        <result property="photos" column="photos" jdbcType="VARCHAR"/>
+        <result property="trajectory" column="trajectory" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -32,4 +32,18 @@
         insights,photos,trajectory,
         created_at,updated_at
     </sql>
+
+    <select id="getPracticeRecordList" resultType="com.tencent.response.PracticeRecordResponse">
+        select pr.id,
+               CONCAT(DATE_FORMAT(pr.start_time, '%Y-%m-%d %H:%i'), '-',
+                      DATE_FORMAT(pr.end_time, '%H:%i')) as datetime,
+               pr.duration,
+               pr.distance,
+               pr.trajectory,
+               p.title
+        from practice_record pr
+                 left join practice p on p.id = pr.practice_id
+        where user_id = #{userId};
+    </select>
+
 </mapper>

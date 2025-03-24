@@ -32,19 +32,6 @@ public class ComprehensiveController {
     }
 
     /**
-     * 功能：查询练习记录列表
-     * 界面：练习记录列表
-     * 功能完整度：2/2
-     *
-     * @param userId 用户ID
-     * @return 练习详情
-     */
-    @GetMapping("/getPracticeRecordList")
-    public ApiResponse getPracticeRecordList(String userId) {
-        return ApiResponse.ok(comprehensiveService.getPracticeRecordList(userId));
-    }
-
-    /**
      * 功能：列表查询
      * 界面：挑战列表
      *

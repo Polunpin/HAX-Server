@@ -1,7 +1,6 @@
 package com.tencent.service;
 
 import com.tencent.response.ChallengeResponse;
-import com.tencent.response.PracticeRecordsResponse;
 import com.tencent.response.PracticeResponse;
 
 import java.util.List;
@@ -13,8 +12,6 @@ import java.util.List;
 public interface ComprehensiveService {
 
     List<PracticeResponse> getPracticeList(String userId);
-
-    List<PracticeRecordsResponse> getPracticeRecordList(String userId);
 
     ChallengeResponse getChallengeList(String userId);
 

@@ -43,7 +43,6 @@ public class PracticeRecordController {
     /**
      * 功能：查询练习记录列表
      * 界面：练习记录列表
-     * 功能完整度：1/2
      *
      * @param userId 用户ID
      * @return 练习详情

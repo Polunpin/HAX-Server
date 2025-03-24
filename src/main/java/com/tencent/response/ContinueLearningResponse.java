@@ -10,7 +10,7 @@ import lombok.Data;
 public class ContinueLearningResponse {
 
     /**
-     * 知识ID，关联knowledge_library表
+     * 知识ID,对应四级标题
      */
     private Long knowledgeId;
 
@@ -20,7 +20,12 @@ public class ContinueLearningResponse {
     private String level2Dir;
 
     /**
-     * 标题
+     * 三级标题
      */
-    private String title;
+    private String level3Dir;
+
+    /**
+     * 四级标题
+     */
+    private String level4Dir;
 }

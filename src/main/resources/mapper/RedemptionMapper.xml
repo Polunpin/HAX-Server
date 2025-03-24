@@ -17,7 +17,7 @@
     </sql>
     <select id="getRewardExchangeList" resultType="com.tencent.response.RedemptionListResponse">
         select re.id,
-               re.exchange_time,
+               DATE_FORMAT(re.exchange_time, '%Y-%m-%d %H:%i:%s'),
                r.title,
                r.image,
                r.exchange_condition,
