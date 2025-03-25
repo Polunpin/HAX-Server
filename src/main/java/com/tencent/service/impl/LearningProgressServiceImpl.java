@@ -8,6 +8,8 @@ import com.tencent.service.LearningProgressService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 
 /**
  * @author lanyiping
@@ -24,6 +26,16 @@ public class LearningProgressServiceImpl extends ServiceImpl<LearningProgressMap
     @Override
     public ContinueLearningResponse getLearningProgress(String userId) {
         return learningProgressMapper.getLearningProgress(userId);
+    }
+
+    @Override
+    public Object renewLearningStatus(LearningProgress learningProgress) {
+        //第一次学会时，补充第一次学会时间
+        if (learningProgress.getLearningStatus() == 2 && learningProgress.getFirstMasteredAt() == null) {
+            learningProgress.setFirstMasteredAt(new Date());
+        }
+        this.saveOrUpdate(learningProgress);
+        return learningProgress.getId();
     }
 }
 
