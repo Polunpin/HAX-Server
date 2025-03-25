@@ -2,7 +2,7 @@ package com.tencent.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tencent.model.Reward;
-import com.tencent.response.RewardResponse;
+import com.tencent.response.RewardsResponse;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface RewardMapper extends BaseMapper<Reward> {
 
-    List<RewardResponse> getRewardList(String userId);
+    List<RewardsResponse> getRewardList(String userId);
 }
 
 

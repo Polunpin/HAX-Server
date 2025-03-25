@@ -1,7 +1,9 @@
 package com.tencent.service;
 
+import com.tencent.config.ApiResponse;
 import com.tencent.request.RedemptionRequest;
 import com.tencent.response.ChallengeResponse;
+import com.tencent.response.RewardResponse;
 
 /**
  * @author lanyiping
@@ -11,5 +13,7 @@ public interface ComprehensiveService {
 
     ChallengeResponse getChallengeList(String userId);
 
-    Boolean exchange(RedemptionRequest redemptionRequest);
+    ApiResponse exchange(RedemptionRequest redemptionRequest);
+
+    RewardResponse getRewardList(String userId);
 }

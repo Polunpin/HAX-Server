@@ -29,15 +29,4 @@ public class RewardController {
         return ApiResponse.ok(rewardService.getRewardDetail(id));
     }
 
-    /**
-     * 功能：查询未被兑换的奖励列表
-     * 界面：奖励列表
-     *
-     * @return 奖励列表
-     */
-    @GetMapping("/getRewardList")
-    public ApiResponse getRewardList(String userId) {
-        return ApiResponse.ok(rewardService.getRewardList(userId));
-    }
-
 }

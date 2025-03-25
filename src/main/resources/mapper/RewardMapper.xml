@@ -24,7 +24,7 @@
         updated_at
     </sql>
 
-    <select id="getRewardList" resultType="com.tencent.response.RewardResponse">
+    <select id="getRewardList" resultType="com.tencent.response.RewardsResponse">
         SELECT r.id,
                r.title,
                r.image,

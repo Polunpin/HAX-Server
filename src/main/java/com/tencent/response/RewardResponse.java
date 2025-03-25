@@ -2,38 +2,21 @@ package com.tencent.response;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 奖励列表
  */
 @Data
 public class RewardResponse {
+    
     /**
-     * 奖励ID
+     * 当前金币
      */
-    private Long id;
+    private Integer gold;
 
     /**
-     * 奖励标题
+     * 奖励列表
      */
-    private String title;
-
-    /**
-     * 奖励图片
-     */
-    private String image;
-
-    /**
-     * 兑换条件(如所需金币数)
-     */
-    private Integer exchangeCondition;
-
-    /**
-     * 奖励类型：1-实物,2-虚拟道具,3-优惠券
-     */
-    private Integer rewardType;
-
-    /**
-     * 排序字段
-     */
-    private Integer sortOrder;
+    private List<RewardsResponse> rewards;
 }
