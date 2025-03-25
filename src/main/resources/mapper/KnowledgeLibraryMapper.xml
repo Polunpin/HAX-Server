@@ -25,6 +25,7 @@
         image_url,content,sort_order,
         status,created_at,updated_at
     </sql>
+
     <select id="listByLevel1Dir" resultType="com.tencent.response.LearningProgressResponse">
         SELECT k.level2_dir,
                COUNT(k.id)                                                     AS knowledgeSum,
@@ -36,12 +37,19 @@
         GROUP BY k.level2_dir, k.sort_order
         ORDER BY k.sort_order;
     </select>
-    <select id="listInfoByLevel2Dir" resultType="com.tencent.model.KnowledgeLibrary">
-        SELECT k.*, sks.learning_status
+
+    <select id="listInfoByLevel2Dir" resultType="com.tencent.response.KnowledgeLibraryResponse">
+        SELECT k.id,
+               k.level3_dir,
+               k.level4_dir,
+               k.difficulty,
+               k.image_url,
+               k.content,
+               IFNULL(sks.learning_status, 0) AS learning_status
         FROM knowledge_library k
                  LEFT JOIN learning_progress sks
-                           ON k.id = sks.knowledge_id
+                           ON k.id = sks.knowledge_id AND sks.user_id = #{userId}
         where k.level2_dir = #{level2Dir}
-          and sks.user_id = #{userId}
     </select>
+
 </mapper>
