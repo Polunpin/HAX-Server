@@ -45,7 +45,8 @@
                k.difficulty,
                k.image_url,
                k.content,
-               IFNULL(sks.learning_status, 0) AS learning_status
+               sks.id                         AS learningId,
+               IFNULL(sks.learning_status, 0) AS learningStatus
         FROM knowledge_library k
                  LEFT JOIN learning_progress sks
                            ON k.id = sks.knowledge_id AND sks.user_id = #{userId}

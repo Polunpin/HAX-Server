@@ -41,6 +41,11 @@ public class KnowledgeLibraryResponse {
     private String content;
 
     /**
+     * 学习记录ID
+     */
+    private String learningId;
+
+    /**
      * 学习状态：0-未开始,1-学习中,2-已掌握
      */
     private String learningStatus;
