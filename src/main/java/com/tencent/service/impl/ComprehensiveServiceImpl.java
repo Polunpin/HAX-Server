@@ -1,10 +1,12 @@
 package com.tencent.service.impl;
 
+import com.tencent.config.ApiResponse;
 import com.tencent.model.Reward;
 import com.tencent.model.Users;
 import com.tencent.request.RedemptionRequest;
 import com.tencent.response.ChallengeResponse;
 import com.tencent.response.ChallengesResponse;
+import com.tencent.response.RewardResponse;
 import com.tencent.service.*;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -70,15 +72,38 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         return challengeResponse;
     }
 
+
     @Override
-    public Boolean exchange(RedemptionRequest redemptionRequest) {
-        //兑换前，检查users表金币是否足够兑换奖品
+    public RewardResponse getRewardList(String userId) {
+        RewardResponse rewardResponse = new RewardResponse();
+        //根据用户id查询当前金币
+        Users user = users.getById(userId);
+        rewardResponse.setGold(user.getGold());
+        rewardResponse.setRewards(reward.getRewardList(userId));
+        //查询挑战列表
+        return rewardResponse;
+    }
+
+    @Override
+    public ApiResponse exchange(RedemptionRequest redemptionRequest) {
+        final String INSUFFICIENT_GOLD_MESSAGE = "金币不足";
+        final String SUCCESS_MESSAGE = "兑换成功";
+        final String FAILURE_MESSAGE = "金币被风吹跑了，快去联系客服";
+
+        if (!isGoldSufficient(redemptionRequest)) {
+            return ApiResponse.ok(INSUFFICIENT_GOLD_MESSAGE, false);
+        }
+        if (redemption.exchange(redemptionRequest)) {
+            return ApiResponse.ok(SUCCESS_MESSAGE, true);
+        } else {
+            return ApiResponse.ok(FAILURE_MESSAGE, false);
+        }
+    }
+
+    private boolean isGoldSufficient(RedemptionRequest redemptionRequest) {
         Users userInfo = users.getById(redemptionRequest.getUserId());
         Reward rewardById = reward.getById(redemptionRequest.getRewardId());
-        if (userInfo.getGold() < rewardById.getExchangeCondition()) {
-            return false;
-        }
-        return redemption.exchange(redemptionRequest);
+        return userInfo.getGold() >= rewardById.getExchangeCondition();
     }
 
 }

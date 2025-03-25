@@ -18,7 +18,7 @@ public class ComprehensiveController {
     public ComprehensiveService comprehensiveService;
 
     /**
-     * 功能：列表查询
+     * 功能：挑战列表查询
      * 界面：挑战列表
      *
      * @param userId 用户ID
@@ -27,6 +27,18 @@ public class ComprehensiveController {
     @GetMapping("/getChallengeList")
     public ApiResponse getChallengeList(String userId) {
         return ApiResponse.ok(comprehensiveService.getChallengeList(userId));
+    }
+
+
+    /**
+     * 功能：查询未被兑换的奖励列表
+     * 界面：奖励列表
+     *
+     * @return 奖励列表
+     */
+    @GetMapping("/getRewardList")
+    public ApiResponse getRewardList(String userId) {
+        return ApiResponse.ok(comprehensiveService.getRewardList(userId));
     }
 
     /**
@@ -38,7 +50,7 @@ public class ComprehensiveController {
      */
     @PostMapping("/exchange")
     public ApiResponse exchange(@RequestBody RedemptionRequest redemptionRequest) {
-        return ApiResponse.ok(comprehensiveService.exchange(redemptionRequest));
+        return comprehensiveService.exchange(redemptionRequest);
     }
 
 }

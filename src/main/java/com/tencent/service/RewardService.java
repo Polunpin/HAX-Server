@@ -2,7 +2,7 @@ package com.tencent.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tencent.model.Reward;
-import com.tencent.response.RewardResponse;
+import com.tencent.response.RewardsResponse;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ public interface RewardService extends IService<Reward> {
 
     Reward getRewardDetail(String id);
 
-    List<RewardResponse> getRewardList(String userId);
+    List<RewardsResponse> getRewardList(String userId);
 }
