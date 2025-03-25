@@ -30,6 +30,11 @@ public class PracticeRecordResponse {
     private String consumptionTime;
 
     /**
+     * 是否填写练习记录
+     */
+    private String isRecord;
+
+    /**
      * 耗时
      */
     private String duration;
