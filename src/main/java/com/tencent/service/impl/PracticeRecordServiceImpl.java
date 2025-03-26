@@ -34,11 +34,6 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
     }
 
     @Override
-    public PracticeRecord getPracticeRecord(String id) {
-        return this.getById(id);
-    }
-
-    @Override
     public List<PracticeRecordsResponse> getPracticeRecordList(String userId) {
         //根据userId获取全部练习记录
         List<PracticeRecordResponse> practiceRecordList = practiceRecordMapper.getPracticeRecordList(userId);
