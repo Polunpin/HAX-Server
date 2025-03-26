@@ -43,6 +43,11 @@ public class Practice {
     private Integer type;
 
     /**
+     * 图片链接
+     */
+    private String imageUrl;
+
+    /**
      * 奖励金币
      */
     private Integer rewardGold;
