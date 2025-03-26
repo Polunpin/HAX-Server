@@ -79,12 +79,12 @@ public class PracticeRecord {
     private String performance;
 
     /**
-     * 练习心得(200字内)
+     * 练习心得
      */
     private String insights;
 
     /**
-     * 练习照片(可存JSON或逗号分隔URL)
+     * 练习照片
      */
     private String photos;
 

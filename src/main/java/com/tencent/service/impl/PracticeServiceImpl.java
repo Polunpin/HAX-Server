@@ -29,7 +29,7 @@ public class PracticeServiceImpl extends ServiceImpl<PracticeMapper, Practice>
 
 
     @Override
-    public Practice getPracticeDetail(Long id) {
+    public Practice getPracticeDetail(String id) {
         return this.getById(id);
     }
 

@@ -7,6 +7,7 @@ import lombok.Data;
  */
 @Data
 public class PracticeResponse {
+
     /**
      * 练习ID
      */
@@ -31,6 +32,11 @@ public class PracticeResponse {
      * 练习类型：1-基础, 2-进阶, 3-突破
      */
     private Integer type;
+
+    /**
+     * 图片链接
+     */
+    private String imageUrl;
 
     /**
      * 已练习时长
