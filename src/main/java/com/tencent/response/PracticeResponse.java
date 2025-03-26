@@ -1,5 +1,6 @@
 package com.tencent.response;
 
+import com.alibaba.fastjson2.JSONArray;
 import lombok.Data;
 
 /**
@@ -21,12 +22,12 @@ public class PracticeResponse {
     /**
      * 练习目标
      */
-    private String target;
+    private JSONArray target;
 
     /**
      * 注意事项
      */
-    private String notes;
+    private JSONArray notes;
 
     /**
      * 练习类型：1-基础, 2-进阶, 3-突破

@@ -29,18 +29,6 @@ public class PracticeRecordController {
     }
 
     /**
-     * 功能：查询练习记录详情
-     * 界面：练习报告、练习记录列表详情页
-     *
-     * @param id 练习记录ID
-     * @return 练习详情
-     */
-    @GetMapping("getPracticeRecord")
-    public ApiResponse getPracticeRecord(String id) {
-        return ApiResponse.ok(practiceRecordService.getPracticeRecord(id));
-    }
-
-    /**
      * 功能：查询练习记录列表
      * 界面：练习记录列表
      *

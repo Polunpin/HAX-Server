@@ -1,11 +1,14 @@
 package com.tencent.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.tencent.config.ApiResponse;
+import com.tencent.model.PracticeRecord;
 import com.tencent.model.Reward;
 import com.tencent.model.Users;
 import com.tencent.request.RedemptionRequest;
 import com.tencent.response.ChallengeResponse;
 import com.tencent.response.ChallengesResponse;
+import com.tencent.response.PracticeRecordInfoResponse;
 import com.tencent.response.RewardResponse;
 import com.tencent.service.*;
 import jakarta.annotation.Resource;
@@ -13,7 +16,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.List;
+
+import static org.springframework.beans.BeanUtils.copyProperties;
 
 /**
  * @author lanyiping
@@ -24,6 +30,10 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
 
     @Resource
     public UsersService users;
+    @Resource
+    public PracticeService practiceS;
+    @Resource
+    public PracticeRecordService practiceRecordS;
     @Resource
     public ChallengeService challenge;
     @Resource
@@ -55,6 +65,25 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
             //当progress为100时，进度条为绿色
             return "100";
         }
+    }
+
+    @Override
+    public PracticeRecordInfoResponse getPracticeRecord(String id) {
+        PracticeRecord practiceRecord = practiceRecordS.getById(id);
+        PracticeRecordInfoResponse practiceRecordInfo = new PracticeRecordInfoResponse();
+        copyProperties(practiceRecord, practiceRecordInfo);
+        var practice = practiceS.getById(practiceRecord.getPracticeId());
+
+        // 定义格式化模板(时间)
+        SimpleDateFormat startFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat endFormatter = new SimpleDateFormat("HH:mm");
+        practiceRecordInfo.setConsumptionTime(startFormatter
+                .format(practiceRecord.getStartTime()) + "-" + endFormatter.format(practiceRecord.getEndTime()));
+
+        practiceRecordInfo.setTitle(practice.getTitle());
+        practiceRecordInfo.setPerformance(JSON.parseArray(practiceRecord.getPerformance()));
+        practiceRecordInfo.setTrajectory(JSON.parseArray(practiceRecord.getTrajectory()));
+        return practiceRecordInfo;
     }
 
     @Override
