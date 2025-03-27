@@ -18,6 +18,18 @@ public class ComprehensiveController {
     public ComprehensiveService comprehensiveService;
 
     /**
+     * 功能：查询练习记录详情
+     * 界面：练习报告、练习记录列表详情页
+     *
+     * @param id 练习记录ID
+     * @return 练习详情
+     */
+    @GetMapping("getPracticeRecord")
+    public ApiResponse getPracticeRecord(String id) {
+        return ApiResponse.ok(comprehensiveService.getPracticeRecord(id));
+    }
+
+    /**
      * 功能：挑战列表查询
      * 界面：挑战列表
      *
