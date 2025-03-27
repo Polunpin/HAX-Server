@@ -30,7 +30,7 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
 
     @Override
     public Long savePracticeRecord(PracticeRecord practiceRecord) {
-        this.save(practiceRecord); // 保存实体
+        this.saveOrUpdate(practiceRecord); // 保存实体
         return practiceRecord.getId(); // 返回自动生成的 ID
     }
 
