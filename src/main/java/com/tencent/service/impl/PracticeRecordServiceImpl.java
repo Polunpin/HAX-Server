@@ -1,12 +1,15 @@
 package com.tencent.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.mapper.PracticeRecordMapper;
+import com.tencent.model.Practice;
 import com.tencent.model.PracticeRecord;
 import com.tencent.response.PracticeRecordResponse;
 import com.tencent.response.PracticeRecordsResponse;
 import com.tencent.service.PracticeRecordService;
+import com.tencent.service.PracticeService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -26,10 +29,48 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
 
 
     @Resource
+    public PracticeService practiceS;
+    @Resource
     public PracticeRecordMapper practiceRecordMapper;
 
     @Override
     public Long savePracticeRecord(PracticeRecord practiceRecord) {
+        //保存练习记录时，同步练习表现
+        if (practiceRecord.getPracticeId() != null) {
+            Practice practice = practiceS.getById(practiceRecord.getPracticeId());
+            practiceRecord.setPerformance(practice.getTarget());
+        }
+
+        if (practiceRecord.getTrajectory() != null) {
+            JSONArray speeds = JSON.parseArray(practiceRecord.getTrajectory());
+            //最快速度
+            double maxSpeed = 0;
+            //急刹车次数
+            int suddenBrakeCount = 0;
+            //轨迹点的速度总和
+            double totalSpeed = 0;
+            //记录上一个轨迹点的速度，用于计算急刹车
+            double prevSpeed = -1;
+
+            for (int i = 0; i < speeds.size(); i++) {
+                double currentSpeed = speeds.getJSONObject(i).getDoubleValue("speed");
+                totalSpeed += currentSpeed;
+
+                if (currentSpeed > maxSpeed) {
+                    maxSpeed = currentSpeed;
+                }
+
+                if (prevSpeed >= 0 && prevSpeed - currentSpeed > 5) { // Threshold for sudden brake
+                    suddenBrakeCount++;
+                }
+                prevSpeed = currentSpeed;
+            }
+            //平均速度
+            double averageSpeed = totalSpeed / speeds.size();
+            practiceRecord.setAvgSpeed(BigDecimal.valueOf(averageSpeed * 3.6)); // m/s to km/h
+            practiceRecord.setMaxSpeed(BigDecimal.valueOf(maxSpeed * 3.6)); // m/s to km/h
+            practiceRecord.setSuddenBrakeCount(suddenBrakeCount);
+        }
         this.saveOrUpdate(practiceRecord); // 保存实体
         return practiceRecord.getId(); // 返回自动生成的 ID
     }
