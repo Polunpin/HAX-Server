@@ -42,6 +42,6 @@ public class PracticeRecordResponse {
     /**
      * 轨迹点(可存JSON)
      */
-    private String trajectory;
+    private Object trajectory;
 
 }

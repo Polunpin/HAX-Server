@@ -1,5 +1,6 @@
 package com.tencent.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.mapper.PracticeRecordMapper;
 import com.tencent.model.PracticeRecord;
@@ -37,6 +38,12 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
     public List<PracticeRecordsResponse> getPracticeRecordList(String userId) {
         //根据userId获取全部练习记录
         List<PracticeRecordResponse> practiceRecordList = practiceRecordMapper.getPracticeRecordList(userId);
+        // 遍历练习记录并将trajectory字段转为JSON
+        practiceRecordList.forEach(record -> {
+            if (record.getTrajectory() != null) {
+                record.setTrajectory(JSON.parseArray(String.valueOf(record.getTrajectory())));
+            }
+        });
         //根据title分类，计算distance(驾驶路程)总和
         return practiceRecordList.stream()
                 .collect(Collectors.groupingBy(PracticeRecordResponse::getTitle))
