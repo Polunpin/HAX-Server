@@ -35,8 +35,7 @@
                      ), 2) AS duration
         FROM practice p
                  LEFT JOIN
-             practice_record pr ON p.id = pr.practice_id
-        where pr.user_id = #{userId}
+             practice_record pr ON p.id = pr.practice_id and pr.user_id = #{userId}
         GROUP BY p.id;
     </select>
 </mapper>
