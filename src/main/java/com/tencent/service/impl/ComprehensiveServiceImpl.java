@@ -3,6 +3,7 @@ package com.tencent.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.tencent.config.ApiResponse;
+import com.tencent.mapper.PracticeMapper;
 import com.tencent.model.Practice;
 import com.tencent.model.PracticeRecord;
 import com.tencent.model.Reward;
@@ -34,6 +35,8 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     public PracticeService practiceS;
     @Resource
     public PracticeRecordService practiceRecordS;
+    @Resource
+    public PracticeMapper practiceMapper;
     @Resource
     public ChallengeService challenge;
     @Resource
@@ -126,14 +129,18 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
 
     @Override
     public List<PracticeResponse> getPracticeList(String userId) {
-        List<PracticeResponse> practiceList = practiceS.getPracticeList(userId);
+        List<PracticeResponse> practiceList = practiceMapper.getPracticeList(userId);
         practiceList.forEach(practice -> {
             PracticeRequest practiceRequest = new PracticeRequest();
             practiceRequest.setPracticeId(practice.getId());
             practiceRequest.setUserId(userId);
             List<PracticeRecordServiceImpl.ContentStatistics> practiceProgress = practiceRecordS.getPracticeProgress(practiceRequest);
-            practice.setTarget(JSON.parseArray(JSONObject.toJSONString(practiceProgress)));
-//            practice.setTarget(JSON.parseArray(String.valueOf(practiceProgress)));
+            practice.setNotes(JSON.parseArray(String.valueOf(practice.getNotes())));
+            if (practiceProgress.isEmpty()) {
+                practice.setTarget(JSON.parseArray(String.valueOf(practiceProgress)));
+            } else {
+                practice.setTarget(JSON.parseArray(JSONObject.toJSONString(practiceProgress)));
+            }
         });
         return practiceList;
     }
