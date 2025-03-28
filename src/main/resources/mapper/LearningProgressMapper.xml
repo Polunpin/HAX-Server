@@ -20,12 +20,19 @@
     </sql>
 
     <select id="getLearningProgress" resultType="com.tencent.response.ContinueLearningResponse">
-        SELECT kl.id as knowledgeId, kl.level2_dir as level2Dir, kl.level3_dir as level3Dir, kl.level4_dir as level4Dir
+        SELECT kl.id         AS knowledgeId,
+               kl.level2_dir AS level2Dir,
+               kl.level3_dir AS level3Dir,
+               kl.level4_dir AS level4Dir,
+               u.pay_stage   AS payStage,
+               u.proficiency AS proficiency
         FROM knowledge_library kl
-                 JOIN (SELECT l.knowledge_id
-                       FROM learning_progress l
-                       WHERE l.user_id = #{userId}
-                       ORDER BY l.updated_at DESC
-                       LIMIT 1) subquery ON kl.id = subquery.knowledge_id;
+                 JOIN learning_progress l
+                      ON kl.id = l.knowledge_id
+                 JOIN users u
+                      ON u.id = l.user_id
+        WHERE l.user_id = #{userId}
+        ORDER BY l.updated_at DESC
+        LIMIT 1;
     </select>
 </mapper>
