@@ -1,6 +1,7 @@
 package com.tencent.service;
 
 import com.tencent.config.ApiResponse;
+import com.tencent.request.PracticeRequest;
 import com.tencent.request.RedemptionRequest;
 import com.tencent.response.ChallengeResponse;
 import com.tencent.response.PracticeRecordInfoResponse;
@@ -19,4 +20,8 @@ public interface ComprehensiveService {
     ApiResponse exchange(RedemptionRequest redemptionRequest);
 
     RewardResponse getRewardList(String userId);
+
+    Object getPracticeDetail(PracticeRequest practiceRequest);
+
+    Object getPracticeList(String userId);
 }

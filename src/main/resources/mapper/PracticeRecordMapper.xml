@@ -38,10 +38,10 @@
                pr.duration,
                pr.distance,
                pr.trajectory,
-               IF(pr.performance IS NULL, 0, 1)          as isRecord,
+               JSON_EXTRACT(pr.performance, '$[0].rate') > 0 AS isRecord,
                p.title,
                CONCAT(DATE_FORMAT(pr.start_time, '%Y-%m-%d %H:%i'), '-',
-                      DATE_FORMAT(pr.end_time, '%H:%i')) as consumptionTime
+                      DATE_FORMAT(pr.end_time, '%H:%i'))     as consumptionTime
         from practice_record pr
                  left join practice p on p.id = pr.practice_id
         where user_id = #{userId};

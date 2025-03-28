@@ -1,15 +1,15 @@
 package com.tencent.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.tencent.config.ApiResponse;
+import com.tencent.model.Practice;
 import com.tencent.model.PracticeRecord;
 import com.tencent.model.Reward;
 import com.tencent.model.Users;
+import com.tencent.request.PracticeRequest;
 import com.tencent.request.RedemptionRequest;
-import com.tencent.response.ChallengeResponse;
-import com.tencent.response.ChallengesResponse;
-import com.tencent.response.PracticeRecordInfoResponse;
-import com.tencent.response.RewardResponse;
+import com.tencent.response.*;
 import com.tencent.service.*;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -111,6 +111,31 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         rewardResponse.setRewards(reward.getRewardList(userId));
         //查询挑战列表
         return rewardResponse;
+    }
+
+    @Override
+    public Object getPracticeDetail(PracticeRequest practiceRequest) {
+        var practiceResponse = new PracticeResponse();
+        Practice practice = practiceS.getById(practiceRequest.getPracticeId());
+        copyProperties(practice, practiceResponse);
+        List<PracticeRecordServiceImpl.ContentStatistics> practiceProgress = practiceRecordS.getPracticeProgress(practiceRequest);
+        practiceResponse.setTarget(JSON.parseArray(JSONObject.toJSONString(practiceProgress)));
+        practiceResponse.setNotes(JSON.parseArray(practice.getNotes()));
+        return practiceResponse;
+    }
+
+    @Override
+    public List<PracticeResponse> getPracticeList(String userId) {
+        List<PracticeResponse> practiceList = practiceS.getPracticeList(userId);
+        practiceList.forEach(practice -> {
+            PracticeRequest practiceRequest = new PracticeRequest();
+            practiceRequest.setPracticeId(practice.getId());
+            practiceRequest.setUserId(userId);
+            List<PracticeRecordServiceImpl.ContentStatistics> practiceProgress = practiceRecordS.getPracticeProgress(practiceRequest);
+            practice.setTarget(JSON.parseArray(JSONObject.toJSONString(practiceProgress)));
+//            practice.setTarget(JSON.parseArray(String.valueOf(practiceProgress)));
+        });
+        return practiceList;
     }
 
     @Override
