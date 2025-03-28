@@ -39,4 +39,17 @@ public class PracticeRecordController {
     public ApiResponse getPracticeRecordList(String userId) {
         return ApiResponse.ok(practiceRecordService.getPracticeRecordList(userId));
     }
+
+    /**
+     * 功能：查询练习目标进度
+     * 界面：练习详情页
+     *
+     * @param userId 用户ID
+     * @return 练习目标进度
+     */
+    @GetMapping("/getPracticeProgress")
+    public ApiResponse getPracticeProgress(String userId) {
+        return ApiResponse.ok(practiceRecordService.getPracticeProgress(userId));
+    }
+
 }
