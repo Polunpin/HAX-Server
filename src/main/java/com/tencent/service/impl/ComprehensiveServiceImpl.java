@@ -2,12 +2,11 @@ package com.tencent.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.tencent.config.ApiResponse;
 import com.tencent.mapper.PracticeMapper;
-import com.tencent.model.Practice;
-import com.tencent.model.PracticeRecord;
-import com.tencent.model.Reward;
-import com.tencent.model.Users;
+import com.tencent.model.*;
+import com.tencent.request.CollectCoinsRequest;
 import com.tencent.request.PracticeRequest;
 import com.tencent.request.RedemptionRequest;
 import com.tencent.response.*;
@@ -30,19 +29,22 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 public class ComprehensiveServiceImpl implements ComprehensiveService {
 
     @Resource
-    public UsersService users;
+    public UsersService usersS;
     @Resource
     public PracticeService practiceS;
     @Resource
     public PracticeRecordService practiceRecordS;
+    // TODO 代码逻辑优化
     @Resource
     public PracticeMapper practiceMapper;
     @Resource
-    public ChallengeService challenge;
+    public ChallengeService challengeS;
     @Resource
     public RewardService reward;
     @Resource
     public RedemptionService redemption;
+    @Resource
+    public ChallengeRecordService challengeRecordS;
 
     /**
      * @param targetMileage  挑战目标
@@ -94,9 +96,9 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         var challengeResponse = new ChallengeResponse();
 
         //根据用户id查询当前金币
-        Users user = users.getById(userId);
+        Users user = usersS.getById(userId);
         challengeResponse.setGold(user.getGold());
-        List<ChallengesResponse> challengeList = challenge.getChallengeList(userId);
+        List<ChallengesResponse> challengeList = challengeS.getChallengeList(userId);
         challengeList.forEach(challenges ->
                 challenges.setProgress(progress(challenges.getConditionValue(), user.getMileage())));
         //查询挑战列表
@@ -109,7 +111,7 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     public RewardResponse getRewardList(String userId) {
         RewardResponse rewardResponse = new RewardResponse();
         //根据用户id查询当前金币
-        Users user = users.getById(userId);
+        Users user = usersS.getById(userId);
         rewardResponse.setGold(user.getGold());
         rewardResponse.setRewards(reward.getRewardList(userId));
         //查询挑战列表
@@ -137,12 +139,31 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
             List<PracticeRecordServiceImpl.ContentStatistics> practiceProgress = practiceRecordS.getPracticeProgress(practiceRequest);
             practice.setNotes(JSON.parseArray(String.valueOf(practice.getNotes())));
             if (practiceProgress.isEmpty()) {
-                practice.setTarget(JSON.parseArray(String.valueOf(practiceProgress)));
+                practice.setTarget(JSON.parseArray(String.valueOf(practice.getTarget())));
             } else {
                 practice.setTarget(JSON.parseArray(JSONObject.toJSONString(practiceProgress)));
             }
         });
         return practiceList;
+    }
+
+    @Override
+    public Boolean collectCoins(CollectCoinsRequest collectCoins) {
+        // 更新用户金币数量
+        UpdateWrapper<Users> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", collectCoins.getUserId());
+        updateWrapper.setSql("gold = gold + " + collectCoins.getTaskGold());
+
+        boolean isUpdated = usersS.update(updateWrapper);
+        if (!isUpdated) {
+            return false; // 如果用户金币更新失败，直接返回
+        }
+
+        ChallengeRecord challengeRecord = new ChallengeRecord();
+        challengeRecord.setUserId(collectCoins.getUserId());
+        challengeRecord.setChallengeId(collectCoins.getChallengeId());
+        // 保存挑战记录
+        return challengeRecordS.save(challengeRecord);
     }
 
     @Override
@@ -155,6 +176,10 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
             return ApiResponse.ok(INSUFFICIENT_GOLD_MESSAGE, false);
         }
         if (redemption.exchange(redemptionRequest)) {
+            UpdateWrapper<Users> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("id", redemptionRequest.getUserId());
+            updateWrapper.setSql("gold = gold - " + redemptionRequest.getRewardId());
+            usersS.update(updateWrapper);
             return ApiResponse.ok(SUCCESS_MESSAGE, true);
         } else {
             return ApiResponse.ok(FAILURE_MESSAGE, false);
@@ -162,7 +187,7 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     }
 
     private boolean isGoldSufficient(RedemptionRequest redemptionRequest) {
-        Users userInfo = users.getById(redemptionRequest.getUserId());
+        Users userInfo = usersS.getById(redemptionRequest.getUserId());
         Reward rewardById = reward.getById(redemptionRequest.getRewardId());
         return userInfo.getGold() >= rewardById.getExchangeCondition();
     }

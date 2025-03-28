@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 public class ChallengeRecordServiceImpl extends ServiceImpl<ChallengeRecordMapper, ChallengeRecord>
         implements ChallengeRecordService {
 
-    @Override
-    public Boolean collectCoins(ChallengeRecord challengeRecord) {
-        return this.save(challengeRecord);
-    }
+
 }
 
 
