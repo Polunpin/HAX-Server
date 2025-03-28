@@ -16,4 +16,6 @@ public interface PracticeRecordService extends IService<PracticeRecord> {
     Long savePracticeRecord(PracticeRecord practiceRecord);
 
     List<PracticeRecordsResponse> getPracticeRecordList(String userId);
+
+    Object getPracticeProgress(String userId);
 }

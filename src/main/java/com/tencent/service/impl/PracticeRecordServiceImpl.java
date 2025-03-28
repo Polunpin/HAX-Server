@@ -2,6 +2,8 @@ package com.tencent.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.mapper.PracticeRecordMapper;
 import com.tencent.model.Practice;
@@ -11,9 +13,11 @@ import com.tencent.response.PracticeRecordsResponse;
 import com.tencent.service.PracticeRecordService;
 import com.tencent.service.PracticeService;
 import jakarta.annotation.Resource;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -38,6 +42,24 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
         //保存练习记录时，同步练习表现
         if (practiceRecord.getPracticeId() != null) {
             Practice practice = practiceS.getById(practiceRecord.getPracticeId());
+            JSONArray jsonArray = JSONArray.parseArray(practice.getTarget());
+
+            // 遍历数组并修改属性名
+            for (int i = 0; i < jsonArray.size(); i++) {
+                // 获取对象
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                // 获取completion的值并删除此属性
+                Object contentValue = jsonObject.remove("content");
+                // 获取completion的值并删除此属性
+                Object completionValue = jsonObject.remove("completion");
+
+                // 放入一个新属性title
+                jsonObject.put("title", contentValue);
+                // 放入一个新属性rate
+                jsonObject.put("rate", completionValue);
+            }
+            practice.setTarget(jsonArray.toJSONString());
             practiceRecord.setPerformance(practice.getTarget());
         }
 
@@ -101,6 +123,60 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
                     response.setPracticeRecord(entry.getValue());
                     return response;
                 }).toList();
+    }
+
+    @Override
+    public Object getPracticeProgress(String userId) {
+        QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        List<PracticeRecord> list = this.list(queryWrapper);
+
+        List<MyPractice> practiceListAll = new ArrayList<>();
+
+        list.forEach(record -> {
+            List<MyPractice> practiceList = JSON.parseArray(record.getPerformance(), MyPractice.class);
+            practiceListAll.addAll(practiceList);
+        });
+
+        // Step 3: 按 content 分组，统计出现次数和 rate 的总和
+        List<ContentStatistics> result = practiceListAll.stream()
+                .collect(Collectors.groupingBy(
+                        MyPractice::getContent, // 按 content 分组
+                        Collectors.toList()
+                ))
+                .entrySet()
+                .stream()
+                .map(entry -> {
+                    String content = entry.getKey(); // 当前 content 名称
+                    List<MyPractice> practices = entry.getValue();
+
+                    // 统计出现次数和 rate 总和
+                    long count = practices.size(); // 出现次数
+                    int rateSum = practices.stream().mapToInt(MyPractice::getRate).sum(); // rate 总和
+
+                    return new ContentStatistics(content, count, rateSum); // 构建结果对象
+                }).toList();
+        return result;
+    }
+
+    // 定义用于映射的 POJO 类
+    @Data
+    public static class MyPractice {
+        private String content;
+        private Integer rate;
+    }
+
+    @Data
+    public static class ContentStatistics {
+        private String content; // content 名称
+        private long count;     // content 出现的次数
+        private int rateSum;    // rate 的总和
+
+        public ContentStatistics(String content, long count, int rateSum) {
+            this.content = content;
+            this.count = count;
+            this.rateSum = rateSum;
+        }
     }
 }
 
