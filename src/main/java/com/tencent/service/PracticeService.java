@@ -15,6 +15,4 @@ public interface PracticeService extends IService<Practice> {
 
     List<PracticeResponse> getPracticeList(String userId);
 
-    PracticeResponse getPracticeDetail(String id);
-
 }

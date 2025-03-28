@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static org.springframework.beans.BeanUtils.copyProperties;
-
 /**
  * @author lanyiping
  * @description 针对表【practice(练习表)】的数据库操作Service实现
@@ -35,15 +33,6 @@ public class PracticeServiceImpl extends ServiceImpl<PracticeMapper, Practice>
         return practiceList;
     }
 
-    @Override
-    public PracticeResponse getPracticeDetail(String id) {
-        var practiceResponse = new PracticeResponse();
-        Practice practice = this.getById(id);
-        copyProperties(practice, practiceResponse);
-        practiceResponse.setTarget(JSON.parseArray(practice.getTarget()));
-        practiceResponse.setNotes(JSON.parseArray(practice.getNotes()));
-        return practiceResponse;
-    }
 
 }
 

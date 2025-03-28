@@ -2,6 +2,7 @@ package com.tencent.controller.basis;
 
 import com.tencent.config.ApiResponse;
 import com.tencent.model.PracticeRecord;
+import com.tencent.request.PracticeRequest;
 import com.tencent.service.PracticeRecordService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -44,12 +45,12 @@ public class PracticeRecordController {
      * 功能：查询练习目标进度
      * 界面：练习详情页
      *
-     * @param userId 用户ID
+     * @param practiceRequest 用户ID、练习ID
      * @return 练习目标进度
      */
     @GetMapping("/getPracticeProgress")
-    public ApiResponse getPracticeProgress(String userId) {
-        return ApiResponse.ok(practiceRecordService.getPracticeProgress(userId));
+    public ApiResponse getPracticeProgress(PracticeRequest practiceRequest) {
+        return ApiResponse.ok(practiceRecordService.getPracticeProgress(practiceRequest));
     }
 
 }

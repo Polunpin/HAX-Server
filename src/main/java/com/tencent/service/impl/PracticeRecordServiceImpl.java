@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.mapper.PracticeRecordMapper;
 import com.tencent.model.Practice;
 import com.tencent.model.PracticeRecord;
+import com.tencent.request.PracticeRequest;
 import com.tencent.response.PracticeRecordResponse;
 import com.tencent.response.PracticeRecordsResponse;
 import com.tencent.service.PracticeRecordService;
@@ -17,7 +18,6 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -126,57 +126,48 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
     }
 
     @Override
-    public Object getPracticeProgress(String userId) {
+    public List<ContentStatistics> getPracticeProgress(PracticeRequest practiceRequest) {
         QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", userId);
+        queryWrapper.eq("user_id", practiceRequest.getUserId());
+        queryWrapper.eq("practice_id", practiceRequest.getPracticeId());
+        //查询当前用户的练习记录（根据practice_id、user_id筛选）
         List<PracticeRecord> list = this.list(queryWrapper);
-
-        List<MyPractice> practiceListAll = new ArrayList<>();
-
-        list.forEach(record -> {
-            List<MyPractice> practiceList = JSON.parseArray(record.getPerformance(), MyPractice.class);
-            practiceListAll.addAll(practiceList);
-        });
-
-        // Step 3: 按 content 分组，统计出现次数和 rate 的总和
-        List<ContentStatistics> result = practiceListAll.stream()
-                .collect(Collectors.groupingBy(
-                        MyPractice::getContent, // 按 content 分组
-                        Collectors.toList()
-                ))
+        //汇集所有练习表现
+        List<MyPractice> practiceListAll = list.stream()
+                .flatMap(record -> JSON.parseArray(record.getPerformance(), MyPractice.class).stream())
+                .toList();
+        //rate取值范围1-5
+        int maxRate = 5;
+        //对content分组，并计算SUN(rate),再计算rate百分比
+        return practiceListAll.stream()
+                .collect(Collectors.groupingBy(MyPractice::getTitle))
                 .entrySet()
                 .stream()
                 .map(entry -> {
-                    String content = entry.getKey(); // 当前 content 名称
+                    String content = entry.getKey();
                     List<MyPractice> practices = entry.getValue();
-
-                    // 统计出现次数和 rate 总和
-                    long count = practices.size(); // 出现次数
-                    int rateSum = practices.stream().mapToInt(MyPractice::getRate).sum(); // rate 总和
-
-                    return new ContentStatistics(content, count, rateSum); // 构建结果对象
+                    int count = practices.size();
+                    int rateSum = practices.stream().mapToInt(MyPractice::getRate).sum();
+                    double percentage = (rateSum * 100.0) / (count * maxRate);
+                    ContentStatistics contentStatistics = new ContentStatistics();
+                    contentStatistics.setContent(content);
+                    contentStatistics.setCompletion(percentage);
+                    return contentStatistics;
                 }).toList();
-        return result;
     }
 
     // 定义用于映射的 POJO 类
     @Data
     public static class MyPractice {
-        private String content;
+        private String title;
         private Integer rate;
     }
 
     @Data
     public static class ContentStatistics {
         private String content; // content 名称
-        private long count;     // content 出现的次数
-        private int rateSum;    // rate 的总和
+        private Double completion;    // rate 的百分比
 
-        public ContentStatistics(String content, long count, int rateSum) {
-            this.content = content;
-            this.count = count;
-            this.rateSum = rateSum;
-        }
     }
 }
 
