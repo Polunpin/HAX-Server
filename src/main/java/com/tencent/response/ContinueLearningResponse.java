@@ -28,4 +28,14 @@ public class ContinueLearningResponse {
      * 四级标题
      */
     private String level4Dir;
+
+    /**
+     * 付费阶段
+     */
+    private String payStage;
+
+    /**
+     * 熟练度
+     */
+    private String proficiency;
 }
