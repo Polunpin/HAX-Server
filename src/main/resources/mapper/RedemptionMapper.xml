@@ -25,6 +25,6 @@
                r.sort_order
         from redemption re
                  left join reward r on r.id = re.reward_id
-        where re.user_id = 1;
+        where re.user_id = #{userId};
     </select>
 </mapper>
