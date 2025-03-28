@@ -2,6 +2,7 @@ package com.tencent.controller;
 
 
 import com.tencent.config.ApiResponse;
+import com.tencent.request.CollectCoinsRequest;
 import com.tencent.request.PracticeRequest;
 import com.tencent.request.RedemptionRequest;
 import com.tencent.service.ComprehensiveService;
@@ -78,6 +79,18 @@ public class ComprehensiveController {
     @GetMapping("/getRewardList")
     public ApiResponse getRewardList(String userId) {
         return ApiResponse.ok(comprehensiveService.getRewardList(userId));
+    }
+
+    /**
+     * 功能：领取金币
+     * 界面：挑战列表(完成挑战任务，领取金币)
+     *
+     * @param collectCoins 领取金币
+     * @return Boolean
+     */
+    @PostMapping("/collectCoins")
+    public ApiResponse collectCoins(@RequestBody CollectCoinsRequest collectCoins) {
+        return ApiResponse.ok(comprehensiveService.collectCoins(collectCoins));
     }
 
     /**

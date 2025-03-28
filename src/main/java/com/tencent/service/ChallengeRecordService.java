@@ -10,5 +10,4 @@ import com.tencent.model.ChallengeRecord;
  */
 public interface ChallengeRecordService extends IService<ChallengeRecord> {
 
-    Boolean collectCoins(ChallengeRecord challengeRecord);
 }
