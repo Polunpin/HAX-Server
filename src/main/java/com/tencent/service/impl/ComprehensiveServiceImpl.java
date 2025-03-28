@@ -175,10 +175,11 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         if (!isGoldSufficient(redemptionRequest)) {
             return ApiResponse.ok(INSUFFICIENT_GOLD_MESSAGE, false);
         }
+
         if (redemption.exchange(redemptionRequest)) {
             UpdateWrapper<Users> updateWrapper = new UpdateWrapper<>();
             updateWrapper.eq("id", redemptionRequest.getUserId());
-            updateWrapper.setSql("gold = gold - " + redemptionRequest.getRewardId());
+            updateWrapper.setSql("gold = gold - " + redemptionRequest.getGoldCoins());
             usersS.update(updateWrapper);
             return ApiResponse.ok(SUCCESS_MESSAGE, true);
         } else {

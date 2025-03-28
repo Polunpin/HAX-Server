@@ -18,4 +18,9 @@ public class RedemptionRequest {
      */
     private Long rewardId;
 
+    /**
+     * 金币消耗
+     */
+    private Long goldCoins;
+
 }
