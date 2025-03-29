@@ -2,7 +2,6 @@ package com.tencent.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.mapper.PracticeRecordMapper;
@@ -43,25 +42,9 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
         //保存练习记录时，同步练习表现
         if (practiceRecord.getPracticeId() != null) {
             Practice practice = practiceS.getById(practiceRecord.getPracticeId());
-            JSONArray jsonArray = JSONArray.parseArray(practice.getTarget());
-
-            // 遍历数组并修改属性名
-            for (int i = 0; i < jsonArray.size(); i++) {
-                // 获取对象
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                // 获取completion的值并删除此属性
-                Object contentValue = jsonObject.remove("content");
-                // 获取completion的值并删除此属性
-                Object completionValue = jsonObject.remove("completion");
-
-                // 放入一个新属性title
-                jsonObject.put("title", contentValue);
-                // 放入一个新属性rate
-                jsonObject.put("rate", completionValue);
+            if (practice != null && practice.getTarget() != null) {
+                practiceRecord.setPerformance(practice.getTarget());
             }
-            practice.setTarget(jsonArray.toJSONString());
-            practiceRecord.setPerformance(practice.getTarget());
         }
 
         if (practiceRecord.getTrajectory() != null) {
