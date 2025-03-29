@@ -27,4 +27,6 @@ public interface ComprehensiveService {
     Object getPracticeList(String userId);
 
     Boolean collectCoins(CollectCoinsRequest collectCoins);
+
+    Object exchangeDetail(String redemptionId);
 }
