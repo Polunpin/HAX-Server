@@ -94,13 +94,15 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
             practiceRecord.setMaxSpeed(BigDecimal.valueOf(maxSpeed * 3.6)); // m/s to km/h
             practiceRecord.setSuddenBrakeCount(suddenBrakeCount);
         }
-        // 将秒数直接转换为 HH:mm:ss 并保存
-        Duration duration = Duration.ofSeconds(Long.parseLong(practiceRecord.getDuration()));
-        practiceRecord.setDuration(
-                String.format("%02d:%02d:%02d",
-                        duration.toHoursPart(),
-                        duration.toMinutesPart(),
-                        duration.toSecondsPart()));
+        if (practiceRecord.getDuration() != null) {
+            // 将秒数直接转换为 HH:mm:ss 并保存
+            Duration duration = Duration.ofSeconds(Long.parseLong(practiceRecord.getDuration()));
+            practiceRecord.setDuration(
+                    String.format("%02d:%02d:%02d",
+                            duration.toHoursPart(),
+                            duration.toMinutesPart(),
+                            duration.toSecondsPart()));
+        }
         this.saveOrUpdate(practiceRecord); // 保存实体
         return practiceRecord.getId(); // 返回自动生成的 ID
     }
