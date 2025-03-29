@@ -17,6 +17,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
@@ -108,11 +109,14 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
                 .map(entry -> {
                     PracticeRecordsResponse response = new PracticeRecordsResponse();
                     response.setType(entry.getKey());
-                    response.setTotalDistance(entry.getValue().stream()
-                            .map(PracticeRecordResponse::getDistance)
-                            .filter(Objects::nonNull)
-                            .mapToDouble(BigDecimal::doubleValue)
-                            .sum());
+                    response.setTotalDistance(
+                            BigDecimal.valueOf(entry.getValue().stream()
+                                            .map(PracticeRecordResponse::getDistance)
+                                            .filter(Objects::nonNull)
+                                            .mapToDouble(BigDecimal::doubleValue)
+                                            .sum())
+                                    .setScale(2, RoundingMode.HALF_UP)
+                                    .doubleValue());
                     response.setPracticeRecord(entry.getValue());
                     return response;
                 }).toList();
