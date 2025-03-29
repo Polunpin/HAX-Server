@@ -125,32 +125,32 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
     @Override
     public List<ContentStatistics> getPracticeProgress(PracticeRequest practiceRequest) {
         QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", practiceRequest.getUserId());
-        queryWrapper.eq("practice_id", practiceRequest.getPracticeId());
-        //查询当前用户的练习记录（根据practice_id、user_id筛选）
-        List<PracticeRecord> list = this.list(queryWrapper);
-        //汇集所有练习表现
-        List<MyPractice> practiceListAll = list.stream()
-                .flatMap(record -> JSON.parseArray(record.getPerformance(), MyPractice.class).stream())
+        queryWrapper.eq("user_id", practiceRequest.getUserId())
+                .eq("practice_id", practiceRequest.getPracticeId());
+        // 查询当前用户的练习记录
+        List<PracticeRecord> practiceRecords = this.list(queryWrapper);
+
+        // 汇集所有练习表现
+        List<MyPractice> allPractices = practiceRecords.stream()
+                .map(PracticeRecord::getPerformance)
+                .filter(Objects::nonNull)
+                .flatMap(performance -> JSON.parseArray(performance, MyPractice.class).stream())
                 .toList();
-        //rate取值范围1-5
-        int maxRate = 5;
-        //对content分组，并计算SUN(rate),再计算rate百分比
-        return practiceListAll.stream()
-                .collect(Collectors.groupingBy(MyPractice::getContent))
+
+        // 定义 rate 的最大值
+        final int MAX_RATE = 5;
+
+        // 对 content 分组，计算 rate 总和和百分比
+        return allPractices.stream()
+                .collect(Collectors.groupingBy(MyPractice::getContent, Collectors.summarizingInt(MyPractice::getRate)))
                 .entrySet()
                 .stream()
                 .map(entry -> {
-                    String content = entry.getKey();
-                    List<MyPractice> practices = entry.getValue();
-                    int count = practices.size();
-                    int rateSum = practices.stream().mapToInt(MyPractice::getRate).sum();
-                    double percentage = (rateSum * 100.0) / (count * maxRate);
-                    ContentStatistics contentStatistics = new ContentStatistics();
-                    contentStatistics.setContent(content);
-                    contentStatistics.setCompletion(percentage);
-                    return contentStatistics;
-                }).toList();
+                    double percentage = BigDecimal.valueOf((entry.getValue().getSum() * 100.0) / (entry.getValue().getCount() * MAX_RATE))
+                            .setScale(2, RoundingMode.HALF_UP).doubleValue();
+                    return new ContentStatistics(entry.getKey(), percentage);
+                })
+                .toList();
     }
 
     // 定义用于映射的 POJO 类
@@ -160,11 +160,16 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
         private Integer rate;
     }
 
+    // 简化 ContentStatistics 的定义，添加构造函数便于创建对象
     @Data
     public static class ContentStatistics {
         private String content; // content 名称
-        private Double completion;    // rate 的百分比
+        private Double completion; // rate 的百分比
 
+        public ContentStatistics(String content, Double completion) {
+            this.content = content;
+            this.completion = completion;
+        }
     }
 }
 
