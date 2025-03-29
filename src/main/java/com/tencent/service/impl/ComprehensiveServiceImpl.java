@@ -42,7 +42,7 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     @Resource
     public RewardService reward;
     @Resource
-    public RedemptionService redemption;
+    public RedemptionService redemptionS;
     @Resource
     public ChallengeRecordService challengeRecordS;
 
@@ -167,6 +167,15 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     }
 
     @Override
+    public Object exchangeDetail(String redemptionId) {
+        Redemption redemption = redemptionS.getById(redemptionId);
+        if (redemption != null) {
+            return reward.getById(redemption.getRewardId());
+        }
+        return null;
+    }
+
+    @Override
     public ApiResponse exchange(RedemptionRequest redemptionRequest) {
         final String INSUFFICIENT_GOLD_MESSAGE = "金币不足";
         final String SUCCESS_MESSAGE = "兑换成功";
@@ -176,7 +185,7 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
             return ApiResponse.ok(INSUFFICIENT_GOLD_MESSAGE, false);
         }
 
-        if (redemption.exchange(redemptionRequest)) {
+        if (redemptionS.exchange(redemptionRequest)) {
             UpdateWrapper<Users> updateWrapper = new UpdateWrapper<>();
             updateWrapper.eq("id", redemptionRequest.getUserId());
             updateWrapper.setSql("gold = gold - " + redemptionRequest.getGoldCoins());

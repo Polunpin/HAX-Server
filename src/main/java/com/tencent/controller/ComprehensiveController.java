@@ -105,4 +105,15 @@ public class ComprehensiveController {
         return comprehensiveService.exchange(redemptionRequest);
     }
 
+    /**
+     * 功能：兑换详情
+     * 界面：兑换详情
+     *
+     * @param redemptionId 兑换ID
+     * @return 兑换详情
+     */
+    @GetMapping("/exchangeDetail")
+    public ApiResponse exchangeDetail(String redemptionId) {
+        return ApiResponse.ok(comprehensiveService.exchangeDetail(redemptionId));
+    }
 }

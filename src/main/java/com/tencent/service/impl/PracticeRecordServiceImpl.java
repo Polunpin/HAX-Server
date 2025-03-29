@@ -137,7 +137,7 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
         int maxRate = 5;
         //对content分组，并计算SUN(rate),再计算rate百分比
         return practiceListAll.stream()
-                .collect(Collectors.groupingBy(MyPractice::getTitle))
+                .collect(Collectors.groupingBy(MyPractice::getContent))
                 .entrySet()
                 .stream()
                 .map(entry -> {
@@ -156,7 +156,7 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
     // 定义用于映射的 POJO 类
     @Data
     public static class MyPractice {
-        private String title;
+        private String content;
         private Integer rate;
     }
 
