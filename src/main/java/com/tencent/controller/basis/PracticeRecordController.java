@@ -5,11 +5,13 @@ import com.tencent.model.PracticeRecord;
 import com.tencent.request.PracticeRequest;
 import com.tencent.service.PracticeRecordService;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * 练习记录
  */
+@Slf4j
 @RestController
 @RequestMapping("/practiceRecord")
 public class PracticeRecordController {
@@ -26,6 +28,7 @@ public class PracticeRecordController {
      */
     @PostMapping("/savePracticeRecord")
     public ApiResponse savePracticeRecord(@RequestBody PracticeRecord practiceRecord) {
+        log.info("-----------------" + practiceRecord.toString() + "-----------------");
         return ApiResponse.ok(practiceRecordService.savePracticeRecord(practiceRecord));
     }
 
