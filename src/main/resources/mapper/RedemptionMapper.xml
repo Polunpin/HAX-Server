@@ -23,7 +23,7 @@
                r.exchange_condition,
                r.reward_type,
                r.sort_order
-        from redemption re
+        from user_redemption re
                  left join reward r on r.id = re.reward_id
         where re.user_id = #{userId};
     </select>

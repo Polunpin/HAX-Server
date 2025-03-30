@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  * @author lanyiping
- * @description 针对表【learning_progress(用户学习进度表)】的数据库操作Service实现
+ * @description 针对表【user_learning_progress(用户学习进度表)】的数据库操作Service实现
  * @createDate 2025-03-19 22:06:35
  */
 @Service

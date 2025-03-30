@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author lanyiping
- * @description 针对表【challenge_record(挑战记录表)】的数据库操作Service实现
+ * @description 针对表【user_challenge_record(挑战记录表)】的数据库操作Service实现
  * @createDate 2025-03-25 00:23:12
  */
 @Service

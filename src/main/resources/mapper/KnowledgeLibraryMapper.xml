@@ -32,7 +32,7 @@
                COUNT(DISTINCT CASE WHEN sks.learning_status = 2 THEN k.id END) AS learnCount
         FROM knowledge_library k
                  LEFT JOIN
-             learning_progress sks ON k.id = sks.knowledge_id AND sks.user_id = #{userId}
+             user_learning_progress sks ON k.id = sks.knowledge_id AND sks.user_id = #{userId}
         WHERE k.level1_dir = #{level1Dir}
         GROUP BY k.level2_dir, k.sort_order
         ORDER BY k.sort_order;
@@ -48,7 +48,7 @@
                sks.id                         AS learningId,
                IFNULL(sks.learning_status, 0) AS learningStatus
         FROM knowledge_library k
-                 LEFT JOIN learning_progress sks
+                 LEFT JOIN user_learning_progress sks
                            ON k.id = sks.knowledge_id AND sks.user_id = #{userId}
         where k.level2_dir = #{level2Dir}
     </select>

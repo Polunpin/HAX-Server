@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * @author lanyiping
- * @description 针对表【redemption(兑换表)】的数据库操作Service实现
+ * @description 针对表【user_redemption(兑换表)】的数据库操作Service实现
  * @createDate 2025-03-21 17:27:14
  */
 @Service
@@ -21,19 +21,19 @@ public class RedemptionServiceImpl extends ServiceImpl<RedemptionMapper, Redempt
         implements RedemptionService {
 
     @Resource
-    public RedemptionMapper redemptionMapper;
+    public RedemptionMapper RedemptionMapper;
 
     @Override
     public List<RedemptionListResponse> getRewardExchangeList(String userId) {
-        return redemptionMapper.getRewardExchangeList(userId);
+        return RedemptionMapper.getRewardExchangeList(userId);
     }
 
     @Override
-    public boolean exchange(RedemptionRequest redemptionRequest) {
-        var redemption = new Redemption();
-        redemption.setUserId(redemptionRequest.getUserId());
-        redemption.setRewardId(redemptionRequest.getRewardId());
-        return this.save(redemption);
+    public boolean exchange(RedemptionRequest RedemptionRequest) {
+        var user_redemption = new Redemption();
+        user_redemption.setUserId(RedemptionRequest.getUserId());
+        user_redemption.setRewardId(RedemptionRequest.getRewardId());
+        return this.save(user_redemption);
     }
 
 }

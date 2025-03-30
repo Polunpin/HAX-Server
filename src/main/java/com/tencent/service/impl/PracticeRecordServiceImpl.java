@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author lanyiping
- * @description 针对表【practice_record(练习记录表)】的数据库操作Service实现
+ * @description 针对表【user_practice_record(练习记录表)】的数据库操作Service实现
  * @createDate 2025-03-19 22:06:35
  */
 @Service
