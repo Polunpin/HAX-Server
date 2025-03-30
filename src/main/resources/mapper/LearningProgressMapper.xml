@@ -26,13 +26,15 @@
                kl.level4_dir AS level4Dir,
                u.pay_stage   AS payStage,
                u.proficiency AS proficiency
-        FROM knowledge_library kl
-                 JOIN user_learning_progress l
-                      ON kl.id = l.knowledge_id
-                 JOIN users u
-                      ON u.id = l.user_id
-        WHERE l.user_id = #{userId}
-        ORDER BY l.updated_at DESC
-        LIMIT 1;
+        FROM users u
+                 LEFT JOIN (SELECT user_id, knowledge_id
+                            FROM user_learning_progress
+                            WHERE user_id = 1
+                            ORDER BY updated_at DESC
+                            LIMIT 1) l
+                           ON l.user_id = u.id
+                 LEFT JOIN knowledge_library kl
+                           ON kl.id = l.knowledge_id
+        WHERE u.id = 1;
     </select>
 </mapper>
