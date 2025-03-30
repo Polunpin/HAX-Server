@@ -42,7 +42,7 @@
                p.title,
                CONCAT(DATE_FORMAT(pr.start_time, '%Y-%m-%d %H:%i'), '-',
                       DATE_FORMAT(pr.end_time, '%H:%i'))     as consumptionTime
-        from practice_record pr
+        from user_practice_record pr
                  left join practice p on p.id = pr.practice_id
         where user_id = #{userId};
     </select>

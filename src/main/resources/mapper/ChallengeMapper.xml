@@ -34,7 +34,7 @@
                IF(cr.challenge_id IS NOT NULL, 1, c.sort_order) AS sort_order
         FROM challenge c
                  LEFT JOIN
-             challenge_record cr ON c.id = cr.challenge_id AND cr.user_id = #{userId}
+             user_challenge_record cr ON c.id = cr.challenge_id AND cr.user_id = #{userId}
         ORDER BY sort_order;
     </select>
 </mapper>

@@ -18,7 +18,7 @@ public interface ComprehensiveService {
 
     ChallengeResponse getChallengeList(String userId);
 
-    ApiResponse exchange(RedemptionRequest redemptionRequest);
+    ApiResponse exchange(RedemptionRequest RedemptionRequest);
 
     RewardResponse getRewardList(String userId);
 
@@ -28,5 +28,5 @@ public interface ComprehensiveService {
 
     Boolean collectCoins(CollectCoinsRequest collectCoins);
 
-    Object exchangeDetail(String redemptionId);
+    Object exchangeDetail(String user_redemptionId);
 }

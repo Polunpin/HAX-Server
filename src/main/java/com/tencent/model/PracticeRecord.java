@@ -11,10 +11,10 @@ import java.util.Date;
 /**
  * 练习记录表
  *
- * @TableName practice_record
+ * @TableName user_practice_record
  */
 @Data
-@TableName(value = "practice_record")
+@TableName(value = "user_practice_record")
 public class PracticeRecord {
 
     /**

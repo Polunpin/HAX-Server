@@ -10,10 +10,10 @@ import java.util.Date;
 /**
  * 兑换表
  *
- * @TableName redemption
+ * @TableName user_redemption
  */
 @Data
-@TableName(value = "redemption")
+@TableName(value = "user_redemption")
 public class Redemption {
 
     /**

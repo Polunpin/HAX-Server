@@ -42,7 +42,7 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     @Resource
     public RewardService reward;
     @Resource
-    public RedemptionService redemptionS;
+    public RedemptionService user_redemptionS;
     @Resource
     public ChallengeRecordService challengeRecordS;
 
@@ -167,28 +167,28 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     }
 
     @Override
-    public Object exchangeDetail(String redemptionId) {
-        Redemption redemption = redemptionS.getById(redemptionId);
-        if (redemption != null) {
-            return reward.getById(redemption.getRewardId());
+    public Object exchangeDetail(String user_redemptionId) {
+        Redemption Redemption = user_redemptionS.getById(user_redemptionId);
+        if (Redemption != null) {
+            return reward.getById(Redemption.getRewardId());
         }
         return null;
     }
 
     @Override
-    public ApiResponse exchange(RedemptionRequest redemptionRequest) {
+    public ApiResponse exchange(RedemptionRequest RedemptionRequest) {
         final String INSUFFICIENT_GOLD_MESSAGE = "金币不足";
         final String SUCCESS_MESSAGE = "兑换成功";
         final String FAILURE_MESSAGE = "金币被风吹跑了，快去联系客服";
 
-        if (!isGoldSufficient(redemptionRequest)) {
+        if (!isGoldSufficient(RedemptionRequest)) {
             return ApiResponse.ok(INSUFFICIENT_GOLD_MESSAGE, false);
         }
 
-        if (redemptionS.exchange(redemptionRequest)) {
+        if (user_redemptionS.exchange(RedemptionRequest)) {
             UpdateWrapper<Users> updateWrapper = new UpdateWrapper<>();
-            updateWrapper.eq("id", redemptionRequest.getUserId());
-            updateWrapper.setSql("gold = gold - " + redemptionRequest.getGoldCoins());
+            updateWrapper.eq("id", RedemptionRequest.getUserId());
+            updateWrapper.setSql("gold = gold - " + RedemptionRequest.getGoldCoins());
             usersS.update(updateWrapper);
             return ApiResponse.ok(SUCCESS_MESSAGE, true);
         } else {
@@ -196,9 +196,9 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         }
     }
 
-    private boolean isGoldSufficient(RedemptionRequest redemptionRequest) {
-        Users userInfo = usersS.getById(redemptionRequest.getUserId());
-        Reward rewardById = reward.getById(redemptionRequest.getRewardId());
+    private boolean isGoldSufficient(RedemptionRequest RedemptionRequest) {
+        Users userInfo = usersS.getById(RedemptionRequest.getUserId());
+        Reward rewardById = reward.getById(RedemptionRequest.getRewardId());
         return userInfo.getGold() >= rewardById.getExchangeCondition();
     }
 

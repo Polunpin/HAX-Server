@@ -27,7 +27,7 @@
                u.pay_stage   AS payStage,
                u.proficiency AS proficiency
         FROM knowledge_library kl
-                 JOIN learning_progress l
+                 JOIN user_learning_progress l
                       ON kl.id = l.knowledge_id
                  JOIN users u
                       ON u.id = l.user_id

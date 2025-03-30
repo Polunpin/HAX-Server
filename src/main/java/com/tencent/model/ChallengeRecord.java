@@ -10,10 +10,10 @@ import java.util.Date;
 /**
  * 挑战记录表
  *
- * @TableName challenge_record
+ * @TableName user_challenge_record
  */
 @Data
-@TableName(value = "challenge_record")
+@TableName(value = "user_challenge_record")
 public class ChallengeRecord {
     /**
      * 挑战记录ID
