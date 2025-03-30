@@ -32,7 +32,7 @@
                r.reward_type,
                r.sort_order
         FROM reward r
-                 LEFT JOIN Redemption re ON r.id = re.reward_id AND re.user_id = #{userId}
+                 LEFT JOIN user_redemption re ON r.id = re.reward_id AND re.user_id = #{userId}
         WHERE re.reward_id IS NULL;
     </select>
 </mapper>
