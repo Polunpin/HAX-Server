@@ -29,7 +29,7 @@
         FROM users u
                  LEFT JOIN (SELECT user_id, knowledge_id
                             FROM user_learning_progress
-                            WHERE user_id = 1
+                            WHERE user_id = #{userId}
                             ORDER BY updated_at DESC
                             LIMIT 1) l
                            ON l.user_id = u.id
