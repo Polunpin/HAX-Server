@@ -10,8 +10,6 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 /**
  * 综合类：混合其他类的接口
  */
@@ -128,7 +126,7 @@ public class ComprehensiveController {
      * @return 兑换详情
      */
     @GetMapping("/pay")
-    public ApiResponse pay(HttpServletRequest request) throws IOException, InterruptedException {
+    public ApiResponse pay(HttpServletRequest request) {
         return ApiResponse.ok(comprehensiveService.pay(request));
     }
 }

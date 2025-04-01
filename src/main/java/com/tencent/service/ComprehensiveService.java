@@ -9,8 +9,6 @@ import com.tencent.response.PracticeRecordInfoResponse;
 import com.tencent.response.RewardResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.io.IOException;
-
 /**
  * @author lanyiping
  * @description 综合：混合其他类的接口
@@ -33,5 +31,5 @@ public interface ComprehensiveService {
 
     Object exchangeDetail(String user_redemptionId);
 
-    Object pay(HttpServletRequest request) throws IOException, InterruptedException;
+    Object pay(HttpServletRequest request);
 }

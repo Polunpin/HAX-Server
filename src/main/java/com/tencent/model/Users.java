@@ -24,6 +24,11 @@ public class Users {
     private Long id;
 
     /**
+     * 用户标识(小程序)
+     */
+    private String openId;
+
+    /**
      * 微信唯一标识
      */
     private String unionId;
