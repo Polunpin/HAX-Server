@@ -12,12 +12,23 @@ import com.tencent.request.RedemptionRequest;
 import com.tencent.response.*;
 import com.tencent.service.*;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
+import java.util.logging.Logger;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
@@ -202,6 +213,68 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         return userInfo.getGold() >= rewardById.getExchangeCondition();
     }
 
+    @Override
+    public Object pay(HttpServletRequest request) throws IOException, InterruptedException {
+        String outTradeNo = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) +
+                "-HuAnXing-" +
+                UUID.randomUUID().toString().substring(0, 8);
+
+        // 创建JSON对象
+        JSONObject payment = new JSONObject();
+        // 添加字段
+        // 获取指定header参数的openid
+//        payment.put("openid", request.getHeader("X-WX-OPENID"));
+        payment.put("openid", "om70g7YsunOZY-hhhSw2mli1aQKg");
+        payment.put("body", "护安行测试微信支付");
+        payment.put("out_trade_no", outTradeNo);
+//        payment.put("spbill_create_ip", request.getHeader("X-Original-Forwarded-For"));
+        payment.put("spbill_create_ip", "111.197.22.151");
+        payment.put("total_fee", 1);
+        payment.put("env_id", "prod-8gyjdhvibe4ef498");
+        payment.put("callback_type", 2);
+        payment.put("sub_mch_id", "1683694889");
+        payment.put("function_name", "paycallback");
+
+        // 创建嵌套的JSON对象
+        JSONObject container = new JSONObject();
+        container.put("service", "payActive");
+        container.put("path", "/");
+
+        // 将嵌套对象添加到主对象中
+        payment.put("container", container);
+        System.out.println(payment);
+        // 创建HttpClient
+        HttpRequest build;
+        HttpResponse<String> response;
+        HttpClient client = HttpClient.newHttpClient();
+        // 创建HTTP请求
+        build = HttpRequest.newBuilder()
+                .uri(URI.create("http://api.weixin.qq.com/_/pay/unifiedorder"))
+                .header("Content-Type", "application/json") // 设置请求头为JSON格式
+                .POST(HttpRequest.BodyPublishers.ofString(String.valueOf(payment))) // 将JSON字符串作为请求体
+                .timeout(Duration.ofSeconds(10)) // 设置请求超时时间
+                .build();
+
+        // 发送POST请求并获取响应
+        response = client.send(build, HttpResponse.BodyHandlers.ofString());
+
+        // 输出响应信息
+        System.out.println("状态码: " + response.statusCode());
+        System.out.println("响应体: " + response.body());
+
+
+        // 检查响应状态码
+        if (response.statusCode() == 200) {
+            Logger.getLogger(ComprehensiveServiceImpl.class.getName())
+                    .info("支付请求成功，响应内容: " + response.body());
+        } else {
+            Logger.getLogger(ComprehensiveServiceImpl.class.getName())
+                    .warning("支付请求失败，状态码: " + response.statusCode() + "，响应内容: " + response.body());
+        }
+
+
+        return response.body();
+    }
 }
 
 

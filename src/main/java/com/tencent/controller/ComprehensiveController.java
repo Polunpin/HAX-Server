@@ -7,7 +7,10 @@ import com.tencent.request.PracticeRequest;
 import com.tencent.request.RedemptionRequest;
 import com.tencent.service.ComprehensiveService;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 /**
  * 综合类：混合其他类的接口
@@ -115,5 +118,17 @@ public class ComprehensiveController {
     @GetMapping("/exchangeDetail")
     public ApiResponse exchangeDetail(String redemptionId) {
         return ApiResponse.ok(comprehensiveService.exchangeDetail(redemptionId));
+    }
+
+    /**
+     * 功能：支付
+     * 界面：支付
+     *
+     * @param request 请求体
+     * @return 兑换详情
+     */
+    @GetMapping("/pay")
+    public ApiResponse pay(HttpServletRequest request) throws IOException, InterruptedException {
+        return ApiResponse.ok(comprehensiveService.pay(request));
     }
 }
