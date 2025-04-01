@@ -4,6 +4,7 @@ import com.tencent.config.ApiResponse;
 import com.tencent.request.PaymentCallBack;
 import com.tencent.service.PaymentRecordService;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 用户支付记录
  */
+@Slf4j
 @RestController
 @RequestMapping("/paymentRecord")
 public class PaymentRecordController {
@@ -28,6 +30,7 @@ public class PaymentRecordController {
      */
     @PostMapping("/callback")
     public ApiResponse paymentCallback(@RequestBody PaymentCallBack paymentCallBack) {
+        log.info("支付回调接口:{}", paymentCallBack);
         return ApiResponse.ok(paymentRecordService.handlePaymentCallback(paymentCallBack));
     }
 }
