@@ -7,6 +7,9 @@ import com.tencent.request.RedemptionRequest;
 import com.tencent.response.ChallengeResponse;
 import com.tencent.response.PracticeRecordInfoResponse;
 import com.tencent.response.RewardResponse;
+import jakarta.servlet.http.HttpServletRequest;
+
+import java.io.IOException;
 
 /**
  * @author lanyiping
@@ -29,4 +32,6 @@ public interface ComprehensiveService {
     Boolean collectCoins(CollectCoinsRequest collectCoins);
 
     Object exchangeDetail(String user_redemptionId);
+
+    Object pay(HttpServletRequest request) throws IOException, InterruptedException;
 }
