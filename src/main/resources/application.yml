@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://sh-cynosdbmysql-grp-1snop47m.sql.tencentcdb.com:27854/HuAnX?useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Hongkong
-    username: root
-    password: RTAsZv961MUT6
+    url: jdbc:mysql://${MYSQL_ADDRESS}/${MYSQL_DATABASE}?useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Hongkong
+    username: ${MYSQL_USERNAME}
+    password: ${MySQL_PASSWORD}
   mvc:
     view:
       suffix: .html
