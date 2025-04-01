@@ -223,12 +223,12 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         JSONObject payment = new JSONObject();
         // 添加字段
         // 获取指定header参数的openid
-//        payment.put("openid", request.getHeader("X-WX-OPENID"));
-        payment.put("openid", "om70g7YsunOZY-hhhSw2mli1aQKg");
+        payment.put("openid", request.getHeader("X-WX-OPENID"));
+//        payment.put("openid", "om70g7YsunOZY-hhhSw2mli1aQKg");
         payment.put("body", "护安行测试微信支付");
         payment.put("out_trade_no", outTradeNo);
-//        payment.put("spbill_create_ip", request.getHeader("X-Original-Forwarded-For"));
-        payment.put("spbill_create_ip", "111.197.22.151");
+        payment.put("spbill_create_ip", request.getHeader("X-Original-Forwarded-For"));
+//        payment.put("spbill_create_ip", "111.197.22.151");
         payment.put("total_fee", 1);
         payment.put("env_id", "prod-8gyjdhvibe4ef498");
         payment.put("callback_type", 2);
