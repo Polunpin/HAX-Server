@@ -31,5 +31,5 @@ public interface ComprehensiveService {
 
     Object exchangeDetail(String user_redemptionId);
 
-    Object pay(HttpServletRequest request);
+    Object pay(HttpServletRequest request, String amount);
 }

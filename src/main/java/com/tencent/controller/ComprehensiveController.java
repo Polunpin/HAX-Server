@@ -123,10 +123,11 @@ public class ComprehensiveController {
      * 界面：支付
      *
      * @param request 请求体
+     * @param amount  支付金额
      * @return 兑换详情
      */
     @GetMapping("/pay")
-    public ApiResponse pay(HttpServletRequest request) {
-        return ApiResponse.ok(comprehensiveService.pay(request));
+    public ApiResponse pay(HttpServletRequest request, String amount) {
+        return ApiResponse.ok(comprehensiveService.pay(request, amount));
     }
 }

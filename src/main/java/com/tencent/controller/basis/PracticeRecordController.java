@@ -28,7 +28,7 @@ public class PracticeRecordController {
      */
     @PostMapping("/savePracticeRecord")
     public ApiResponse savePracticeRecord(@RequestBody PracticeRecord practiceRecord) {
-        log.info("-----------------" + practiceRecord.toString() + "-----------------");
+        log.info("保存练习记录:{}", practiceRecord.toString());
         return ApiResponse.ok(practiceRecordService.savePracticeRecord(practiceRecord));
     }
 

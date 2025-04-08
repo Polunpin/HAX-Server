@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.tencent.config.ApiResponse;
 import com.tencent.mapper.PracticeRecordMapper;
 import com.tencent.model.Practice;
 import com.tencent.model.PracticeRecord;
@@ -14,6 +15,7 @@ import com.tencent.service.PracticeRecordService;
 import com.tencent.service.PracticeService;
 import jakarta.annotation.Resource;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
  * @description 针对表【user_practice_record(练习记录表)】的数据库操作Service实现
  * @createDate 2025-03-19 22:06:35
  */
+@Slf4j
 @Service
 public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper, PracticeRecord>
         implements PracticeRecordService {
@@ -39,12 +42,13 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
     public PracticeRecordMapper practiceRecordMapper;
 
     @Override
-    public Long savePracticeRecord(PracticeRecord practiceRecord) {
+    public ApiResponse savePracticeRecord(PracticeRecord practiceRecord) {
         //保存练习记录时，同步练习表现
         if (practiceRecord.getPracticeId() != null) {
             Practice practice = practiceS.getById(practiceRecord.getPracticeId());
             if (practice != null && practice.getTarget() != null) {
                 practiceRecord.setPerformance(practice.getTarget());
+                log.info("practiceRecord 练习记录:{}", practiceRecord);
             }
         }
 
@@ -87,8 +91,12 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
                             duration.toMinutesPart(),
                             duration.toSecondsPart()));
         }
-        this.saveOrUpdate(practiceRecord); // 保存实体
-        return practiceRecord.getId(); // 返回自动生成的 ID
+
+        if (this.saveOrUpdate(practiceRecord)) {
+            return ApiResponse.error("保存练习记录失败:" + practiceRecord.getTrajectory());
+        }
+        // 返回自动生成的 ID
+        return ApiResponse.ok(practiceRecord.getId());
     }
 
     @Override
