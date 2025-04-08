@@ -224,15 +224,14 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
                 .fluentPut("body", "护安行小程序会员付")
                 .fluentPut("out_trade_no", outTradeNo)
                 .fluentPut("spbill_create_ip", request.getHeader("X-Original-Forwarded-For"))
-                .fluentPut("total_fee", 1)
                 .fluentPut("env_id", request.getHeader("X-WX-ENV"))
+                .fluentPut("total_fee", 1)
                 .fluentPut("callback_type", 2)
-                .fluentPut("sub_mch_id", "1683694889")
-                .fluentPut("function_name", "pay1By1");
+                .fluentPut("sub_mch_id", "1683694889");
         // 创建嵌套JSON对象
         JSONObject container = new JSONObject()
-                .fluentPut("service", "callback")
-                .fluentPut("path", "/paymentRecord");
+                .fluentPut("service", "huanx-server")
+                .fluentPut("path", "/comprehensive/paymentRecord");
         // 添加嵌套对象到主对象中
         payment.put("container", container);
         HttpRequest build = HttpRequest.newBuilder()
