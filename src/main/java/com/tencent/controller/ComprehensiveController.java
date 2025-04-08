@@ -130,7 +130,6 @@ public class ComprehensiveController {
      */
     @GetMapping("/pay")
     public ApiResponse pay(HttpServletRequest request, String amount) {
-        log.info("pay: {}", amount);
         return ApiResponse.ok(comprehensiveService.pay(request, amount));
     }
 }

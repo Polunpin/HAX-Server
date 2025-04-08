@@ -14,6 +14,7 @@ import com.tencent.service.*;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ import static org.springframework.beans.BeanUtils.copyProperties;
  * @author lanyiping
  * @description 综合类：混合其他类的接口
  */
+@Slf4j
 @Service
 public class ComprehensiveServiceImpl implements ComprehensiveService {
 
@@ -240,11 +242,13 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
                 .POST(HttpRequest.BodyPublishers.ofString(payment.toJSONString()))
                 .timeout(Duration.ofSeconds(10))
                 .build();
+        log.info("payment: {}", payment);
 
         // 发送请求并获取响应
         try {
             HttpResponse<String> response = CLIENT.send(build, HttpResponse.BodyHandlers.ofString());
             JSONObject jsonObject = JSON.parseObject(response.body());
+            log.info("支付请求响应：{}", jsonObject);
             return jsonObject.getJSONObject("respdata").getJSONObject("payment");
         } catch (IOException | InterruptedException e) {
             // 根据业务需求处理异常
