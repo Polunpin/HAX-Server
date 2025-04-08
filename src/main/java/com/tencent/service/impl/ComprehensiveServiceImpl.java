@@ -118,7 +118,6 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         return challengeResponse;
     }
 
-
     @Override
     public RewardResponse getRewardList(String userId) {
         RewardResponse rewardResponse = new RewardResponse();
@@ -246,7 +245,8 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         // 发送请求并获取响应
         try {
             HttpResponse<String> response = CLIENT.send(build, HttpResponse.BodyHandlers.ofString());
-            return response.body();
+            JSONObject jsonObject = JSON.parseObject(response.body());
+            return jsonObject.getJSONObject("respdata").getJSONObject("payment");
         } catch (IOException | InterruptedException e) {
             // 根据业务需求处理异常
             throw new RuntimeException("支付请求失败", e);
