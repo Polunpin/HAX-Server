@@ -45,6 +45,7 @@ public class KnowledgeLibrary {
     /**
      * 难度(1-5星)
      */
+    @Deprecated
     private Integer difficulty;
 
     /**
