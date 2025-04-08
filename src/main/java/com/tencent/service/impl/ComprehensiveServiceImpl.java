@@ -215,7 +215,7 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
 
     @Override
     @SneakyThrows
-    public Object pay(HttpServletRequest request) {
+    public Object pay(HttpServletRequest request, String amount) {
         String outTradeNo = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) +
                 "-HuAnXing-" + UUID.randomUUID().toString().substring(0, 8);
         // 创建JSON对象
@@ -225,7 +225,7 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
                 .fluentPut("out_trade_no", outTradeNo)
                 .fluentPut("spbill_create_ip", request.getHeader("X-Original-Forwarded-For"))
                 .fluentPut("env_id", request.getHeader("X-WX-ENV"))
-                .fluentPut("total_fee", 1)
+                .fluentPut("total_fee", amount)
                 .fluentPut("callback_type", 2)
                 .fluentPut("sub_mch_id", "1683694889");
         // 创建嵌套JSON对象

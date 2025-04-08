@@ -30,7 +30,6 @@ public class PaymentRecordController {
      */
     @PostMapping("/callback")
     public ApiResponse paymentCallback(@RequestBody PaymentCallBack paymentCallBack) {
-        log.info("支付回调接口:{}", paymentCallBack);
         return ApiResponse.ok(paymentRecordService.handlePaymentCallback(paymentCallBack));
     }
 }
