@@ -26,12 +26,23 @@ public class PaymentRecordServiceImpl extends ServiceImpl<PaymentRecordMapper, P
         if (!"SUCCESS".equals(paymentCallBack.getReturnCode()) || !"SUCCESS".equals(paymentCallBack.getResultCode())) {
             return false; // 支付失败
         }
+
+        // 2. 检查是否已处理过该回调
+        String outTradeNo = paymentCallBack.getOutTradeNo();
+        boolean exists = this.lambdaQuery().eq(PaymentRecord::getOutTradeNo, outTradeNo).exists();
+        if (exists) {
+            return true; // 重复的回调，直接返回成功
+        }
+
+        // 3. 处理回调
         PaymentRecord paymentRecord = new PaymentRecord();
         copyProperties(paymentCallBack, paymentRecord);
         paymentRecord.setPayInfo(JSONObject.toJSONString(paymentCallBack));
-        // 2. 保存回调信息到数据库,并返回成功响应
+
+        // 4. 保存回调信息到数据库,并返回成功响应
         return this.save(paymentRecord);
     }
+
 }
 
 
