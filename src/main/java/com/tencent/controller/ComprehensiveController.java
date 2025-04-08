@@ -8,11 +8,13 @@ import com.tencent.request.RedemptionRequest;
 import com.tencent.service.ComprehensiveService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * 综合类：混合其他类的接口
  */
+@Slf4j
 @RestController
 @RequestMapping("/comprehensive")
 public class ComprehensiveController {
@@ -128,6 +130,7 @@ public class ComprehensiveController {
      */
     @GetMapping("/pay")
     public ApiResponse pay(HttpServletRequest request, String amount) {
+        log.info("pay: {}", amount);
         return ApiResponse.ok(comprehensiveService.pay(request, amount));
     }
 }
