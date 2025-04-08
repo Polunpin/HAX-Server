@@ -231,7 +231,7 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         // 创建嵌套JSON对象
         JSONObject container = new JSONObject()
                 .fluentPut("service", "huanx-server")
-                .fluentPut("path", "/comprehensive/paymentRecord");
+                .fluentPut("path", "/paymentRecord/callback");
         // 添加嵌套对象到主对象中
         payment.put("container", container);
         HttpRequest build = HttpRequest.newBuilder()
