@@ -129,7 +129,7 @@ public class ComprehensiveController {
      * @return 兑换详情
      */
     @GetMapping("/pay")
-    public ApiResponse pay(HttpServletRequest request, String amount) {
+    public ApiResponse pay(HttpServletRequest request, Long amount) {
         return ApiResponse.ok(comprehensiveService.pay(request, amount));
     }
 }
