@@ -13,7 +13,6 @@ import com.tencent.response.*;
 import com.tencent.service.*;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -216,40 +215,35 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     }
 
     @Override
-    @SneakyThrows
-    public Object pay(HttpServletRequest request, String amount) {
+    public Object pay(HttpServletRequest request, Long amount) {
         String outTradeNo = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) +
                 "-HuAnXing-" + UUID.randomUUID().toString().substring(0, 8);
-        // 创建JSON对象
-        JSONObject payment = new JSONObject();
-        payment.fluentPut("openid", request.getHeader("X-WX-OPENID"))
+
+        JSONObject payment = new JSONObject()
+                .fluentPut("openid", request.getHeader("X-WX-OPENID"))
                 .fluentPut("body", "护安行小程序会员付")
                 .fluentPut("out_trade_no", outTradeNo)
                 .fluentPut("spbill_create_ip", request.getHeader("X-Original-Forwarded-For"))
                 .fluentPut("env_id", request.getHeader("X-WX-ENV"))
                 .fluentPut("total_fee", amount)
                 .fluentPut("callback_type", 2)
-                .fluentPut("sub_mch_id", "1683694889");
-        // 创建嵌套JSON对象
-        JSONObject container = new JSONObject()
-                .fluentPut("service", "huanx-server")
-                .fluentPut("path", "/paymentRecord/callback");
-        // 添加嵌套对象到主对象中
-        payment.put("container", container);
-        HttpRequest build = HttpRequest.newBuilder()
+                .fluentPut("sub_mch_id", "1683694889")
+                .fluentPut("container", new JSONObject()
+                        .fluentPut("service", "huanx-server")
+                        .fluentPut("path", "/paymentRecord/callback"));
+
+        HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.weixin.qq.com/_/pay/unifiedorder"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(payment.toJSONString()))
                 .timeout(Duration.ofSeconds(10))
                 .build();
-        log.info("payment: {}", payment);
 
-        // 发送请求并获取响应
         try {
-            HttpResponse<String> response = CLIENT.send(build, HttpResponse.BodyHandlers.ofString());
-            JSONObject jsonObject = JSON.parseObject(response.body());
-            log.info("支付请求响应：{}", jsonObject);
-            return jsonObject.getJSONObject("respdata").getJSONObject("payment");
+            HttpResponse<String> response = CLIENT.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            return JSON.parseObject(response.body())
+                    .getJSONObject("respdata")
+                    .getJSONObject("payment");
         } catch (IOException | InterruptedException e) {
             // 根据业务需求处理异常
             throw new RuntimeException("支付请求失败", e);
