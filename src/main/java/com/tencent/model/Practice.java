@@ -45,7 +45,7 @@ public class Practice {
     /**
      * 图片链接
      */
-    private String imageUrl;
+    private String url;
 
     /**
      * 奖励金币

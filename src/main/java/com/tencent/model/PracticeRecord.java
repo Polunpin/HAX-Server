@@ -74,11 +74,6 @@ public class PracticeRecord {
     private Integer proficiency;
 
     /**
-     * 练习表现
-     */
-    private String performance;
-
-    /**
      * 练习心得
      */
     private String insights;

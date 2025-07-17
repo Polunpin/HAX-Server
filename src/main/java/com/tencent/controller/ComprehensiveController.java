@@ -3,7 +3,6 @@ package com.tencent.controller;
 
 import com.tencent.config.ApiResponse;
 import com.tencent.request.CollectCoinsRequest;
-import com.tencent.request.PracticeRequest;
 import com.tencent.request.RedemptionRequest;
 import com.tencent.service.ComprehensiveService;
 import jakarta.annotation.Resource;
@@ -21,19 +20,6 @@ public class ComprehensiveController {
 
     @Resource
     public ComprehensiveService comprehensiveService;
-
-
-    /**
-     * 功能：练习详情查询
-     * 界面：练习详情页
-     *
-     * @param practiceRequest 练习详情入参
-     * @return 练习详情信息
-     */
-    @GetMapping("/getPracticeDetail")
-    public ApiResponse getPracticeDetail(PracticeRequest practiceRequest) {
-        return ApiResponse.ok(comprehensiveService.getPracticeDetail(practiceRequest));
-    }
 
     /**
      * 功能：练习列表查询
@@ -131,5 +117,16 @@ public class ComprehensiveController {
     @GetMapping("/pay")
     public ApiResponse pay(HttpServletRequest request, Long amount) {
         return ApiResponse.ok(comprehensiveService.pay(request, amount));
+    }
+
+    /**
+     * 功能：发送订阅消息
+     * 界面：无
+     *
+     * @param request 订阅消息请求体
+     */
+    @PostMapping("/sendSubscribeMessage")
+    public void sendSubscribeMessage(HttpServletRequest request) {
+        comprehensiveService.sendSubscribeMessage(request);
     }
 }

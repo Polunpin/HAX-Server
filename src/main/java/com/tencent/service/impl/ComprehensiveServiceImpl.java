@@ -7,14 +7,15 @@ import com.tencent.config.ApiResponse;
 import com.tencent.mapper.PracticeMapper;
 import com.tencent.model.*;
 import com.tencent.request.CollectCoinsRequest;
-import com.tencent.request.PracticeRequest;
 import com.tencent.request.RedemptionRequest;
 import com.tencent.response.*;
 import com.tencent.service.*;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -58,6 +60,8 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     public RedemptionService user_redemptionS;
     @Resource
     public ChallengeRecordService challengeRecordS;
+    @Resource
+    public ShippingAddressService shippingAddressS;
 
     /**
      * @param targetMileage  挑战目标
@@ -99,7 +103,6 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
                 .format(practiceRecord.getStartTime()) + "-" + endFormatter.format(practiceRecord.getEndTime()));
 
         practiceRecordInfo.setTitle(practice.getTitle());
-        practiceRecordInfo.setPerformance(JSON.parseArray(practiceRecord.getPerformance()));
         practiceRecordInfo.setTrajectory(JSON.parseArray(practiceRecord.getTrajectory()));
         return practiceRecordInfo;
     }
@@ -131,30 +134,13 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
     }
 
     @Override
-    public Object getPracticeDetail(PracticeRequest practiceRequest) {
-        var practiceResponse = new PracticeResponse();
-        Practice practice = practiceS.getById(practiceRequest.getPracticeId());
-        copyProperties(practice, practiceResponse);
-        List<PracticeRecordServiceImpl.ContentStatistics> practiceProgress = practiceRecordS.getPracticeProgress(practiceRequest);
-        practiceResponse.setTarget(JSON.parseArray(JSONObject.toJSONString(practiceProgress)));
-        practiceResponse.setNotes(JSON.parseArray(practice.getNotes()));
-        return practiceResponse;
-    }
-
-    @Override
     public List<PracticeResponse> getPracticeList(String userId) {
+        //获取用户练习列表（练习表+练习记录表）
         List<PracticeResponse> practiceList = practiceMapper.getPracticeList(userId);
         practiceList.forEach(practice -> {
-            PracticeRequest practiceRequest = new PracticeRequest();
-            practiceRequest.setPracticeId(practice.getId());
-            practiceRequest.setUserId(userId);
-            List<PracticeRecordServiceImpl.ContentStatistics> practiceProgress = practiceRecordS.getPracticeProgress(practiceRequest);
-            practice.setNotes(JSON.parseArray(String.valueOf(practice.getNotes())));
-            if (practiceProgress.isEmpty()) {
-                practice.setTarget(JSON.parseArray(String.valueOf(practice.getTarget())));
-            } else {
-                practice.setTarget(JSON.parseArray(JSONObject.toJSONString(practiceProgress)));
-            }
+            List<String> targetIds = Arrays.asList(practice.getTarget().toString().split(","));
+            List<PracticeKnowledgeResponse> practiceKnowledge = practiceMapper.getKnowledgeLibraries(targetIds);
+            practice.setTarget(practiceKnowledge);
         });
         return practiceList;
     }
@@ -196,12 +182,15 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         if (!isGoldSufficient(RedemptionRequest)) {
             return ApiResponse.ok(INSUFFICIENT_GOLD_MESSAGE, false);
         }
-
+        // 保存兑换记录
         if (user_redemptionS.exchange(RedemptionRequest)) {
             UpdateWrapper<Users> updateWrapper = new UpdateWrapper<>();
             updateWrapper.eq("id", RedemptionRequest.getUserId());
             updateWrapper.setSql("gold = gold - " + RedemptionRequest.getGoldCoins());
+            // 更新用户金币数量
             usersS.update(updateWrapper);
+            // 保存收货地址
+            shippingAddressS.save(RedemptionRequest);
             return ApiResponse.ok(SUCCESS_MESSAGE, true);
         } else {
             return ApiResponse.ok(FAILURE_MESSAGE, false);
@@ -248,6 +237,29 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
             // 根据业务需求处理异常
             throw new RuntimeException("支付请求失败", e);
         }
+    }
+
+    @Override
+    public void sendSubscribeMessage(HttpServletRequest request) {
+        //奖品发货通知
+        JSONObject jsonData = new JSONObject();
+
+        //todo 该数据后期使用查询数据库待发货的数据
+        jsonData.put("character_string3", "JD001");
+        jsonData.put("thing8", "京东快递");
+        jsonData.put("thing9", "车载灭火器");
+
+        JSONObject json = new JSONObject();
+        String url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send";
+        json.put("touser", "om70g7YsunOZY-hhhSw2mli1aQKg");
+        json.put("data", jsonData);
+        json.put("template_id", "55vXMplWvzctmTVcM3qCzYg-_OO2vOMxibYTQwJRFUg");
+        json.put("page", "pages/record/record");
+
+        //POST请求
+        ResponseEntity<String> response = new RestTemplate().postForEntity(url, json, String.class);
+        JSONObject object = JSONObject.parseObject(response.getBody());
+        log.info("订阅消息操作结果:{}", object);
     }
 }
 

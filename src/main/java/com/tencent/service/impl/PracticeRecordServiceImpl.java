@@ -2,25 +2,18 @@ package com.tencent.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.tencent.config.ApiResponse;
 import com.tencent.mapper.PracticeRecordMapper;
-import com.tencent.model.Practice;
 import com.tencent.model.PracticeRecord;
-import com.tencent.request.PracticeRequest;
 import com.tencent.response.PracticeRecordResponse;
 import com.tencent.response.PracticeRecordsResponse;
 import com.tencent.service.PracticeRecordService;
-import com.tencent.service.PracticeService;
 import jakarta.annotation.Resource;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -37,20 +30,10 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
 
 
     @Resource
-    public PracticeService practiceS;
-    @Resource
     public PracticeRecordMapper practiceRecordMapper;
 
     @Override
-    public ApiResponse savePracticeRecord(PracticeRecord practiceRecord) {
-        //保存练习记录时，同步练习表现
-        if (practiceRecord.getPracticeId() != null) {
-            Practice practice = practiceS.getById(practiceRecord.getPracticeId());
-            if (practice != null && practice.getTarget() != null) {
-                practiceRecord.setPerformance(practice.getTarget());
-                log.info("practiceRecord 练习记录:{}", practiceRecord);
-            }
-        }
+    public Long savePracticeRecord(PracticeRecord practiceRecord) {
 
         if (practiceRecord.getTrajectory() != null) {
             JSONArray speeds = JSON.parseArray(practiceRecord.getTrajectory());
@@ -82,21 +65,9 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
             practiceRecord.setMaxSpeed(BigDecimal.valueOf(maxSpeed * 3.6)); // m/s to km/h
             practiceRecord.setSuddenBrakeCount(suddenBrakeCount);
         }
-        if (practiceRecord.getDuration() != null) {
-            // 将秒数直接转换为 HH:mm:ss 并保存
-            Duration duration = Duration.ofSeconds(Long.parseLong(practiceRecord.getDuration()));
-            practiceRecord.setDuration(
-                    String.format("%02d:%02d:%02d",
-                            duration.toHoursPart(),
-                            duration.toMinutesPart(),
-                            duration.toSecondsPart()));
-        }
-
-        if (this.saveOrUpdate(practiceRecord)) {
-            return ApiResponse.error("保存练习记录失败:" + practiceRecord.getTrajectory());
-        }
+        this.saveOrUpdate(practiceRecord);
         // 返回自动生成的 ID
-        return ApiResponse.ok(practiceRecord.getId());
+        return practiceRecord.getId();
     }
 
     @Override
@@ -128,56 +99,6 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
                     response.setPracticeRecord(entry.getValue());
                     return response;
                 }).toList();
-    }
-
-    @Override
-    public List<ContentStatistics> getPracticeProgress(PracticeRequest practiceRequest) {
-        QueryWrapper<PracticeRecord> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", practiceRequest.getUserId())
-                .eq("practice_id", practiceRequest.getPracticeId());
-        // 查询当前用户的练习记录
-        List<PracticeRecord> practiceRecords = this.list(queryWrapper);
-
-        // 汇集所有练习表现
-        List<MyPractice> allPractices = practiceRecords.stream()
-                .map(PracticeRecord::getPerformance)
-                .filter(Objects::nonNull)
-                .flatMap(performance -> JSON.parseArray(performance, MyPractice.class).stream())
-                .toList();
-
-        // 定义 rate 的最大值
-        final int MAX_RATE = 5;
-
-        // 对 content 分组，计算 rate 总和和百分比
-        return allPractices.stream()
-                .collect(Collectors.groupingBy(MyPractice::getContent, Collectors.summarizingInt(MyPractice::getRate)))
-                .entrySet()
-                .stream()
-                .map(entry -> {
-                    double percentage = BigDecimal.valueOf((entry.getValue().getSum() * 100.0) / (entry.getValue().getCount() * MAX_RATE))
-                            .setScale(2, RoundingMode.HALF_UP).doubleValue();
-                    return new ContentStatistics(entry.getKey(), percentage);
-                })
-                .toList();
-    }
-
-    // 定义用于映射的 POJO 类
-    @Data
-    public static class MyPractice {
-        private String content;
-        private Integer rate;
-    }
-
-    // 简化 ContentStatistics 的定义，添加构造函数便于创建对象
-    @Data
-    public static class ContentStatistics {
-        private String content; // content 名称
-        private Double completion; // rate 的百分比
-
-        public ContentStatistics(String content, Double completion) {
-            this.content = content;
-            this.completion = completion;
-        }
     }
 }
 

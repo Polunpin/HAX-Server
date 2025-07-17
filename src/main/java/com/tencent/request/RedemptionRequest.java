@@ -1,12 +1,15 @@
 package com.tencent.request;
 
+import com.tencent.model.ShippingAddress;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 奖励兑换保存
  */
 @Data
-public class RedemptionRequest {
+@EqualsAndHashCode(callSuper = true)
+public class RedemptionRequest extends ShippingAddress {
 
     /**
      * 用户ID
