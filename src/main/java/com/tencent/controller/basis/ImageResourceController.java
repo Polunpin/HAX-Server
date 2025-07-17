@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ImageResourceController {
 
     @Resource
-    public ImageResourceService imageResourceS;
+    public ImageResourceService imageResourceService;
 
     /**
      * 功能：根据ID获取资源访问路径
@@ -25,7 +25,19 @@ public class ImageResourceController {
      */
     @RequestMapping("/getResourceUrlById")
     public ApiResponse getResourceUrlById(Long id) {
-        return ApiResponse.ok(imageResourceS.getResourceUrlById(id));
+        return ApiResponse.ok(imageResourceService.getResourceUrlById(id));
+    }
+
+    /**
+     * 功能：根据type获取资源列表
+     * 界面：交通标志、学习一级目录
+     *
+     * @param type 资源类型
+     * @return List
+     */
+    @RequestMapping("/getResourcesByType")
+    public ApiResponse getResourcesByType(Integer type) {
+        return ApiResponse.ok(imageResourceService.getResourcesByType(type));
     }
 
 }

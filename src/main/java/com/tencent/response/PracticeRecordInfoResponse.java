@@ -57,11 +57,6 @@ public class PracticeRecordInfoResponse {
     private Integer proficiency;
 
     /**
-     * 练习表现
-     */
-    private JSONArray performance;
-
-    /**
      * 练习心得
      */
     private String insights;

@@ -16,7 +16,6 @@
         <result property="maxSpeed" column="max_speed" jdbcType="DECIMAL"/>
         <result property="suddenBrakeCount" column="sudden_brake_count" jdbcType="TINYINT"/>
         <result property="proficiency" column="proficiency" jdbcType="TINYINT"/>
-        <result property="performance" column="performance" jdbcType="VARCHAR"/>
         <result property="insights" column="insights" jdbcType="VARCHAR"/>
         <result property="photos" column="photos" jdbcType="VARCHAR"/>
         <result property="trajectory" column="trajectory" jdbcType="VARCHAR"/>
@@ -28,7 +27,7 @@
         id,practice_id,user_id,
         start_time,end_time,duration,
         distance,avg_speed,max_speed,
-        sudden_brake_count,proficiency,performance,
+        sudden_brake_count,proficiency,
         insights,photos,trajectory,
         created_at,updated_at
     </sql>
@@ -38,13 +37,12 @@
                pr.duration,
                pr.distance,
                pr.trajectory,
-               JSON_EXTRACT(pr.performance, '$[0].rate') > 0 AS isRecord,
                p.title,
                CONCAT(DATE_FORMAT(pr.start_time, '%Y-%m-%d %H:%i'), '-',
-                      DATE_FORMAT(pr.end_time, '%H:%i'))     as consumptionTime
+                      DATE_FORMAT(pr.end_time, '%H:%i')) as consumptionTime
         from user_practice_record pr
                  left join practice p on p.id = pr.practice_id
-        where user_id = #{userId};
+        where pr.user_id = #{userId};
     </select>
 
 </mapper>

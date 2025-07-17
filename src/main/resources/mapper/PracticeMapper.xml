@@ -10,14 +10,14 @@
         <result property="target" column="target" jdbcType="VARCHAR"/>
         <result property="notes" column="notes" jdbcType="VARCHAR"/>
         <result property="type" column="type" jdbcType="TINYINT"/>
-        <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
         <result property="rewardGold" column="reward_gold" jdbcType="INTEGER"/>
         <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
         <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,title,target,notes,type,reward_gold,created_at,updated_at
+        DELIMITER title,target,notes,type,url,reward_gold,created_at,updated_at
     </sql>
 
     <select id="getPracticeList" resultType="com.tencent.response.PracticeResponse">
@@ -27,7 +27,6 @@
                p.notes,
                p.type,
                p.reward_gold,
-               p.image_url,
                ifnull((ROUND(SUM(
                                      SUBSTRING(pr.duration, 1, 2) + -- 小时部分
                                      SUBSTRING(pr.duration, 4, 2) / 60.0 + -- 分钟部分
@@ -37,5 +36,14 @@
                  LEFT JOIN
              user_practice_record pr ON p.id = pr.practice_id and pr.user_id = #{userId}
         GROUP BY p.id;
+    </select>
+    <select id="getKnowledgeLibraries" resultType="com.tencent.response.PracticeKnowledgeResponse">
+        SELECT k.id, k.level3_dir as title, if(ul.learning_status IS NULL, 0, 1) as state
+        FROM knowledge_library k
+        left join user_learning_progress ul on k.id = ul.knowledge_id
+        WHERE k.id IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </select>
 </mapper>

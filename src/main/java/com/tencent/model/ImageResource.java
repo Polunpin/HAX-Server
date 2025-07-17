@@ -22,6 +22,11 @@ public class ImageResource {
     private Long id;
 
     /**
+     * 一级标题
+     */
+    private String level;
+
+    /**
      * 用途描述
      */
     private String name;
@@ -32,7 +37,12 @@ public class ImageResource {
     private String url;
 
     /**
-     * 类型
+     * 第二个路径
+     */
+    private String urlSecond;
+
+    /**
+     * 类型(0:交通标志 1:学习图标)
      */
     private Integer type;
 

@@ -2,7 +2,6 @@ package com.tencent.controller.basis;
 
 import com.tencent.config.ApiResponse;
 import com.tencent.model.PracticeRecord;
-import com.tencent.request.PracticeRequest;
 import com.tencent.service.PracticeRecordService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -42,18 +41,6 @@ public class PracticeRecordController {
     @GetMapping("/getPracticeRecordList")
     public ApiResponse getPracticeRecordList(String userId) {
         return ApiResponse.ok(practiceRecordService.getPracticeRecordList(userId));
-    }
-
-    /**
-     * 功能：查询练习目标进度
-     * 界面：练习详情页
-     *
-     * @param practiceRequest 用户ID、练习ID
-     * @return 练习目标进度
-     */
-    @GetMapping("/getPracticeProgress")
-    public ApiResponse getPracticeProgress(PracticeRequest practiceRequest) {
-        return ApiResponse.ok(practiceRecordService.getPracticeProgress(practiceRequest));
     }
 
 }

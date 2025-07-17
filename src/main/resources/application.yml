@@ -17,10 +17,6 @@ spring:
       max-request-size: 10MB
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
-  #wx:
-  #小程序
-#  appId: wx5745b3f0a911e8d8
-#  secret: 9a4e5d01d729f1b9951b7d37a3375da0
 
 # 日志
 logging:

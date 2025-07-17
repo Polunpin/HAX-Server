@@ -2,7 +2,9 @@ package com.tencent.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tencent.model.Practice;
+import com.tencent.response.PracticeKnowledgeResponse;
 import com.tencent.response.PracticeResponse;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,6 +17,8 @@ import java.util.List;
 public interface PracticeMapper extends BaseMapper<Practice> {
 
     List<PracticeResponse> getPracticeList(String userId);
+
+    List<PracticeKnowledgeResponse> getKnowledgeLibraries(@Param("ids") List<String> ids);
 }
 
 
