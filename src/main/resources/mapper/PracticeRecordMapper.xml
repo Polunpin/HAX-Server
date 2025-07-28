@@ -38,11 +38,13 @@
                pr.distance,
                pr.trajectory,
                p.title,
+               pr.end_time,
                CONCAT(DATE_FORMAT(pr.start_time, '%Y-%m-%d %H:%i'), '-',
                       DATE_FORMAT(pr.end_time, '%H:%i')) as consumptionTime
         from user_practice_record pr
                  left join practice p on p.id = pr.practice_id
-        where pr.user_id = #{userId};
+        where pr.user_id = #{userId}
+        order by pr.id desc;
     </select>
 
 </mapper>

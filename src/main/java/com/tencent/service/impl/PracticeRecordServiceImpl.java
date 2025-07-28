@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -72,16 +73,18 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
 
     @Override
     public List<PracticeRecordsResponse> getPracticeRecordList(String userId) {
-        //根据userId获取全部练习记录
+        // 根据userId获取全部练习记录
         List<PracticeRecordResponse> practiceRecordList = practiceRecordMapper.getPracticeRecordList(userId);
+
         // 遍历练习记录并将trajectory字段转为JSON
         practiceRecordList.forEach(record -> {
             if (record.getTrajectory() != null) {
                 record.setTrajectory(JSON.parseArray(String.valueOf(record.getTrajectory())));
             }
         });
-        //根据title分类，计算distance(驾驶路程)总和
-        return practiceRecordList.stream()
+
+        // 根据title分类，计算distance(驾驶路程)总和
+        List<PracticeRecordsResponse> list = practiceRecordList.stream()
                 .collect(Collectors.groupingBy(PracticeRecordResponse::getTitle))
                 .entrySet()
                 .stream()
@@ -99,6 +102,33 @@ public class PracticeRecordServiceImpl extends ServiceImpl<PracticeRecordMapper,
                     response.setPracticeRecord(entry.getValue());
                     return response;
                 }).toList();
+
+        // 找到list中最新的记录并设置标志
+        if (!list.isEmpty()) {
+            // 假设最新记录是根据练习记录的结束时间来判断
+            practiceRecordList.stream()
+                    .filter(record -> record.getEndTime() != null)
+                    .max(Comparator.comparing(PracticeRecordResponse::getEndTime)).ifPresent(
+                            latestRecordOverall -> list.forEach(response -> {
+                                response.setLatestRecord(false); // 默认设为false
+                                List<PracticeRecordResponse> records = response.getPracticeRecord();
+                                if (records != null && !records.isEmpty()) {
+                                    // 如果当前组包含最新的记录，则标记该组为最新
+                                    if (records.contains(latestRecordOverall)) {
+                                        response.setLatestRecord(true);
+                                    }
+                                }
+                            }));
+        }
+
+        // 将带有最新记录的项移到列表最前面
+        return list.stream()
+                .sorted((r1, r2) -> {
+                    boolean r1HasLatest = Boolean.TRUE.equals(r1.getLatestRecord());
+                    boolean r2HasLatest = Boolean.TRUE.equals(r2.getLatestRecord());
+                    return Boolean.compare(r2HasLatest, r1HasLatest); // true值在前
+                })
+                .collect(Collectors.toList());
     }
 }
 

@@ -40,6 +40,11 @@ public class PracticeRecordResponse {
     private String duration;
 
     /**
+     * 结束时间
+     */
+    private String endTime;
+
+    /**
      * 轨迹点(可存JSON)
      */
     private Object trajectory;

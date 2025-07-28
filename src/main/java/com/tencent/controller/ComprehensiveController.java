@@ -24,7 +24,6 @@ public class ComprehensiveController {
     /**
      * 功能：练习列表查询
      * 界面：练习列表
-     * 功能完整度：2/2
      *
      * @param userId 用户ID
      * @return 所有练习的列表

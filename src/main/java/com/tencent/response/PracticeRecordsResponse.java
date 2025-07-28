@@ -21,6 +21,11 @@ public class PracticeRecordsResponse {
     private double totalDistance;
 
     /**
+     * 最新练习记录标志
+     */
+    private Boolean latestRecord;
+
+    /**
      * 具体每条练习记录
      */
     private List<PracticeRecordResponse> practiceRecord;
