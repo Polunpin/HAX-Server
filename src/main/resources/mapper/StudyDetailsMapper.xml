@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tencent.mapper.StudyDetailsMapper">
+
+    <resultMap id="BaseResultMap" type="com.tencent.model.StudyDetails">
+        <id property="id" column="id"/>
+        <result property="studyListId" column="study_list_id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="urls" column="urls"/>
+        <result property="blinks" column="blinks"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,study_list_id,title,description,urls,blinks
+    </sql>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tencent.mapper.StudyListMapper">
+
+    <resultMap id="BaseResultMap" type="com.tencent.model.StudyList">
+        <id property="id" column="id"/>
+        <result property="studyDirectoryId" column="study_directory_id"/>
+        <result property="title" column="title"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="description" column="description"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,study_directory_id,title,thumbnail,description,created_at,
+        updated_at
+    </sql>
+</mapper>
