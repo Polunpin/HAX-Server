@@ -10,7 +10,7 @@ import lombok.Data;
 public class ContinueLearningResponse {
 
     /**
-     * 详情ID
+     * 列表ID
      */
     private Integer id;
 

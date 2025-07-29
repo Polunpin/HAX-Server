@@ -20,7 +20,7 @@
     </sql>
 
     <select id="getLearningProgress" resultType="com.tencent.response.ContinueLearningResponse">
-        SELECT sd.id,
+        SELECT sl.id,
                sd.title,
                sl.study_directory_id studyDirectoryId
         FROM users u
