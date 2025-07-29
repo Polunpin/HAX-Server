@@ -38,12 +38,12 @@
         GROUP BY p.id;
     </select>
     <select id="getKnowledgeLibraries" resultType="com.tencent.response.PracticeKnowledgeResponse">
-        SELECT k.id, k.level3_dir as title, if(ul.learning_status IS NULL, 0, 1) as state
-        FROM knowledge_library k
-        left join user_learning_progress ul on k.id = ul.knowledge_id
-        WHERE k.id IN
-        <foreach item="id" collection="ids" open="(" separator="," close=")">
-            #{id}
-        </foreach>
+        <!--        SELECT k.id, k.level3_dir as title, if(ul.learning_status IS NULL, 0, 1) as state-->
+        <!--        FROM knowledge_library k-->
+        <!--        left join user_learning_progress ul on k.id = ul.knowledge_id-->
+        <!--        WHERE k.id IN-->
+        <!--        <foreach item="id" collection="ids" open="(" separator="," close=")">-->
+        <!--            #{id}-->
+        <!--        </foreach>-->
     </select>
 </mapper>

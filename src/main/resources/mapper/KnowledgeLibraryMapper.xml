@@ -27,30 +27,30 @@
     </sql>
 
     <select id="listByLevel1Dir" resultType="com.tencent.response.LearningProgressResponse">
-        SELECT k.level2_dir,
-               COUNT(k.id)                                                     AS knowledgeSum,
-               COUNT(DISTINCT CASE WHEN sks.learning_status = 2 THEN k.id END) AS learnCount
-        FROM knowledge_library k
-                 LEFT JOIN
-             user_learning_progress sks ON k.id = sks.knowledge_id AND sks.user_id = #{userId}
-        WHERE k.level1_dir = #{level1Dir}
-        GROUP BY k.level2_dir, k.sort_order
-        ORDER BY k.sort_order;
+        #         SELECT k.level2_dir,
+#                COUNT(k.id)                                                     AS knowledgeSum,
+#                COUNT(DISTINCT CASE WHEN sks.learning_status = 2 THEN k.id END) AS learnCount
+#         FROM knowledge_library k
+#                  LEFT JOIN
+#              user_learning_progress sks ON k.id = sks.knowledge_id AND sks.user_id = #{userId}
+#         WHERE k.level1_dir = #{level1Dir}
+#         GROUP BY k.level2_dir, k.sort_order
+#         ORDER BY k.sort_order;
     </select>
 
     <select id="listInfoByLevel2Dir" resultType="com.tencent.response.KnowledgeLibraryResponse">
-        SELECT k.id,
-               k.level3_dir,
-               k.level4_dir,
-               k.difficulty,
-               k.image_url,
-               k.content,
-               sks.id                         AS learningId,
-               IFNULL(sks.learning_status, 0) AS learningStatus
-        FROM knowledge_library k
-                 LEFT JOIN user_learning_progress sks
-                           ON k.id = sks.knowledge_id AND sks.user_id = #{userId}
-        where k.level2_dir = #{level2Dir}
+        #         SELECT k.id,
+#                k.level3_dir,
+#                k.level4_dir,
+#                k.difficulty,
+#                k.image_url,
+#                k.content,
+#                sks.id                         AS learningId,
+#                IFNULL(sks.learning_status, 0) AS learningStatus
+#         FROM knowledge_library k
+#                  LEFT JOIN user_learning_progress sks
+#                            ON k.id = sks.knowledge_id AND sks.user_id = #{userId}
+#         where k.level2_dir = #{level2Dir}
     </select>
 
 </mapper>

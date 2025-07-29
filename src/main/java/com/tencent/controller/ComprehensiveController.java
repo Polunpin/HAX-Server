@@ -28,6 +28,7 @@ public class ComprehensiveController {
      * @param userId 用户ID
      * @return 所有练习的列表
      */
+    @Deprecated
     @GetMapping("/getPracticeList")
     public ApiResponse getPracticeList(String userId) {
         return ApiResponse.ok(comprehensiveService.getPracticeList(userId));

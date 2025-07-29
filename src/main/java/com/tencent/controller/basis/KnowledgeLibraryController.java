@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 知识库
  */
+@Deprecated
 @RestController()
 @RequestMapping("/knowledgeLibrary")
 public class KnowledgeLibraryController {
