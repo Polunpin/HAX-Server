@@ -29,7 +29,7 @@ public class LearningProgressServiceImpl extends ServiceImpl<LearningProgressMap
     }
 
     @Override
-    public Object renewLearningStatus(LearningProgress learningProgress) {
+    public Long renewLearningStatus(LearningProgress learningProgress) {
         //第一次学会时，补充第一次学会时间
         if (learningProgress.getLearningStatus() == 2 && learningProgress.getFirstMasteredAt() == null) {
             learningProgress.setFirstMasteredAt(new Date());

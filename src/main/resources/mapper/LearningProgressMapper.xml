@@ -20,12 +20,9 @@
     </sql>
 
     <select id="getLearningProgress" resultType="com.tencent.response.ContinueLearningResponse">
-        SELECT kl.id         AS knowledgeId,
-               kl.level2_dir AS level2Dir,
-               kl.level3_dir AS level3Dir,
-               kl.level4_dir AS level4Dir,
-               u.pay_stage   AS payStage,
-               u.proficiency AS proficiency
+        SELECT sd.id,
+               sd.title,
+               sl.study_directory_id studyDirectoryId
         FROM users u
                  LEFT JOIN (SELECT user_id, knowledge_id
                             FROM user_learning_progress
@@ -33,8 +30,9 @@
                             ORDER BY updated_at DESC
                             LIMIT 1) l
                            ON l.user_id = u.id
-                 LEFT JOIN knowledge_library kl
-                           ON kl.id = l.knowledge_id
+                 LEFT JOIN study_details sd
+                           ON sd.id = l.knowledge_id
+                 LEFT JOIN study_list sl ON sl.id = sd.study_list_id
         WHERE u.id = #{userId};
     </select>
 </mapper>

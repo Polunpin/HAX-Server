@@ -2,6 +2,7 @@ package com.tencent.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tencent.model.StudyList;
+import com.tencent.response.StudyListResponse;
 
 /**
  * @author lanyiping
@@ -10,4 +11,5 @@ import com.tencent.model.StudyList;
  */
 public interface StudyListService extends IService<StudyList> {
 
+    StudyListResponse listById(String id);
 }

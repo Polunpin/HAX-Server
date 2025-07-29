@@ -1,8 +1,6 @@
 package com.tencent.controller.basis;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tencent.config.ApiResponse;
-import com.tencent.model.StudyList;
 import com.tencent.service.StudyListService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +26,6 @@ public class StudyListController {
      */
     @GetMapping("/listById")
     public ApiResponse listById(String id) {
-        QueryWrapper<StudyList> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("study_directory_id", id);
-        return ApiResponse.ok(studyListService.list(queryWrapper));
+        return ApiResponse.ok(studyListService.listById(id));
     }
 }

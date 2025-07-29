@@ -10,32 +10,17 @@ import lombok.Data;
 public class ContinueLearningResponse {
 
     /**
-     * 知识ID,对应四级标题
+     * 详情ID
      */
-    private Long knowledgeId;
+    private Integer id;
 
     /**
-     * 二级标题
+     * 标题
      */
-    private String level2Dir;
+    private String title;
 
     /**
-     * 三级标题
+     * 学习目录ID
      */
-    private String level3Dir;
-
-    /**
-     * 四级标题
-     */
-    private String level4Dir;
-
-    /**
-     * 付费阶段
-     */
-    private String payStage;
-
-    /**
-     * 熟练度
-     */
-    private String proficiency;
+    private String studyDirectoryId;
 }
