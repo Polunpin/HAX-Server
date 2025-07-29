@@ -41,4 +41,9 @@ public class StudyDetails {
      * 知识双链
      */
     private String blinks;
+
+    /**
+     * 练习ID
+     */
+    private String practiceId;
 }
