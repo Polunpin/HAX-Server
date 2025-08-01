@@ -2,8 +2,8 @@ package com.tencent.controller.basis;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tencent.config.ApiResponse;
-import com.tencent.model.StudyDetails;
-import com.tencent.service.StudyDetailsService;
+import com.tencent.model.StudyKnowledge;
+import com.tencent.service.StudyKnowledgeService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
  * 学习详情
  */
 @RestController
-@RequestMapping("/studyDetails")
-public class StudyDetailsController {
+@RequestMapping("/studyKnowledge")
+public class StudyKnowledgeController {
 
     @Resource
-    public StudyDetailsService studyDetailsService;
+    public StudyKnowledgeService studyKnowledgeService;
 
     /**
      * 功能：根据id获取详情
@@ -28,8 +28,8 @@ public class StudyDetailsController {
      */
     @GetMapping("/listById")
     public ApiResponse listById(String id) {
-        QueryWrapper<StudyDetails> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<StudyKnowledge> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("study_list_id", id);
-        return ApiResponse.ok(studyDetailsService.list(queryWrapper));
+        return ApiResponse.ok(studyKnowledgeService.list(queryWrapper));
     }
 }

@@ -7,24 +7,17 @@
     <resultMap id="BaseResultMap" type="com.tencent.model.Practice">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="title" column="title" jdbcType="VARCHAR"/>
-        <result property="target" column="target" jdbcType="VARCHAR"/>
-        <result property="notes" column="notes" jdbcType="VARCHAR"/>
+        <result property="knowledgeId" column="knowledge_id" jdbcType="VARCHAR"/>
         <result property="type" column="type" jdbcType="TINYINT"/>
-        <result property="url" column="url" jdbcType="VARCHAR"/>
         <result property="rewardGold" column="reward_gold" jdbcType="INTEGER"/>
         <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
         <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        DELIMITER title,target,notes,type,url,reward_gold,created_at,updated_at
-    </sql>
-
     <select id="getPracticeList" resultType="com.tencent.response.PracticeResponse">
         SELECT p.id,
                p.title,
-               p.target,
-               p.notes,
+               p.knowledge_id,
                p.type,
                p.reward_gold,
                ifnull((ROUND(SUM(
@@ -38,12 +31,12 @@
         GROUP BY p.id;
     </select>
     <select id="getKnowledgeLibraries" resultType="com.tencent.response.PracticeKnowledgeResponse">
-        <!--        SELECT k.id, k.level3_dir as title, if(ul.learning_status IS NULL, 0, 1) as state-->
-        <!--        FROM knowledge_library k-->
-        <!--        left join user_learning_progress ul on k.id = ul.knowledge_id-->
-        <!--        WHERE k.id IN-->
-        <!--        <foreach item="id" collection="ids" open="(" separator="," close=")">-->
-        <!--            #{id}-->
-        <!--        </foreach>-->
+        SELECT sd.id, sd.title, if(ul.learning_status IS NULL, 0, 1) as state
+        FROM study_knowledge sd
+        left join user_learning_progress ul on sd.id = ul.knowledge_id AND ul.user_id = #{userId}
+        WHERE sd.id IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </select>
 </mapper>

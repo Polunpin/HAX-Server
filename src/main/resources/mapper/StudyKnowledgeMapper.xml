@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tencent.mapper.StudyDetailsMapper">
+<mapper namespace="com.tencent.mapper.StudyKnowledgeMapper">
 
-    <resultMap id="BaseResultMap" type="com.tencent.model.StudyDetails">
+    <resultMap id="BaseResultMap" type="com.tencent.model.StudyKnowledge">
         <id property="id" column="id"/>
         <result property="studyListId" column="study_list_id"/>
         <result property="title" column="title"/>
@@ -14,7 +14,4 @@
         <result property="practiceId" column="practice_id"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,study_list_id,title,description,urls,blinks
-    </sql>
 </mapper>

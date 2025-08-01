@@ -138,8 +138,8 @@ public class ComprehensiveServiceImpl implements ComprehensiveService {
         //获取用户练习列表（练习表+练习记录表）
         List<PracticeResponse> practiceList = practiceMapper.getPracticeList(userId);
         practiceList.forEach(practice -> {
-            List<String> targetIds = Arrays.asList(practice.getTarget().toString().split(","));
-            List<PracticeKnowledgeResponse> practiceKnowledge = practiceMapper.getKnowledgeLibraries(targetIds);
+            List<String> targetIds = Arrays.asList(practice.getKnowledgeId().split(","));
+            List<PracticeKnowledgeResponse> practiceKnowledge = practiceMapper.getKnowledgeLibraries(targetIds, userId);
             practice.setTarget(practiceKnowledge);
         });
         return practiceList;

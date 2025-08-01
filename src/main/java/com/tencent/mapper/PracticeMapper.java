@@ -18,7 +18,7 @@ public interface PracticeMapper extends BaseMapper<Practice> {
 
     List<PracticeResponse> getPracticeList(String userId);
 
-    List<PracticeKnowledgeResponse> getKnowledgeLibraries(@Param("ids") List<String> ids);
+    List<PracticeKnowledgeResponse> getKnowledgeLibraries(@Param("ids") List<String> ids, String userId);
 }
 
 

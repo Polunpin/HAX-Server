@@ -6,11 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
- * @TableName study_details
+ * @TableName study_knowledge
  */
-@TableName(value = "study_details")
+@TableName(value = "study_knowledge")
 @Data
-public class StudyDetails {
+public class StudyKnowledge {
     /**
      * 学习详情ID
      */

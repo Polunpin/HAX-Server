@@ -15,10 +15,6 @@
         <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,user_id,knowledge_id,learning_status,study_count,first_mastered_at,created_at,updated_at
-    </sql>
-
     <select id="getLearningProgress" resultType="com.tencent.response.ContinueLearningResponse">
         SELECT sl.id,
                sd.title,
@@ -30,7 +26,7 @@
                             ORDER BY updated_at DESC
                             LIMIT 1) l
                            ON l.user_id = u.id
-                 LEFT JOIN study_details sd
+                 LEFT JOIN study_knowledge sd
                            ON sd.id = l.knowledge_id
                  LEFT JOIN study_list sl ON sl.id = sd.study_list_id
         WHERE u.id = #{userId};

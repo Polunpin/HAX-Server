@@ -28,24 +28,14 @@ public class Practice {
     private String title;
 
     /**
-     * 练习目标
+     * 知识点ID
      */
-    private String target;
+    private String knowledgeId;
 
     /**
-     * 注意事项
-     */
-    private String notes;
-
-    /**
-     * 练习类型：1-基础, 2-进阶, 3-突破
+     * 练习类型
      */
     private Integer type;
-
-    /**
-     * 图片链接
-     */
-    private String url;
 
     /**
      * 奖励金币
