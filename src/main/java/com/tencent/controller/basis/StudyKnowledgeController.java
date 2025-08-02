@@ -20,10 +20,10 @@ public class StudyKnowledgeController {
     public StudyKnowledgeService studyKnowledgeService;
 
     /**
-     * 功能：根据id获取详情
+     * 功能：根据学习列表id获取详情
      * 界面：学习详情
      *
-     * @param id 学习目录ID
+     * @param id 学习列表ID
      * @return List
      */
     @GetMapping("/listById")
@@ -31,5 +31,17 @@ public class StudyKnowledgeController {
         QueryWrapper<StudyKnowledge> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("study_list_id", id);
         return ApiResponse.ok(studyKnowledgeService.list(queryWrapper));
+    }
+
+    /**
+     * 功能：根据id获取详情
+     * 界面：学习详情
+     *
+     * @param id 学习详情ID
+     * @return List
+     */
+    @GetMapping("/getById")
+    public ApiResponse getById(String id) {
+        return ApiResponse.ok(studyKnowledgeService.getById(id));
     }
 }
