@@ -34,7 +34,7 @@ public class Users {
     private String unionId;
 
     /**
-     * 付费阶段：0-白户，1-知识，2-月付，3-买断
+     * 付费阶段：0-未付费，1-已付费
      */
     private Integer payStage;
 
