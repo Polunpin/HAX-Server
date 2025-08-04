@@ -2,6 +2,9 @@ package com.tencent.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tencent.model.StudyKnowledge;
+import com.tencent.response.StudyKnowledgeResponse;
+
+import java.util.List;
 
 /**
  * @author lanyiping
@@ -10,4 +13,5 @@ import com.tencent.model.StudyKnowledge;
  */
 public interface StudyKnowledgeService extends IService<StudyKnowledge> {
 
+    List<StudyKnowledgeResponse> listById(String id);
 }

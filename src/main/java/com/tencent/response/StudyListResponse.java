@@ -1,6 +1,5 @@
 package com.tencent.response;
 
-import com.tencent.model.StudyList;
 import lombok.Data;
 
 import java.util.List;
@@ -20,5 +19,5 @@ public class StudyListResponse {
     /**
      * 学习列表
      */
-    private List<StudyList> studyList;
+    private List<StudyKnowledgeListResponse> studyList;
 }

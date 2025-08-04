@@ -1,8 +1,6 @@
 package com.tencent.controller.basis;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tencent.config.ApiResponse;
-import com.tencent.model.StudyKnowledge;
 import com.tencent.service.StudyKnowledgeService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +26,7 @@ public class StudyKnowledgeController {
      */
     @GetMapping("/listById")
     public ApiResponse listById(String id) {
-        QueryWrapper<StudyKnowledge> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("study_list_id", id);
-        return ApiResponse.ok(studyKnowledgeService.list(queryWrapper));
+        return ApiResponse.ok(studyKnowledgeService.listById(id));
     }
 
     /**
