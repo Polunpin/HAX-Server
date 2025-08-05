@@ -9,14 +9,10 @@
         <result property="level1" column="level1"/>
         <result property="level2" column="level2"/>
         <result property="level3" column="level3"/>
-        <result property="detail" column="detail"/>
+        <result property="title" column="title"/>
         <result property="description" column="description"/>
-        <result property="imageUrl" column="image_url"/>
-        <result property="fileUploadId" column="file_upload_id"/>
+        <result property="image" column="image"/>
+        <result property="sourceFile" column="source_file"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,level1,level2,level3,detail,description,
-        image_url,file_upload_id
-    </sql>
 </mapper>

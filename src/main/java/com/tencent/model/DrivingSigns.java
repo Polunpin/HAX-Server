@@ -37,7 +37,7 @@ public class DrivingSigns {
     /**
      * 属性详情
      */
-    private String detail;
+    private String title;
 
     /**
      * 描述
@@ -47,10 +47,10 @@ public class DrivingSigns {
     /**
      * 图片
      */
-    private String imageUrl;
+    private String image;
 
     /**
      * 文件上传ID
      */
-    private String fileUploadId;
+    private String sourceFile;
 }
