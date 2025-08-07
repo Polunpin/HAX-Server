@@ -39,6 +39,16 @@ public class StudyKnowledgeServiceImpl extends ServiceImpl<StudyKnowledgeMapper,
         }
         return arrayList;
     }
+
+    @Override
+    public StudyKnowledgeResponse getInfoById(String id) {
+        StudyKnowledge knowledge = this.getById(id);
+        StudyKnowledgeResponse response = new StudyKnowledgeResponse();
+        copyProperties(knowledge, response);
+        response.setUrls(JSON.parseArray(knowledge.getUrls()));
+        response.setBlinks(JSON.parseObject(knowledge.getBlinks()));
+        return response;
+    }
 }
 
 

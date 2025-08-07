@@ -38,6 +38,6 @@ public class StudyKnowledgeController {
      */
     @GetMapping("/getById")
     public ApiResponse getById(String id) {
-        return ApiResponse.ok(studyKnowledgeService.getById(id));
+        return ApiResponse.ok(studyKnowledgeService.getInfoById(id));
     }
 }

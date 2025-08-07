@@ -14,4 +14,6 @@ import java.util.List;
 public interface StudyKnowledgeService extends IService<StudyKnowledge> {
 
     List<StudyKnowledgeResponse> listById(String id);
+
+    StudyKnowledgeResponse getInfoById(String id);
 }
