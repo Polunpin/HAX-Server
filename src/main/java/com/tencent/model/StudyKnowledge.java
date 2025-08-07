@@ -42,4 +42,8 @@ public class StudyKnowledge {
      */
     private String blinks;
 
+    /**
+     * 练习ID
+     */
+    private String practiceId;
 }

@@ -39,4 +39,8 @@ public class StudyKnowledgeResponse {
      */
     private JSONObject blinks;
 
+    /**
+     * 练习ID
+     */
+    private String practiceId;
 }
